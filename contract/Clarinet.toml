@@ -5,19 +5,24 @@ authors = []
 telemetry = true
 cache_dir = './.cache'
 requirements = []
-[contracts.alerts]
-path = 'contracts/alerts.clar'
-clarity_version = 4
-epoch = 'latest'
-
 [contracts.fee-oracle]
 path = 'contracts/fee-oracle.clar'
 clarity_version = 4
 epoch = 'latest'
+
+[contracts.smart-alerts]
+path = 'contracts/smart-alerts.clar'
+clarity_version = 4
+epoch = 'latest'
+
+[contracts.tx-templates]
+path = 'contracts/tx-templates.clar'
+clarity_version = 4
+epoch = 'latest'
 [repl.analysis]
 passes = [
-    'check_checker',
     'call_checker',
+    'check_checker',
 ]
 
 [repl.analysis.lint_groups]
