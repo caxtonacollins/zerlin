@@ -5,9 +5,15 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { FeeEstimate } from './entities/fee-estimate.entity';
 import { NetworkStatus } from './entities/network-status.entity';
+import { StacksModule } from './stacks/stacks.module';
+import { RedisModule } from './redis/redis.module';
+import { FeeModule } from './fee/fee.module';
 
 @Module({
   imports: [
+    FeeModule,
+    StacksModule,
+    RedisModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),
