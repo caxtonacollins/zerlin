@@ -1,12 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { StacksMainnet, StacksTestnet, StacksNetwork } from '@stacks/network';
-import {
-  TransactionVersion,
-  estimateTransfer,
-  estimateContractDeploy,
-  estimateContractFunctionCall,
-} from '@stacks/transactions';
+import { STACKS_MAINNET, STACKS_TESTNET, StacksNetwork } from '@stacks/network';
 
 @Injectable()
 export class StacksService {
@@ -22,9 +16,9 @@ export class StacksService {
     );
 
     if (networkEnv === 'testnet') {
-      this.network = new StacksTestnet({ url: this.apiUrl });
+        this.network = STACKS_TESTNET;
     } else {
-      this.network = new StacksMainnet({ url: this.apiUrl });
+        this.network = STACKS_MAINNET;
     }
   }
 
