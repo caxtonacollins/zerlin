@@ -8,9 +8,11 @@ import { NetworkStatus } from './entities/network-status.entity';
 import { StacksModule } from './stacks/stacks.module';
 import { RedisModule } from './redis/redis.module';
 import { FeeModule } from './fee/fee.module';
+import { TasksModule } from './tasks/tasks.module';
 
 @Module({
   imports: [
+    TasksModule,
     FeeModule,
     StacksModule,
     RedisModule,
