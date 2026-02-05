@@ -1,11 +1,15 @@
-# Zerlin - MVP Optimization Complete ✅
+# Zerlin - STX Gas Calculator
+**Real-time fee estimation for Stacks blockchain**
+
+## Why Zerlin?
+Stacks users need to hold STX for transaction fees, but understanding how much STX to keep is non-obvious. Zerlin removes
 
 ## Quick Start
 
 ### Backend (with Swagger)
 ```bash
 cd backend
-npm install  # or pnpm install
+pnpm install
 pnpm start:dev
 ```
 
@@ -17,26 +21,6 @@ cd contract
 pnpm test  # Run tests
 clarinet deployments generate --devnet  # Generate deployment plan
 ```
-
----
-
-## What Changed
-
-### Contracts (~47% Size Reduction)
-| Contract | Before | After | Reduction |
-|----------|--------|-------|-----------|
-| smart-alerts.clar | 556 lines | 305 lines | 45% |
-| fee-oracle.clar | 395 lines | 275 lines | 30% |
-| tx-templates.clar | 627 lines | 233 lines | 63% |
-
-**Deployment Cost Savings:** ~0.20 STX (~$0.13)
-
-### Backend Enhancements
-- ✅ Swagger API documentation at `/api`
-- ✅ Request/response validation with DTOs
-- ✅ CORS configuration
-- ✅ Improved error handling
-- ✅ Type-safe services
 
 ---
 
@@ -122,15 +106,6 @@ clarinet deployments apply -p deployments/default.testnet-plan.yaml
 
 ---
 
-## Git Commits
-
-All changes committed with descriptive messages:
-1. docs: Add task breakdown and implementation plan
-2. refactor(contract): Optimize smart-alerts.clar for MVP
-3. refactor(contract): Optimize fee-oracle and tx-templates for MVP
-4. fix(contract): Fix Clarity syntax errors
-5. feat(backend): Add Swagger documentation and DTOs
-
 ---
 
 ## Next Steps
@@ -150,9 +125,8 @@ All changes committed with descriptive messages:
 ---
 
 ## Support
-
-For questions or issues, refer to:
-- [Implementation Plan](/.gemini/antigravity/brain/382d8c0f-7a2c-4eb5-b4ac-fa9425c53d69/implementation_plan.md)
-- [Walkthrough](/.gemini/antigravity/brain/382d8c0f-7a2c-4eb5-b4ac-fa9425c53d69/walkthrough.md)
-- [Stacks Documentation](https://docs.stacks.co/)
-- [Stacks.js Documentation](https://stacks.js.org/)
+- [Discord](https://discord.gg/zerlin)
+- [Twitter](https://twitter.com/zerlin_io)
+- Email: team@zerlin.io
+## Acknowledgments
+Built with support from the Stacks Foundation and the Stacks community.
