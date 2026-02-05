@@ -23,8 +23,7 @@ export class FeeService {
     async estimateFee(dto: EstimateFeeDto): Promise<FeeEstimateResponseDto> {
         const { type, payload, templateId } = dto;
     
-      try {
-          // Fetch current network status
+        try {
           const networkInfo = await this.getNetworkStatus();
 
         let feeInMicroStx = 0;
@@ -93,7 +92,6 @@ export class FeeService {
             cached: false,
         };
 
-        // Persist estimate asynchronously
         this.saveEstimate(result).catch(err =>
             this.logger.error('Failed to save estimate', err)
         );
@@ -107,13 +105,10 @@ export class FeeService {
 
     async getNetworkStatus(): Promise<NetworkStatusResponseDto> {
         try {
-    // Try cache first
       const cached = await this.redisService.get('network_status');
         if (cached) {
             return JSON.parse(cached);
         }
-
-        // Fetch fresh data
       const info = await this.stacksService.getNetworkStatus();
         const mempoolStats = await this.stacksService.getRecentMempoolStats();
 
@@ -124,13 +119,11 @@ export class FeeService {
             blockHeight: info.stacks_tip_height || info.burn_block_height,
       };
 
-        // Cache for 30 seconds
       await this.redisService.set('network_status', JSON.stringify(status), 30);
 
       return status;
     } catch (error) {
         this.logger.error('Error fetching network status', error);
-        // Return default values on error
         return {
             congestionLevel: 'medium',
             averageFeeRate: 1,
