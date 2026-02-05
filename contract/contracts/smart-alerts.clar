@@ -37,13 +37,13 @@
 (define-map user-alerts
   { user: principal, alert-id: uint }
   {
-    target-fee: uint,
-    alert-type: (string-ascii 10),
-    tx-type: (string-ascii 30),
-    is-active: bool,
-    created-at: uint,
-    last-triggered: uint,
-    trigger-count: uint
+   target-fee: uint,                  ;; Fee threshold in microSTX
+   alert-type: (string-ascii 10),     ;; "below" or "above"
+   tx-type: (string-ascii 30),        ;; Transaction type to monitor
+   is-active: bool,                   ;; Alert enabled/disabled
+   created-at: uint,                  ;; Block height when created
+   last-triggered: uint,              ;; Block height of last trigger
+   trigger-count: uint                ;; Number of times triggered
   }
 )
 
@@ -96,7 +96,9 @@
     alert-data
       (if (get is-active alert-data)
         (ok (if (is-eq (get alert-type alert-data) "below")
+         ;; Trigger if current fee is below target
           (< current-fee (get target-fee alert-data))
+         ;; Trigger if current fee is above target
           (> current-fee (get target-fee alert-data))
         ))
         ERR-ALERT-INACTIVE
@@ -133,7 +135,7 @@
         alert-type: alert-type,
         tx-type: tx-type,
         is-active: true,
-        created-at: block-height,
+        created-at: stacks-block-height,
         last-triggered: u0,
         trigger-count: u0
       }
@@ -262,7 +264,7 @@
         (map-set user-alerts
           { user: user, alert-id: alert-id }
           (merge alert-data {
-            last-triggered: block-height,
+            last-triggered: stacks-block-height,
             trigger-count: new-trigger-count
           })
         )

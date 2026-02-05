@@ -58,12 +58,12 @@
     (asserts! (> initial-fee-rate u0) ERR-INVALID-FEE)
     
     (var-set latest-fee-rate initial-fee-rate)
-    (var-set latest-update-block block-height)
+    (var-set latest-update-block stacks-block-height)
     (var-set is-initialized true)
     (var-set total-updates u1)
     
     (map-set fee-history
-      { block-height: block-height }
+      { block-height: stacks-block-height }
       {
         fee-rate: initial-fee-rate,
         timestamp: burn-block-height,
@@ -193,7 +193,7 @@
   (new-fee-rate uint)
   (congestion (string-ascii 10))
 )
-  (let ((current-block block-height))
+  (let ((current-block stacks-block-height))
     (asserts! (is-eq tx-sender (var-get contract-owner)) ERR-UNAUTHORIZED)
     (asserts! (var-get is-initialized) ERR-NOT-INITIALIZED)
     (asserts! (> new-fee-rate u0) ERR-INVALID-FEE)
@@ -244,7 +244,7 @@
           { 
             avg-fee: new-avg, 
             sample-count: new-count,
-            last-updated: block-height
+            last-updated: stacks-block-height
           }
         )
       )
@@ -253,7 +253,7 @@
         { 
           avg-fee: observed-fee, 
           sample-count: u1,
-          last-updated: block-height
+          last-updated: stacks-block-height
         }
       )
     )

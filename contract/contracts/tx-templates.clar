@@ -44,17 +44,19 @@
     (asserts! (is-eq tx-sender (var-get contract-owner)) ERR-UNAUTHORIZED)
     
     ;; Essential templates for MVP
-    (try! (add-template "stx-transfer" u180 u1000 "Simple STX transfer" "transfer"))
-    (try! (add-template "ft-transfer" u300 u2500 "Fungible token transfer" "token"))
-    (try! (add-template "nft-mint" u450 u5500 "Mint NFT" "nft"))
-    (try! (add-template "dex-swap-alex" u500 u3950 "Token swap on ALEX" "dex"))
-    (try! (add-template "sbtc-peg-in" u700 u8000 "sBTC peg-in (BTC->sBTC)" "sbtc"))
-    (try! (add-template "sbtc-peg-out" u750 u8500 "sBTC peg-out (sBTC->BTC)" "sbtc"))
-    (try! (add-template "contract-deploy-small" u20000 u150000 "Deploy contract 1-10KB" "contract"))
-    (try! (add-template "defi-stake" u450 u5000 "Stake tokens" "defi"))
-    
-    (print { event: "templates-initialized", count: (var-get total-templates) })
-    (ok true)
+    (let (
+      (t1 (add-template "stx-transfer" u180 u1000 "Simple STX transfer" "transfer"))
+      (t2 (add-template "ft-transfer" u300 u2500 "Fungible token transfer" "token"))
+      (t3 (add-template "nft-mint" u450 u5500 "Mint NFT" "nft"))
+      (t4 (add-template "dex-swap-alex" u500 u3950 "Token swap on ALEX" "dex"))
+      (t5 (add-template "sbtc-peg-in" u700 u8000 "sBTC peg-in (BTC->sBTC)" "sbtc"))
+      (t6 (add-template "sbtc-peg-out" u750 u8500 "sBTC peg-out (sBTC->BTC)" "sbtc"))
+      (t7 (add-template "contract-deploy-small" u20000 u150000 "Deploy contract 1-10KB" "contract"))
+      (t8 (add-template "defi-stake" u450 u5000 "Stake tokens" "defi"))
+    )
+      (print { event: "templates-initialized", count: (var-get total-templates) })
+      (ok true)
+    )
   )
 )
 
@@ -73,12 +75,12 @@
         avg-size-bytes: size-bytes,
         description: description,
         category: category,
-        last-updated: block-height,
+        last-updated: stacks-block-height,
         sample-count: u1
       }
     )
     (var-set total-templates (+ (var-get total-templates) u1))
-    (ok true)
+    true
   )
 )
 
@@ -163,7 +165,7 @@
             avg-size-bytes: new-avg-size,
             description: (get description existing),
             category: (get category existing),
-            last-updated: block-height,
+            last-updated: stacks-block-height,
             sample-count: new-count
           }
         )
@@ -195,7 +197,7 @@
         avg-size-bytes: size-bytes,
         description: description,
         category: category,
-        last-updated: block-height,
+        last-updated: stacks-block-height,
         sample-count: u1
       }
     )
