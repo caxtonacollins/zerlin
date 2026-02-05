@@ -1,4 +1,4 @@
-;; CONTRACT #3: ZERLIN SMART ALERTS (MVP)
+;; CONTRACT #3: ZERLIN SMART ALERTS
 ;; ============================================
 ;; Allows users to set on-chain alerts that trigger when fees hit target levels
 ;; This is a premium feature that enables decentralized notifications
