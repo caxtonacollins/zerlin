@@ -5,6 +5,7 @@ import { FeeEstimate } from '../entities/fee-estimate.entity';
 import { NetworkStatus } from '../entities/network-status.entity';
 import { StacksService } from '../stacks/stacks.service';
 import { RedisService } from '../redis/redis.service';
+import { EstimateFeeDto, FeeEstimateResponseDto, NetworkStatusResponseDto } from './dto/fee.dto';
 
 @Injectable()
 export class FeeService {
@@ -19,73 +20,164 @@ export class FeeService {
     private redisService: RedisService,
   ) {}
 
-  async estimateFee(dto: any) {
-    // Determine type and call relevant stacks service method
-    // Calculate breakdown
-    // Save to DB (optional or async)
-    // Return result
+    async estimateFee(dto: EstimateFeeDto): Promise<FeeEstimateResponseDto> {
+        const { type, payload, templateId } = dto;
     
-    const { type, payload } = dto;
-    let estimate;
+      try {
+          // Fetch current network status
+          const networkInfo = await this.getNetworkStatus();
 
-     // Fetch current network status (cached or fresh)
-    const networkInfo = await this.getNetworkStatus();
+        let feeInMicroStx = 0;
+        let breakdown = { baseFee: 0, executionCost: 0, dataSize: 0 };
 
-    if (type === 'transfer') {
-        const feeRate = await this.stacksService.estimateTransferFee(BigInt(payload.amount || 0), payload.recipient);
-        // Calculate total fee based on size * rate
-        // Simplified for MVP:
-        estimate = {
-            stx: (feeRate * 0.000001).toFixed(6),
-            microStx: feeRate, // dummy, normally feeRate * size
-            usd: '0.00', // needs price feed
-            btc: 0
+        // Estimate based on type
+        if (type === 'transfer') {
+          feeInMicroStx = await this.stacksService.estimateTransferFee(
+              BigInt(payload?.amount || 0),
+              payload?.recipient
+          );
+          breakdown = {
+              baseFee: feeInMicroStx,
+              executionCost: 0,
+              dataSize: 180,
         };
-    } else if (type === 'contract_call') {
-        // ...
-        estimate = { stx: '0.00', microStx: 0, usd: '0.00', btc: 0 };
-    }
+      } else if (type === 'contract-call') {
+          const estimate = await this.stacksService.estimateContractCallFee(
+              payload?.contractAddress,
+              payload?.contractName,
+              payload?.functionName,
+              payload?.functionArgs || []
+          );
+          feeInMicroStx = estimate.estimatedCost;
+          breakdown = {
+              baseFee: estimate.feeRate,
+              executionCost: estimate.estimatedCost - estimate.feeRate,
+              dataSize: 250,
+          };
+      } else if (type === 'contract-deploy') {
+          const estimate = await this.stacksService.estimateContractDeployFee(
+              payload?.contractName || 'contract',
+              payload?.codeBody || ''
+          );
+          feeInMicroStx = estimate.estimatedCost;
+          breakdown = {
+              baseFee: estimate.feeRate,
+              executionCost: estimate.estimatedCost - estimate.feeRate,
+              dataSize: payload?.codeBody?.length || 5000,
+          };
+      } else {
+          // For other types, use default estimation
+          feeInMicroStx = 3000; // Default 0.003 STX
+          breakdown = {
+              baseFee: 1000,
+              executionCost: 2000,
+              dataSize: 300,
+          };
+      }
 
-    // Persist estimate for history
-    const saved = this.feeEstimateRepo.create({
+        const result: FeeEstimateResponseDto = {
         transactionType: type,
-        estimatedFee: estimate,
-        breakdown: { baseFee: 0, executionCost: 0, dataSize: 0 }, // TODO
-        networkStatus: { 
-            congestion: networkInfo.congestionLevel, 
-            averageFee: networkInfo.averageFeeRate,
-            recommendedBuffer: 0
-        }
-    });
-    // await this.feeEstimateRepo.save(saved); // Fire and forget in prod?
+          estimatedFee: {
+              stx: (feeInMicroStx / 1000000).toFixed(6),
+              microStx: feeInMicroStx,
+              usd: '0.00', // TODO: Integrate price feed
+              btc: 0,
+          },
+          breakdown,
+          networkStatus: {
+              congestion: networkInfo.congestionLevel,
+              averageFee: networkInfo.averageFeeRate,
+                recommendedBuffer: feeInMicroStx * 2,
+            },
+            timestamp: new Date(),
+            cached: false,
+        };
 
-    return saved;
+        // Persist estimate asynchronously
+        this.saveEstimate(result).catch(err =>
+            this.logger.error('Failed to save estimate', err)
+        );
+
+        return result;
+    } catch (error) {
+        this.logger.error('Error estimating fee', error);
+        throw error;
+    }
   }
 
-  async getNetworkStatus() {
-      // Try redis first
+    async getNetworkStatus(): Promise<NetworkStatusResponseDto> {
+        try {
+    // Try cache first
       const cached = await this.redisService.get('network_status');
-      if (cached) return JSON.parse(cached);
+        if (cached) {
+            return JSON.parse(cached);
+        }
 
-      // Fetch fresh
+        // Fetch fresh data
       const info = await this.stacksService.getNetworkStatus();
-      // Transform info to our internal NetworkStatus shape
-      const status = {
-          congestionLevel: 'low', // logic implementation needed
-          averageFeeRate: 0,
-          mempoolSize: 0,
-          blockHeight: info.burn_block_height
+        const mempoolStats = await this.stacksService.getRecentMempoolStats();
+
+        const status: NetworkStatusResponseDto = {
+            congestionLevel: this.determineCongestion(mempoolStats?.tx_count || 0),
+            averageFeeRate: 1, // Default fee rate
+            mempoolSize: mempoolStats?.tx_count || 0,
+            blockHeight: info.stacks_tip_height || info.burn_block_height,
       };
 
-      // Cache
+        // Cache for 30 seconds
       await this.redisService.set('network_status', JSON.stringify(status), 30);
+
       return status;
+    } catch (error) {
+        this.logger.error('Error fetching network status', error);
+        // Return default values on error
+        return {
+            congestionLevel: 'medium',
+            averageFeeRate: 1,
+            mempoolSize: 0,
+            blockHeight: 0,
+        };
+    }
   }
-  
-  async getHistory() {
-      return this.feeEstimateRepo.find({
-          order: { createdAt: 'DESC' },
-          take: 50
+
+    async getHistory(): Promise<FeeEstimateResponseDto[]> {
+        try {
+            const estimates = await this.feeEstimateRepo.find({
+                order: { createdAt: 'DESC' },
+          take: 50,
       });
+
+            return estimates.map(est => ({
+                transactionType: est.transactionType,
+                estimatedFee: est.estimatedFee,
+                breakdown: est.breakdown,
+                networkStatus: est.networkStatus,
+                timestamp: est.createdAt,
+                cached: true,
+            }));
+        } catch (error) {
+            this.logger.error('Error fetching history', error);
+            return [];
+        }
+    }
+
+    private async saveEstimate(estimate: FeeEstimateResponseDto): Promise<void> {
+        try {
+            const entity = this.feeEstimateRepo.create({
+                transactionType: estimate.transactionType,
+                estimatedFee: estimate.estimatedFee,
+                breakdown: estimate.breakdown,
+                networkStatus: estimate.networkStatus,
+      });
+            await this.feeEstimateRepo.save(entity);
+        } catch (error) {
+            this.logger.error('Failed to save estimate to database', error);
+        }
+    }
+
+    private determineCongestion(mempoolSize: number): string {
+        if (mempoolSize < 10) return 'low';
+        if (mempoolSize < 50) return 'medium';
+        return 'high';
   }
 }
