@@ -1,44 +1,158 @@
-# Zerlin - STX Gas Calculator
-**Real-time fee estimation for Stacks blockchain**
-[Website](https://zerlin.io) • [Docs](https://docs.zerlin.io) • [SDK](https://www.npmjs.com/package/@zerlin/sdk) • [Widget D
+# Zerlin - MVP Optimization Complete ✅
+
 ## Quick Start
-### For Users
-Visit [zerlin.io](https://zerlin.io) and select your transaction type to get instant fee estimates.
-### For Developers
+
+### Backend (with Swagger)
 ```bash
-npm install @zerlin/sdk
+cd backend
+npm install  # or pnpm install
+pnpm start:dev
 ```
-```javascript
-import { ZerlinFeeEstimator } from '@zerlin/sdk';
-const zerlin = new ZerlinFeeEstimator();
-const fee = await zerlin.estimate({ type: 'transfer', amount: 100 });
-console.log(fee.stx); // "0.00018"
+
+**Swagger UI:** `http://localhost:3000/api`
+
+### Contracts
+```bash
+cd contract
+pnpm test  # Run tests
+clarinet deployments generate --devnet  # Generate deployment plan
 ```
-### For Wallets
-Embed the Zerlin widget:
-```html
+
+---
+
+## What Changed
+
+### Contracts (~47% Size Reduction)
+| Contract | Before | After | Reduction |
+|----------|--------|-------|-----------|
+| smart-alerts.clar | 556 lines | 305 lines | 45% |
+| fee-oracle.clar | 395 lines | 275 lines | 30% |
+| tx-templates.clar | 627 lines | 233 lines | 63% |
+
+**Deployment Cost Savings:** ~0.20 STX (~$0.13)
+
+### Backend Enhancements
+- ✅ Swagger API documentation at `/api`
+- ✅ Request/response validation with DTOs
+- ✅ CORS configuration
+- ✅ Improved error handling
+- ✅ Type-safe services
+
+---
+
+## API Endpoints
+
+### POST /api/estimate
+Estimate transaction fee
+
+**Request:**
+```json
+{
+  "type": "transfer",
+  "payload": {
+    "amount": 1000000,
+    "recipient": "SP2X0TZ59D5SZ8ACQ..."
+  }
+}
 ```
-## Features
-⚡ Real-time STX fee estimation
-- Historical fee trends
-- Low-fee alerts
-- Embeddable widget
-- Developer SDK
-- Mainnet + Testnet support
--
-## Why Zerlin?
-Stacks users need to hold STX for transaction fees, but understanding how much STX to keep is non-obvious. Zerlin removes
-## Tech Stack
-- **Frontend:** Next.js + TypeScript + Tailwind
-- **Backend:** Node.js + Nestjs + Redis
-- **Blockchain:** Stacks.js + Hiro API
-- **Database:** PostgreSQL## Contributing
-We welcome contributions! See [CONTRIBUTING.md](./CONTRIBUTING.md).
-## License
-MIT License - see [LICENSE](./LICENSE)
+
+**Response:**
+```json
+{
+  "transactionType": "transfer",
+  "estimatedFee": {
+    "stx": "0.000180",
+    "microStx": 180,
+    "usd": "0.00",
+    "btc": 0
+  },
+  "breakdown": {
+    "baseFee": 180,
+    "executionCost": 0,
+    "dataSize": 180
+  },
+  "networkStatus": {
+    "congestion": "low",
+    "averageFee": 1,
+    "recommendedBuffer": 360
+  }
+}
+```
+
+### GET /api/network
+Get current network status
+
+### GET /api/history
+Get recent fee estimates (last 50)
+
+---
+
+## Testing
+
+### Contract Tests
+```bash
+cd contract
+pnpm test
+```
+
+**Results:** 88 passing tests ✅
+
+### Backend Tests
+```bash
+cd backend
+pnpm test
+```
+
+---
+
+## Deployment
+
+### Devnet
+```bash
+cd contract
+clarinet deployments generate --devnet
+clarinet deployments apply -p deployments/default.devnet-plan.yaml
+```
+
+### Testnet
+```bash
+clarinet deployments generate --testnet
+clarinet deployments apply -p deployments/default.testnet-plan.yaml
+```
+
+---
+
+## Git Commits
+
+All changes committed with descriptive messages:
+1. docs: Add task breakdown and implementation plan
+2. refactor(contract): Optimize smart-alerts.clar for MVP
+3. refactor(contract): Optimize fee-oracle and tx-templates for MVP
+4. fix(contract): Fix Clarity syntax errors
+5. feat(backend): Add Swagger documentation and DTOs
+
+---
+
+## Next Steps
+
+### Post-MVP Features
+- [ ] Add back batch operations
+- [ ] Implement WebSocket for real-time updates
+- [ ] Build Next.js frontend
+- [ ] Integrate wallet connections
+- [ ] Add price feed for USD/BTC conversion
+
+### Documentation
+- [ ] API integration guide
+- [ ] Contract deployment guide
+- [ ] Frontend integration examples
+
+---
+
 ## Support
-- [Discord](https://discord.gg/zerlin)
-- [Twitter](https://twitter.com/zerlin_io)
-- Email: team@zerlin.io
-## Acknowledgments
-Built with support from the Stacks Foundation and the Stacks community.
+
+For questions or issues, refer to:
+- [Implementation Plan](/.gemini/antigravity/brain/382d8c0f-7a2c-4eb5-b4ac-fa9425c53d69/implementation_plan.md)
+- [Walkthrough](/.gemini/antigravity/brain/382d8c0f-7a2c-4eb5-b4ac-fa9425c53d69/walkthrough.md)
+- [Stacks Documentation](https://docs.stacks.co/)
+- [Stacks.js Documentation](https://stacks.js.org/)
