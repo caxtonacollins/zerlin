@@ -1,5 +1,5 @@
 ;; ============================================
-;; CONTRACT #1: ZERLIN FEE ORACLE (MVP)
+;; CONTRACT #1: ZERLIN FEE ORACLE
 ;; ============================================
 ;; Main contract that stores canonical fee data for the Stacks network
 ;; This is the source of truth for current and historical gas prices
@@ -30,10 +30,10 @@
 (define-map fee-history
   { block-height: uint }
   {
-    fee-rate: uint,
-    timestamp: uint,
-    network-congestion: (string-ascii 10),
-    recorded-by: principal
+    fee-rate: uint,                    ;; Fee rate in microSTX per byte
+    timestamp: uint,                   ;; Bitcoin block height (burn-block-height)
+    network-congestion: (string-ascii 10), ;; "low", "medium", "high"
+    recorded-by: principal             ;; Oracle that submitted this data
   }
 )
 

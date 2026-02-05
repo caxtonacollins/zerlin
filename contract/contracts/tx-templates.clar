@@ -1,5 +1,5 @@
 ;; ============================================
-;; CONTRACT #2: ZERLIN TRANSACTION TEMPLATES (MVP)
+;; CONTRACT #2: ZERLIN TRANSACTION TEMPLATES
 ;; ============================================
 ;; Stores pre-calculated gas costs for common Stacks operations
 ;; Essential templates only for MVP
