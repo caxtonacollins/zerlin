@@ -1,0 +1,32 @@
+---
+id: 0
+name: Mainnet deployment
+network: mainnet
+stacks-node: "https://api.hiro.so"
+bitcoin-node: "http://blockstack:blockstacksystem@bitcoin.blockstack.com:8332"
+plan:
+  batches:
+    - id: 0
+      transactions:
+        - contract-publish:
+            contract-name: fee-oracle
+            expected-sender: SPY1XRRA93GJP9YMS2CTHB6M08M11BKPDV0DBNMQ
+            cost: 19588893
+            path: contracts/fee-oracle.clar
+            anchor-block-only: true
+            clarity-version: 4
+        - contract-publish:
+            contract-name: smart-alerts
+            expected-sender: SPY1XRRA93GJP9YMS2CTHB6M08M11BKPDV0DBNMQ
+            cost: 10167827
+            path: contracts/smart-alerts.clar
+            anchor-block-only: true
+            clarity-version: 4
+        - contract-publish:
+            contract-name: tx-templates
+            expected-sender: SPY1XRRA93GJP9YMS2CTHB6M08M11BKPDV0DBNMQ
+            cost: 10169486
+            path: contracts/tx-templates.clar
+            anchor-block-only: true
+            clarity-version: 4
+      epoch: "3.3"

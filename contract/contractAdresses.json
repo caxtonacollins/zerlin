@@ -1,0 +1,7 @@
+{
+    "testnet": {
+        "fee-oracle": "ST1XRRA93GJP9YMS2CTHB6M08M11BKPDVRM0191.fee-oracle",
+        "smart-alerts": "ST1XRRA93GJP9YMS2CTHB6M08M11BKPDVRM0191.smart-alerts",
+        "tx-templates": "ST1XRRA93GJP9YMS2CTHB6M08M11BKPDVRM0191.tx-templates"
+    }
+}
