@@ -64,17 +64,17 @@ plan:
     - id: 0
       transactions:
         - emulated-contract-publish:
-            contract-name: fee-oracle
+            contract-name: fee-oracle-v1
             emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
             path: contracts/fee-oracle.clar
             clarity-version: 4
         - emulated-contract-publish:
-            contract-name: smart-alerts
+            contract-name: smart-alerts-v1
             emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
             path: contracts/smart-alerts.clar
             clarity-version: 4
         - emulated-contract-publish:
-            contract-name: tx-templates
+            contract-name: tx-templates-v1
             emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
             path: contracts/tx-templates.clar
             clarity-version: 4

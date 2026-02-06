@@ -14,7 +14,7 @@ describe("Transaction Templates Contract Tests", () => {
   describe("Initialization Tests", () => {
     it("should initialize all templates successfully", () => {
       const { result } = simnet.callPublicFn(
-        "tx-templates",
+        "tx-templates-v1",
         "initialize-templates",
         [],
         deployer
@@ -24,10 +24,10 @@ describe("Transaction Templates Contract Tests", () => {
     });
     
     it("should have correct template count after initialization", () => {
-      simnet.callPublicFn("tx-templates", "initialize-templates", [], deployer);
+      simnet.callPublicFn("tx-templates-v1", "initialize-templates", [], deployer);
       
       const { result } = simnet.callReadOnlyFn(
-        "tx-templates",
+        "tx-templates-v1",
         "get-total-templates",
         [],
         deployer
@@ -39,7 +39,7 @@ describe("Transaction Templates Contract Tests", () => {
     
     it("should prevent non-owner from initializing", () => {
       const { result } = simnet.callPublicFn(
-        "tx-templates",
+        "tx-templates-v1",
         "initialize-templates",
         [],
         wallet1
@@ -49,11 +49,11 @@ describe("Transaction Templates Contract Tests", () => {
     });
     
     it("should populate category counts correctly", () => {
-      simnet.callPublicFn("tx-templates", "initialize-templates", [], deployer);
+      simnet.callPublicFn("tx-templates-v1", "initialize-templates", [], deployer);
       
       // Check various category counts
       const { result: transferCount } = simnet.callReadOnlyFn(
-        "tx-templates",
+        "tx-templates-v1",
         "get-category-count",
         [Cl.stringAscii("transfer")],
         deployer
@@ -61,7 +61,7 @@ describe("Transaction Templates Contract Tests", () => {
       expect(transferCount).toBeOk(Cl.uint(2)); // stx-transfer, stx-transfer-memo
       
       const { result: dexCount } = simnet.callReadOnlyFn(
-        "tx-templates",
+        "tx-templates-v1",
         "get-category-count",
         [Cl.stringAscii("dex")],
         deployer
@@ -72,12 +72,12 @@ describe("Transaction Templates Contract Tests", () => {
   
   describe("Template Retrieval Tests", () => {
     beforeEach(() => {
-      simnet.callPublicFn("tx-templates", "initialize-templates", [], deployer);
+      simnet.callPublicFn("tx-templates-v1", "initialize-templates", [], deployer);
     });
     
     it("should get template by ID - stx-transfer", () => {
       const { result } = simnet.callReadOnlyFn(
-        "tx-templates",
+        "tx-templates-v1",
         "get-template",
         [Cl.stringAscii("stx-transfer")],
         deployer
@@ -97,7 +97,7 @@ describe("Transaction Templates Contract Tests", () => {
     
     it("should get template by ID - nft-mint", () => {
       const { result } = simnet.callReadOnlyFn(
-        "tx-templates",
+        "tx-templates-v1",
         "get-template",
         [Cl.stringAscii("nft-mint")],
         deployer
@@ -117,7 +117,7 @@ describe("Transaction Templates Contract Tests", () => {
     
     it("should return none for non-existent template", () => {
       const { result } = simnet.callReadOnlyFn(
-        "tx-templates",
+        "tx-templates-v1",
         "get-template",
         [Cl.stringAscii("non-existent-template")],
         deployer
@@ -128,7 +128,7 @@ describe("Transaction Templates Contract Tests", () => {
     
     it("should get template gas units", () => {
       const { result } = simnet.callReadOnlyFn(
-        "tx-templates",
+        "tx-templates-v1",
         "get-template-gas",
         [Cl.stringAscii("dex-swap-alex")],
         deployer
@@ -139,7 +139,7 @@ describe("Transaction Templates Contract Tests", () => {
     
     it("should return error for non-existent template gas", () => {
       const { result } = simnet.callReadOnlyFn(
-        "tx-templates",
+        "tx-templates-v1",
         "get-template-gas",
         [Cl.stringAscii("non-existent")],
         deployer
@@ -150,7 +150,7 @@ describe("Transaction Templates Contract Tests", () => {
     
     it("should get template size", () => {
       const { result } = simnet.callReadOnlyFn(
-        "tx-templates",
+        "tx-templates-v1",
         "get-template-size",
         [Cl.stringAscii("ft-transfer")],
         deployer
@@ -161,7 +161,7 @@ describe("Transaction Templates Contract Tests", () => {
     
     it("should get full estimate", () => {
       const { result } = simnet.callReadOnlyFn(
-        "tx-templates",
+        "tx-templates-v1",
         "get-full-estimate",
         [Cl.stringAscii("nft-transfer")],
         deployer
@@ -182,12 +182,12 @@ describe("Transaction Templates Contract Tests", () => {
   
   describe("Template Comparison Tests", () => {
     beforeEach(() => {
-      simnet.callPublicFn("tx-templates", "initialize-templates", [], deployer);
+      simnet.callPublicFn("tx-templates-v1", "initialize-templates", [], deployer);
     });
     
     it("should compare two templates and identify cheaper", () => {
       const { result } = simnet.callReadOnlyFn(
-        "tx-templates",
+        "tx-templates-v1",
         "compare-templates",
         [Cl.stringAscii("dex-swap-alex"), Cl.stringAscii("dex-swap-bitflow")],
         deployer
@@ -209,7 +209,7 @@ describe("Transaction Templates Contract Tests", () => {
     
     it("should handle comparison with identical templates", () => {
       const { result } = simnet.callReadOnlyFn(
-        "tx-templates",
+        "tx-templates-v1",
         "compare-templates",
         [Cl.stringAscii("stx-transfer"), Cl.stringAscii("stx-transfer")],
         deployer
@@ -230,7 +230,7 @@ describe("Transaction Templates Contract Tests", () => {
     
     it("should return error when comparing with non-existent template", () => {
       const { result } = simnet.callReadOnlyFn(
-        "tx-templates",
+        "tx-templates-v1",
         "compare-templates",
         [Cl.stringAscii("stx-transfer"), Cl.stringAscii("non-existent")],
         deployer
@@ -242,12 +242,12 @@ describe("Transaction Templates Contract Tests", () => {
   
   describe("Category Tests", () => {
     beforeEach(() => {
-      simnet.callPublicFn("tx-templates", "initialize-templates", [], deployer);
+      simnet.callPublicFn("tx-templates-v1", "initialize-templates", [], deployer);
     });
     
     it("should get category count for transfer", () => {
       const { result } = simnet.callReadOnlyFn(
-        "tx-templates",
+        "tx-templates-v1",
         "get-category-count",
         [Cl.stringAscii("transfer")],
         deployer
@@ -258,7 +258,7 @@ describe("Transaction Templates Contract Tests", () => {
     
     it("should get category count for dex", () => {
       const { result } = simnet.callReadOnlyFn(
-        "tx-templates",
+        "tx-templates-v1",
         "get-category-count",
         [Cl.stringAscii("dex")],
         deployer
@@ -269,7 +269,7 @@ describe("Transaction Templates Contract Tests", () => {
     
     it("should get category count for nft", () => {
       const { result } = simnet.callReadOnlyFn(
-        "tx-templates",
+        "tx-templates-v1",
         "get-category-count",
         [Cl.stringAscii("nft")],
         deployer
@@ -280,7 +280,7 @@ describe("Transaction Templates Contract Tests", () => {
     
     it("should return 0 for non-existent category", () => {
       const { result } = simnet.callReadOnlyFn(
-        "tx-templates",
+        "tx-templates-v1",
         "get-category-count",
         [Cl.stringAscii("unknown-category")],
         deployer
@@ -291,7 +291,7 @@ describe("Transaction Templates Contract Tests", () => {
     
     it("should get total templates", () => {
       const { result } = simnet.callReadOnlyFn(
-        "tx-templates",
+        "tx-templates-v1",
         "get-total-templates",
         [],
         deployer
@@ -302,7 +302,7 @@ describe("Transaction Templates Contract Tests", () => {
     
     it("should get cheapest DEX swap", () => {
       const { result } = simnet.callReadOnlyFn(
-        "tx-templates",
+        "tx-templates-v1",
         "get-cheapest-dex-swap",
         [],
         deployer
@@ -314,7 +314,7 @@ describe("Transaction Templates Contract Tests", () => {
     
     it("should get sBTC operations", () => {
       const { result } = simnet.callReadOnlyFn(
-        "tx-templates",
+        "tx-templates-v1",
         "get-sbtc-operations",
         [],
         deployer
@@ -356,7 +356,7 @@ describe("Transaction Templates Contract Tests", () => {
     
     it("should get DeFi lending operations", () => {
       const { result } = simnet.callReadOnlyFn(
-        "tx-templates",
+        "tx-templates-v1",
         "get-defi-lending-operations",
         [],
         deployer
@@ -395,12 +395,12 @@ describe("Transaction Templates Contract Tests", () => {
   
   describe("Template Update Tests", () => {
     beforeEach(() => {
-      simnet.callPublicFn("tx-templates", "initialize-templates", [], deployer);
+      simnet.callPublicFn("tx-templates-v1", "initialize-templates", [], deployer);
     });
     
     it("should update existing template", () => {
       const { result } = simnet.callPublicFn(
-        "tx-templates",
+        "tx-templates-v1",
         "update-template",
         [Cl.stringAscii("stx-transfer"), Cl.uint(190), Cl.uint(1100)],
         deployer
@@ -410,7 +410,7 @@ describe("Transaction Templates Contract Tests", () => {
       
       // Verify rolling average - (180*1 + 190*1) / 2 = 185
       const { result: size } = simnet.callReadOnlyFn(
-        "tx-templates",
+        "tx-templates-v1",
         "get-template-size",
         [Cl.stringAscii("stx-transfer")],
         deployer
@@ -419,7 +419,7 @@ describe("Transaction Templates Contract Tests", () => {
       
       // Gas: (1000*1 + 1100*1) / 2 = 1050
       const { result: gas } = simnet.callReadOnlyFn(
-        "tx-templates",
+        "tx-templates-v1",
         "get-template-gas",
         [Cl.stringAscii("stx-transfer")],
         deployer
@@ -429,14 +429,14 @@ describe("Transaction Templates Contract Tests", () => {
     
     it("should increment sample count on update", () => {
       simnet.callPublicFn(
-        "tx-templates",
+        "tx-templates-v1",
         "update-template",
         [Cl.stringAscii("stx-transfer"), Cl.uint(190), Cl.uint(1100)],
         deployer
       );
       
       const { result } = simnet.callReadOnlyFn(
-        "tx-templates",
+        "tx-templates-v1",
         "get-template",
         [Cl.stringAscii("stx-transfer")],
         deployer
@@ -456,7 +456,7 @@ describe("Transaction Templates Contract Tests", () => {
     
     it("should prevent non-owner from updating template", () => {
       const { result } = simnet.callPublicFn(
-        "tx-templates",
+        "tx-templates-v1",
         "update-template",
         [Cl.stringAscii("stx-transfer"), Cl.uint(190), Cl.uint(1100)],
         wallet1
@@ -467,7 +467,7 @@ describe("Transaction Templates Contract Tests", () => {
     
     it("should return error when updating non-existent template", () => {
       const { result } = simnet.callPublicFn(
-        "tx-templates",
+        "tx-templates-v1",
         "update-template",
         [Cl.stringAscii("non-existent"), Cl.uint(100), Cl.uint(1000)],
         deployer
@@ -478,7 +478,7 @@ describe("Transaction Templates Contract Tests", () => {
     
     it("should reject zero gas units", () => {
       const { result } = simnet.callPublicFn(
-        "tx-templates",
+        "tx-templates-v1",
         "update-template",
         [Cl.stringAscii("stx-transfer"), Cl.uint(180), Cl.uint(0)],
         deployer
@@ -489,7 +489,7 @@ describe("Transaction Templates Contract Tests", () => {
     
     it("should reject zero size", () => {
       const { result } = simnet.callPublicFn(
-        "tx-templates",
+        "tx-templates-v1",
         "update-template",
         [Cl.stringAscii("stx-transfer"), Cl.uint(0), Cl.uint(1000)],
         deployer
@@ -502,7 +502,7 @@ describe("Transaction Templates Contract Tests", () => {
       // Initial: 180 bytes
       // Update 1: 200 bytes -> avg = (180 + 200) / 2 = 190
       simnet.callPublicFn(
-        "tx-templates",
+        "tx-templates-v1",
         "update-template",
         [Cl.stringAscii("stx-transfer"), Cl.uint(200), Cl.uint(1000)],
         deployer
@@ -510,14 +510,14 @@ describe("Transaction Templates Contract Tests", () => {
       
       // Update 2: 210 bytes -> avg = (190*2 + 210) / 3 = 196.67 ≈ 196
       simnet.callPublicFn(
-        "tx-templates",
+        "tx-templates-v1",
         "update-template",
         [Cl.stringAscii("stx-transfer"), Cl.uint(210), Cl.uint(1000)],
         deployer
       );
       
       const { result } = simnet.callReadOnlyFn(
-        "tx-templates",
+        "tx-templates-v1",
         "get-template-size",
         [Cl.stringAscii("stx-transfer")],
         deployer
@@ -530,12 +530,12 @@ describe("Transaction Templates Contract Tests", () => {
   
   describe("Template Creation Tests", () => {
     beforeEach(() => {
-      simnet.callPublicFn("tx-templates", "initialize-templates", [], deployer);
+      simnet.callPublicFn("tx-templates-v1", "initialize-templates", [], deployer);
     });
     
     it("should create new template", () => {
       const { result } = simnet.callPublicFn(
-        "tx-templates",
+        "tx-templates-v1",
         "create-template",
         [
           Cl.stringAscii("custom-operation"),
@@ -551,7 +551,7 @@ describe("Transaction Templates Contract Tests", () => {
       
       // Verify template was created
       const { result: template } = simnet.callReadOnlyFn(
-        "tx-templates",
+        "tx-templates-v1",
         "get-template",
         [Cl.stringAscii("custom-operation")],
         deployer
@@ -571,14 +571,14 @@ describe("Transaction Templates Contract Tests", () => {
     
     it("should increment total templates count", () => {
       const { result: before } = simnet.callReadOnlyFn(
-        "tx-templates",
+        "tx-templates-v1",
         "get-total-templates",
         [],
         deployer
       );
       
       simnet.callPublicFn(
-        "tx-templates",
+        "tx-templates-v1",
         "create-template",
         [
           Cl.stringAscii("new-template"),
@@ -591,7 +591,7 @@ describe("Transaction Templates Contract Tests", () => {
       );
       
       const { result: after } = simnet.callReadOnlyFn(
-        "tx-templates",
+        "tx-templates-v1",
         "get-total-templates",
         [],
         deployer
@@ -603,7 +603,7 @@ describe("Transaction Templates Contract Tests", () => {
     
     it("should update category count on creation", () => {
       const { result: before } = simnet.callReadOnlyFn(
-        "tx-templates",
+        "tx-templates-v1",
         "get-category-count",
         [Cl.stringAscii("new-category")],
         deployer
@@ -611,7 +611,7 @@ describe("Transaction Templates Contract Tests", () => {
       expect(before).toBeOk(Cl.uint(0));
       
       simnet.callPublicFn(
-        "tx-templates",
+        "tx-templates-v1",
         "create-template",
         [
           Cl.stringAscii("test-template"),
@@ -624,7 +624,7 @@ describe("Transaction Templates Contract Tests", () => {
       );
       
       const { result: after } = simnet.callReadOnlyFn(
-        "tx-templates",
+        "tx-templates-v1",
         "get-category-count",
         [Cl.stringAscii("new-category")],
         deployer
@@ -634,7 +634,7 @@ describe("Transaction Templates Contract Tests", () => {
     
     it("should prevent duplicate template creation", () => {
       const { result } = simnet.callPublicFn(
-        "tx-templates",
+        "tx-templates-v1",
         "create-template",
         [
           Cl.stringAscii("stx-transfer"),
@@ -651,7 +651,7 @@ describe("Transaction Templates Contract Tests", () => {
     
     it("should reject zero gas units", () => {
       const { result } = simnet.callPublicFn(
-        "tx-templates",
+        "tx-templates-v1",
         "create-template",
         [
           Cl.stringAscii("invalid-template"),
@@ -668,7 +668,7 @@ describe("Transaction Templates Contract Tests", () => {
     
     it("should reject zero size", () => {
       const { result } = simnet.callPublicFn(
-        "tx-templates",
+        "tx-templates-v1",
         "create-template",
         [
           Cl.stringAscii("invalid-template"),
@@ -685,7 +685,7 @@ describe("Transaction Templates Contract Tests", () => {
     
     it("should prevent non-owner from creating template", () => {
       const { result } = simnet.callPublicFn(
-        "tx-templates",
+        "tx-templates-v1",
         "create-template",
         [
           Cl.stringAscii("unauthorized"),
@@ -703,7 +703,7 @@ describe("Transaction Templates Contract Tests", () => {
   
   describe("Batch Operations Tests", () => {
     beforeEach(() => {
-      simnet.callPublicFn("tx-templates", "initialize-templates", [], deployer);
+      simnet.callPublicFn("tx-templates-v1", "initialize-templates", [], deployer);
     });
     
     it("should batch update multiple templates", () => {
@@ -721,7 +721,7 @@ describe("Transaction Templates Contract Tests", () => {
       ]);
       
       const { result } = simnet.callPublicFn(
-        "tx-templates",
+        "tx-templates-v1",
         "batch-update-templates",
         [updates],
         deployer
@@ -731,7 +731,7 @@ describe("Transaction Templates Contract Tests", () => {
       
       // Verify updates
       const { result: stx } = simnet.callReadOnlyFn(
-        "tx-templates",
+        "tx-templates-v1",
         "get-template-size",
         [Cl.stringAscii("stx-transfer")],
         deployer
@@ -739,7 +739,7 @@ describe("Transaction Templates Contract Tests", () => {
       expect(stx).toBeOk(Cl.uint(182)); // (180 + 185) / 2
       
       const { result: ft } = simnet.callReadOnlyFn(
-        "tx-templates",
+        "tx-templates-v1",
         "get-template-gas",
         [Cl.stringAscii("ft-transfer")],
         deployer
@@ -757,7 +757,7 @@ describe("Transaction Templates Contract Tests", () => {
       ]);
       
       const { result } = simnet.callPublicFn(
-        "tx-templates",
+        "tx-templates-v1",
         "batch-update-templates",
         [updates],
         wallet1
@@ -781,7 +781,7 @@ describe("Transaction Templates Contract Tests", () => {
       ]);
       
       const { result } = simnet.callPublicFn(
-        "tx-templates",
+        "tx-templates-v1",
         "batch-update-templates",
         [updates],
         deployer
@@ -794,12 +794,12 @@ describe("Transaction Templates Contract Tests", () => {
   
   describe("Admin Function Tests", () => {
     beforeEach(() => {
-      simnet.callPublicFn("tx-templates", "initialize-templates", [], deployer);
+      simnet.callPublicFn("tx-templates-v1", "initialize-templates", [], deployer);
     });
     
     it("should allow owner to set fee oracle address", () => {
       const { result } = simnet.callPublicFn(
-        "tx-templates",
+        "tx-templates-v1",
         "set-fee-oracle",
         [Cl.principal(wallet1)],
         deployer
@@ -810,7 +810,7 @@ describe("Transaction Templates Contract Tests", () => {
     
     it("should prevent non-owner from setting fee oracle", () => {
       const { result } = simnet.callPublicFn(
-        "tx-templates",
+        "tx-templates-v1",
         "set-fee-oracle",
         [Cl.principal(wallet2)],
         wallet1
@@ -821,7 +821,7 @@ describe("Transaction Templates Contract Tests", () => {
     
     it("should allow owner to transfer ownership", () => {
       const { result } = simnet.callPublicFn(
-        "tx-templates",
+        "tx-templates-v1",
         "transfer-ownership",
         [Cl.principal(wallet1)],
         deployer
@@ -832,7 +832,7 @@ describe("Transaction Templates Contract Tests", () => {
     
     it("should prevent non-owner from transferring ownership", () => {
       const { result } = simnet.callPublicFn(
-        "tx-templates",
+        "tx-templates-v1",
         "transfer-ownership",
         [Cl.principal(wallet2)],
         wallet1
@@ -844,14 +844,14 @@ describe("Transaction Templates Contract Tests", () => {
   
   describe("Fee Estimation Tests", () => {
     beforeEach(() => {
-      simnet.callPublicFn("tx-templates", "initialize-templates", [], deployer);
+      simnet.callPublicFn("tx-templates-v1", "initialize-templates", [], deployer);
     });
     
     it("should estimate fee for template with custom rate", () => {
       const feeRatePerByte = 3;
       
       const { result } = simnet.callReadOnlyFn(
-        "tx-templates",
+        "tx-templates-v1",
         "estimate-fee-for-template",
         [Cl.stringAscii("stx-transfer"), Cl.uint(feeRatePerByte)],
         deployer
@@ -864,7 +864,7 @@ describe("Transaction Templates Contract Tests", () => {
       const feeRatePerByte = 2;
       
       const { result } = simnet.callReadOnlyFn(
-        "tx-templates",
+        "tx-templates-v1",
         "estimate-fee-for-template",
         [Cl.stringAscii("nft-mint"), Cl.uint(feeRatePerByte)],
         deployer
@@ -877,7 +877,7 @@ describe("Transaction Templates Contract Tests", () => {
       const feeRatePerByte = 5;
       
       const { result } = simnet.callReadOnlyFn(
-        "tx-templates",
+        "tx-templates-v1",
         "estimate-fee-for-template",
         [Cl.stringAscii("dex-swap-alex"), Cl.uint(feeRatePerByte)],
         deployer
@@ -888,7 +888,7 @@ describe("Transaction Templates Contract Tests", () => {
     
     it("should return error for non-existent template", () => {
       const { result } = simnet.callReadOnlyFn(
-        "tx-templates",
+        "tx-templates-v1",
         "estimate-fee-for-template",
         [Cl.stringAscii("non-existent"), Cl.uint(2)],
         deployer
@@ -900,13 +900,13 @@ describe("Transaction Templates Contract Tests", () => {
   
   describe("Data Integrity Tests", () => {
     beforeEach(() => {
-      simnet.callPublicFn("tx-templates", "initialize-templates", [], deployer);
+      simnet.callPublicFn("tx-templates-v1", "initialize-templates", [], deployer);
     });
     
     it("should have realistic values for common operations", () => {
       // STX transfer should be smallest
       const { result: stxSize } = simnet.callReadOnlyFn(
-        "tx-templates",
+        "tx-templates-v1",
         "get-template-size",
         [Cl.stringAscii("stx-transfer")],
         deployer
@@ -915,7 +915,7 @@ describe("Transaction Templates Contract Tests", () => {
       
       // Contract deploy should be largest
       const { result: deploySize } = simnet.callReadOnlyFn(
-        "tx-templates",
+        "tx-templates-v1",
         "get-template-size",
         [Cl.stringAscii("contract-deploy-medium")],
         deployer
@@ -934,7 +934,7 @@ describe("Transaction Templates Contract Tests", () => {
       
       templates.forEach(({ id, category }) => {
         const { result } = simnet.callReadOnlyFn(
-          "tx-templates",
+          "tx-templates-v1",
           "get-template",
           [Cl.stringAscii(id)],
           deployer
@@ -978,7 +978,7 @@ describe("Transaction Templates Contract Tests", () => {
       
       expectedTemplates.forEach(templateId => {
         const { result } = simnet.callReadOnlyFn(
-          "tx-templates",
+          "tx-templates-v1",
           "get-template",
           [Cl.stringAscii(templateId)],
           deployer

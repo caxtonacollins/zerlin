@@ -47,6 +47,12 @@
   }
 )
 
+;; Authorized oracles map
+(define-map authorized-oracles
+  { oracle: principal }
+  { authorized: bool }
+)
+
 ;; ============================================
 ;; INITIALIZATION
 ;; ============================================
@@ -71,6 +77,9 @@
         recorded-by: tx-sender
       }
     )
+    
+    ;; Authorize deployer
+    (map-set authorized-oracles { oracle: tx-sender } { authorized: true })
     
     (print { event: "oracle-initialized", fee-rate: initial-fee-rate })
     (ok true)
@@ -99,6 +108,11 @@
 ;; Check if initialized
 (define-read-only (is-oracle-initialized)
   (ok (var-get is-initialized))
+)
+
+;; Check if authorized oracle
+(define-read-only (is-authorized-oracle (oracle principal))
+  (ok (default-to false (get authorized (map-get? authorized-oracles { oracle: oracle }))))
 )
 
 ;; Get fee at specific block
@@ -194,7 +208,7 @@
   (congestion (string-ascii 10))
 )
   (let ((current-block stacks-block-height))
-    (asserts! (is-eq tx-sender (var-get contract-owner)) ERR-UNAUTHORIZED)
+    (asserts! (default-to false (get authorized (map-get? authorized-oracles { oracle: tx-sender }))) ERR-UNAUTHORIZED)
     (asserts! (var-get is-initialized) ERR-NOT-INITIALIZED)
     (asserts! (> new-fee-rate u0) ERR-INVALID-FEE)
     
@@ -229,7 +243,7 @@
   (observed-fee uint)
 )
   (begin
-    (asserts! (is-eq tx-sender (var-get contract-owner)) ERR-UNAUTHORIZED)
+    (asserts! (default-to false (get authorized (map-get? authorized-oracles { oracle: tx-sender }))) ERR-UNAUTHORIZED)
     (asserts! (> observed-fee u0) ERR-INVALID-FEE)
     
     (match (map-get? transaction-averages { tx-type: tx-type })
@@ -274,5 +288,37 @@
     (var-set contract-owner new-owner)
     (print { event: "ownership-transferred", new-owner: new-owner })
     (ok true)
+  )
+)
+
+(define-public (authorize-oracle (oracle principal))
+  (begin
+    (asserts! (is-eq tx-sender (var-get contract-owner)) ERR-UNAUTHORIZED)
+    (map-set authorized-oracles { oracle: oracle } { authorized: true })
+    (print { event: "oracle-authorized", oracle: oracle })
+    (ok true)
+  )
+)
+
+(define-public (revoke-oracle (oracle principal))
+  (begin
+    (asserts! (is-eq tx-sender (var-get contract-owner)) ERR-UNAUTHORIZED)
+    (map-set authorized-oracles { oracle: oracle } { authorized: false })
+    (print { event: "oracle-revoked", oracle: oracle })
+    (ok true)
+  )
+)
+
+(define-private (batch-update-avg-helper (update (tuple (tx-type (string-ascii 30)) (observed-fee uint))))
+  (match (update-transaction-average (get tx-type update) (get observed-fee update))
+    success true
+    error false
+  )
+)
+
+(define-public (batch-update-averages (updates (list 10 (tuple (tx-type (string-ascii 30)) (observed-fee uint)))))
+  (begin
+    (asserts! (default-to false (get authorized (map-get? authorized-oracles { oracle: tx-sender }))) ERR-UNAUTHORIZED)
+    (ok (map batch-update-avg-helper updates))
   )
 )

@@ -17,7 +17,7 @@ describe("Smart Alerts Contract Tests", () => {
   describe("Alert Creation Tests", () => {
    it("should create alert with below threshold", () => {
      const { result } = simnet.callPublicFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "create-alert",
        [Cl.uint(1500), Cl.stringAscii("below"), Cl.stringAscii("stx-transfer")],
        wallet1
@@ -28,7 +28,7 @@ describe("Smart Alerts Contract Tests", () => {
   
    it("should create alert with above threshold", () => {
      const { result } = simnet.callPublicFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "create-alert",
        [Cl.uint(2000), Cl.stringAscii("above"), Cl.stringAscii("nft-mint")],
        wallet1
@@ -39,7 +39,7 @@ describe("Smart Alerts Contract Tests", () => {
   
    it("should reject alert with invalid threshold", () => {
      const { result } = simnet.callPublicFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "create-alert",
        [Cl.uint(50), Cl.stringAscii("below"), Cl.stringAscii("stx-transfer")],
        wallet1
@@ -50,7 +50,7 @@ describe("Smart Alerts Contract Tests", () => {
   
    it("should reject alert with invalid type", () => {
      const { result } = simnet.callPublicFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "create-alert",
        [Cl.uint(1500), Cl.stringAscii("invalid"), Cl.stringAscii("stx-transfer")],
        wallet1
@@ -63,7 +63,7 @@ describe("Smart Alerts Contract Tests", () => {
      // Create 10 alerts (the max)
      for (let i = 0; i < 10; i++) {
        simnet.callPublicFn(
-         "smart-alerts",
+         "smart-alerts-v1",
          "create-alert",
          [Cl.uint(1000 + i * 100), Cl.stringAscii("below"), Cl.stringAscii("stx-transfer")],
          wallet1
@@ -72,7 +72,7 @@ describe("Smart Alerts Contract Tests", () => {
     
      // Try to create 11th alert
      const { result } = simnet.callPublicFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "create-alert",
        [Cl.uint(2000), Cl.stringAscii("below"), Cl.stringAscii("stx-transfer")],
        wallet1
@@ -83,7 +83,7 @@ describe("Smart Alerts Contract Tests", () => {
   
    it("should increment alert ID sequentially", () => {
      const { result: first } = simnet.callPublicFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "create-alert",
        [Cl.uint(1500), Cl.stringAscii("below"), Cl.stringAscii("stx-transfer")],
        wallet1
@@ -91,7 +91,7 @@ describe("Smart Alerts Contract Tests", () => {
      expect(first).toBeOk(Cl.uint(1));
     
      const { result: second } = simnet.callPublicFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "create-alert",
        [Cl.uint(1600), Cl.stringAscii("above"), Cl.stringAscii("nft-mint")],
        wallet1
@@ -99,7 +99,7 @@ describe("Smart Alerts Contract Tests", () => {
      expect(second).toBeOk(Cl.uint(2));
     
      const { result: third } = simnet.callPublicFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "create-alert",
        [Cl.uint(1700), Cl.stringAscii("below"), Cl.stringAscii("ft-transfer")],
        wallet2
@@ -109,14 +109,14 @@ describe("Smart Alerts Contract Tests", () => {
   
    it("should update user alert count correctly", () => {
      simnet.callPublicFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "create-alert",
        [Cl.uint(1500), Cl.stringAscii("below"), Cl.stringAscii("stx-transfer")],
        wallet1
      );
     
      const { result } = simnet.callReadOnlyFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "get-user-alert-count",
        [Cl.principal(wallet1)],
        deployer
@@ -127,14 +127,14 @@ describe("Smart Alerts Contract Tests", () => {
   
    it("should update global stats on creation", () => {
      simnet.callPublicFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "create-alert",
        [Cl.uint(1500), Cl.stringAscii("below"), Cl.stringAscii("stx-transfer")],
        wallet1
      );
     
      const { result } = simnet.callReadOnlyFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "get-alert-stats",
        [],
        deployer
@@ -152,7 +152,7 @@ describe("Smart Alerts Contract Tests", () => {
   describe("Alert Management Tests", () => {
    beforeEach(() => {
      simnet.callPublicFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "create-alert",
        [Cl.uint(1500), Cl.stringAscii("below"), Cl.stringAscii("stx-transfer")],
        wallet1
@@ -161,7 +161,7 @@ describe("Smart Alerts Contract Tests", () => {
   
    it("should deactivate active alert", () => {
      const { result } = simnet.callPublicFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "deactivate-alert",
        [Cl.uint(1)],
        wallet1
@@ -171,7 +171,7 @@ describe("Smart Alerts Contract Tests", () => {
     
      // Verify alert is deactivated
      const alert = simnet.callReadOnlyFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "get-alert",
        [Cl.principal(wallet1), Cl.uint(1)],
        deployer
@@ -184,10 +184,10 @@ describe("Smart Alerts Contract Tests", () => {
    });
   
    it("should reactivate deactivated alert", () => {
-     simnet.callPublicFn("smart-alerts", "deactivate-alert", [Cl.uint(1)], wallet1);
+     simnet.callPublicFn("smart-alerts-v1", "deactivate-alert", [Cl.uint(1)], wallet1);
     
      const { result } = simnet.callPublicFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "reactivate-alert",
        [Cl.uint(1)],
        wallet1
@@ -197,7 +197,7 @@ describe("Smart Alerts Contract Tests", () => {
     
      // Verify alert is active
      const alert = simnet.callReadOnlyFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "get-alert",
        [Cl.principal(wallet1), Cl.uint(1)],
        deployer
@@ -211,7 +211,7 @@ describe("Smart Alerts Contract Tests", () => {
   
    it("should delete alert permanently", () => {
      const { result } = simnet.callPublicFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "delete-alert",
        [Cl.uint(1)],
        wallet1
@@ -221,7 +221,7 @@ describe("Smart Alerts Contract Tests", () => {
     
      // Verify alert is deleted
      const alert = simnet.callReadOnlyFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "get-alert",
        [Cl.principal(wallet1), Cl.uint(1)],
        deployer
@@ -233,17 +233,17 @@ describe("Smart Alerts Contract Tests", () => {
    it("should decrease user alert count on delete", () => {
      // Create second alert
      simnet.callPublicFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "create-alert",
        [Cl.uint(1600), Cl.stringAscii("above"), Cl.stringAscii("nft-mint")],
        wallet1
      );
     
      // Delete first alert
-     simnet.callPublicFn("smart-alerts", "delete-alert", [Cl.uint(1)], wallet1);
+     simnet.callPublicFn("smart-alerts-v1", "delete-alert", [Cl.uint(1)], wallet1);
     
      const { result } = simnet.callReadOnlyFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "get-user-alert-count",
        [Cl.principal(wallet1)],
        deployer
@@ -254,7 +254,7 @@ describe("Smart Alerts Contract Tests", () => {
   
    it("should update alert threshold", () => {
      const { result } = simnet.callPublicFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "update-alert-threshold",
        [Cl.uint(1), Cl.uint(2000)],
        wallet1
@@ -264,7 +264,7 @@ describe("Smart Alerts Contract Tests", () => {
     
      // Verify threshold updated
      const alert = simnet.callReadOnlyFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "get-alert",
        [Cl.principal(wallet1), Cl.uint(1)],
        deployer
@@ -278,7 +278,7 @@ describe("Smart Alerts Contract Tests", () => {
   
    it("should reject invalid threshold update", () => {
      const { result } = simnet.callPublicFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "update-alert-threshold",
        [Cl.uint(1), Cl.uint(50)],
        wallet1
@@ -289,7 +289,7 @@ describe("Smart Alerts Contract Tests", () => {
   
    it("should update alert type", () => {
      const { result } = simnet.callPublicFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "update-alert-type",
        [Cl.uint(1), Cl.stringAscii("above")],
        wallet1
@@ -299,7 +299,7 @@ describe("Smart Alerts Contract Tests", () => {
     
      // Verify type updated
      const alert = simnet.callReadOnlyFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "get-alert",
        [Cl.principal(wallet1), Cl.uint(1)],
        deployer
@@ -313,7 +313,7 @@ describe("Smart Alerts Contract Tests", () => {
   
    it("should reject invalid alert type update", () => {
      const { result } = simnet.callPublicFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "update-alert-type",
        [Cl.uint(1), Cl.stringAscii("invalid")],
        wallet1
@@ -324,7 +324,7 @@ describe("Smart Alerts Contract Tests", () => {
   
    it("should not allow modifying non-existent alert", () => {
      const { result } = simnet.callPublicFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "update-alert-threshold",
        [Cl.uint(999), Cl.uint(2000)],
        wallet1
@@ -335,7 +335,7 @@ describe("Smart Alerts Contract Tests", () => {
   
    it("should not allow user to modify another user's alert", () => {
      const { result } = simnet.callPublicFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "deactivate-alert",
        [Cl.uint(1)],
        wallet2
@@ -347,14 +347,14 @@ describe("Smart Alerts Contract Tests", () => {
   describe("Alert Trigger Logic Tests", () => {
    it("should trigger when fee below target (below type)", () => {
      simnet.callPublicFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "create-alert",
        [Cl.uint(1500), Cl.stringAscii("below"), Cl.stringAscii("stx-transfer")],
        wallet1
      );
     
      const { result } = simnet.callReadOnlyFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "should-alert-trigger",
        [Cl.principal(wallet1), Cl.uint(1), Cl.uint(1400)],
        deployer
@@ -365,14 +365,14 @@ describe("Smart Alerts Contract Tests", () => {
   
    it("should not trigger when fee above target (below type)", () => {
      simnet.callPublicFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "create-alert",
        [Cl.uint(1500), Cl.stringAscii("below"), Cl.stringAscii("stx-transfer")],
        wallet1
      );
     
      const { result } = simnet.callReadOnlyFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "should-alert-trigger",
        [Cl.principal(wallet1), Cl.uint(1), Cl.uint(1600)],
        deployer
@@ -383,14 +383,14 @@ describe("Smart Alerts Contract Tests", () => {
   
    it("should trigger when fee above target (above type)", () => {
      simnet.callPublicFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "create-alert",
        [Cl.uint(2000), Cl.stringAscii("above"), Cl.stringAscii("nft-mint")],
        wallet1
      );
     
      const { result } = simnet.callReadOnlyFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "should-alert-trigger",
        [Cl.principal(wallet1), Cl.uint(1), Cl.uint(2100)],
        deployer
@@ -401,14 +401,14 @@ describe("Smart Alerts Contract Tests", () => {
   
    it("should not trigger when fee below target (above type)", () => {
      simnet.callPublicFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "create-alert",
        [Cl.uint(2000), Cl.stringAscii("above"), Cl.stringAscii("nft-mint")],
        wallet1
      );
     
      const { result } = simnet.callReadOnlyFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "should-alert-trigger",
        [Cl.principal(wallet1), Cl.uint(1), Cl.uint(1900)],
        deployer
@@ -419,16 +419,16 @@ describe("Smart Alerts Contract Tests", () => {
   
    it("should not trigger inactive alerts", () => {
      simnet.callPublicFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "create-alert",
        [Cl.uint(1500), Cl.stringAscii("below"), Cl.stringAscii("stx-transfer")],
        wallet1
      );
     
-     simnet.callPublicFn("smart-alerts", "deactivate-alert", [Cl.uint(1)], wallet1);
+     simnet.callPublicFn("smart-alerts-v1", "deactivate-alert", [Cl.uint(1)], wallet1);
     
      const { result } = simnet.callReadOnlyFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "should-alert-trigger",
        [Cl.principal(wallet1), Cl.uint(1), Cl.uint(1400)],
        deployer
@@ -439,14 +439,14 @@ describe("Smart Alerts Contract Tests", () => {
   
    it("should mark alert as triggered by owner", () => {
      simnet.callPublicFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "create-alert",
        [Cl.uint(1500), Cl.stringAscii("below"), Cl.stringAscii("stx-transfer")],
        wallet1
      );
     
      const { result } = simnet.callPublicFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "mark-triggered",
        [Cl.principal(wallet1), Cl.uint(1), Cl.uint(1400)],
        deployer
@@ -457,14 +457,14 @@ describe("Smart Alerts Contract Tests", () => {
   
    it("should prevent unauthorized user from marking triggered", () => {
      simnet.callPublicFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "create-alert",
        [Cl.uint(1500), Cl.stringAscii("below"), Cl.stringAscii("stx-transfer")],
        wallet1
      );
     
      const { result } = simnet.callPublicFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "mark-triggered",
        [Cl.principal(wallet1), Cl.uint(1), Cl.uint(1400)],
        wallet2
@@ -475,7 +475,7 @@ describe("Smart Alerts Contract Tests", () => {
   
    it("should increment trigger count", () => {
      simnet.callPublicFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "create-alert",
        [Cl.uint(1500), Cl.stringAscii("below"), Cl.stringAscii("stx-transfer")],
        wallet1
@@ -483,7 +483,7 @@ describe("Smart Alerts Contract Tests", () => {
     
      // Trigger once
      simnet.callPublicFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "mark-triggered",
        [Cl.principal(wallet1), Cl.uint(1), Cl.uint(1400)],
        deployer
@@ -491,14 +491,14 @@ describe("Smart Alerts Contract Tests", () => {
     
      // Trigger again
      simnet.callPublicFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "mark-triggered",
        [Cl.principal(wallet1), Cl.uint(1), Cl.uint(1300)],
        deployer
      );
     
      const alert = simnet.callReadOnlyFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "get-alert",
        [Cl.principal(wallet1), Cl.uint(1)],
        deployer
@@ -512,21 +512,21 @@ describe("Smart Alerts Contract Tests", () => {
   
    it("should update last triggered block", () => {
      simnet.callPublicFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "create-alert",
        [Cl.uint(1500), Cl.stringAscii("below"), Cl.stringAscii("stx-transfer")],
        wallet1
      );
     
      simnet.callPublicFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "mark-triggered",
        [Cl.principal(wallet1), Cl.uint(1), Cl.uint(1400)],
        deployer
      );
     
      const alert = simnet.callReadOnlyFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "get-alert",
        [Cl.principal(wallet1), Cl.uint(1)],
        deployer
@@ -540,21 +540,21 @@ describe("Smart Alerts Contract Tests", () => {
   
    it("should record trigger history", () => {
      simnet.callPublicFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "create-alert",
        [Cl.uint(1500), Cl.stringAscii("below"), Cl.stringAscii("stx-transfer")],
        wallet1
      );
     
      simnet.callPublicFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "mark-triggered",
        [Cl.principal(wallet1), Cl.uint(1), Cl.uint(1400)],
        deployer
      );
     
      const { result } = simnet.callReadOnlyFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "get-trigger-history",
        [Cl.uint(1), Cl.uint(1)],
        deployer
@@ -571,21 +571,21 @@ describe("Smart Alerts Contract Tests", () => {
   
    it("should increment total alerts triggered", () => {
      simnet.callPublicFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "create-alert",
        [Cl.uint(1500), Cl.stringAscii("below"), Cl.stringAscii("stx-transfer")],
        wallet1
      );
     
      simnet.callPublicFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "mark-triggered",
        [Cl.principal(wallet1), Cl.uint(1), Cl.uint(1400)],
        deployer
      );
     
      const { result } = simnet.callReadOnlyFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "get-alert-stats",
        [],
        deployer
@@ -616,7 +616,7 @@ describe("Smart Alerts Contract Tests", () => {
      ]);
     
      const { result } = simnet.callPublicFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "create-alerts-batch",
        [alerts],
        wallet1
@@ -630,7 +630,7 @@ describe("Smart Alerts Contract Tests", () => {
      // Create 9 alerts individually
      for (let i = 0; i < 9; i++) {
        simnet.callPublicFn(
-         "smart-alerts",
+         "smart-alerts-v1",
          "create-alert",
          [Cl.uint(1000 + i * 100), Cl.stringAscii("below"), Cl.stringAscii("stx-transfer")],
          wallet1
@@ -652,7 +652,7 @@ describe("Smart Alerts Contract Tests", () => {
      ]);
     
      const { result } = simnet.callPublicFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "create-alerts-batch",
        [alerts],
        wallet1
@@ -664,14 +664,14 @@ describe("Smart Alerts Contract Tests", () => {
    it("should batch check alerts", () => {
      // Create two alerts
      simnet.callPublicFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "create-alert",
        [Cl.uint(1500), Cl.stringAscii("below"), Cl.stringAscii("stx-transfer")],
        wallet1
      );
     
      simnet.callPublicFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "create-alert",
        [Cl.uint(2000), Cl.stringAscii("above"), Cl.stringAscii("nft-mint")],
        wallet1
@@ -689,7 +689,7 @@ describe("Smart Alerts Contract Tests", () => {
      ]);
     
      const { result } = simnet.callPublicFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "batch-check-alerts",
        [alertsToCheck, Cl.uint(1400)],
        deployer
@@ -708,7 +708,7 @@ describe("Smart Alerts Contract Tests", () => {
      ]);
     
      const { result } = simnet.callPublicFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "batch-check-alerts",
        [alertsToCheck, Cl.uint(1400)],
        wallet1
@@ -720,7 +720,7 @@ describe("Smart Alerts Contract Tests", () => {
   describe("Read-Only Function Tests", () => {
    beforeEach(() => {
      simnet.callPublicFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "create-alert",
        [Cl.uint(1500), Cl.stringAscii("below"), Cl.stringAscii("stx-transfer")],
        wallet1
@@ -729,7 +729,7 @@ describe("Smart Alerts Contract Tests", () => {
   
    it("should get alert details", () => {
      const { result } = simnet.callReadOnlyFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "get-alert",
        [Cl.principal(wallet1), Cl.uint(1)],
        deployer
@@ -750,7 +750,7 @@ describe("Smart Alerts Contract Tests", () => {
   
    it("should get user alert count", () => {
      const { result } = simnet.callReadOnlyFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "get-user-alert-count",
        [Cl.principal(wallet1)],
        deployer
@@ -761,7 +761,7 @@ describe("Smart Alerts Contract Tests", () => {
   
    it("should return zero count for user with no alerts", () => {
      const { result } = simnet.callReadOnlyFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "get-user-alert-count",
        [Cl.principal(wallet3)],
        deployer
@@ -772,7 +772,7 @@ describe("Smart Alerts Contract Tests", () => {
   
    it("should get alert stats", () => {
      const { result } = simnet.callReadOnlyFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "get-alert-stats",
        [],
        deployer
@@ -789,7 +789,7 @@ describe("Smart Alerts Contract Tests", () => {
   
    it("should check if user can create alert", () => {
      const { result } = simnet.callReadOnlyFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "can-create-alert",
        [Cl.principal(wallet1)],
        deployer
@@ -802,7 +802,7 @@ describe("Smart Alerts Contract Tests", () => {
      // Create 9 more alerts (total 10)
      for (let i = 0; i < 9; i++) {
        simnet.callPublicFn(
-         "smart-alerts",
+         "smart-alerts-v1",
          "create-alert",
          [Cl.uint(1000 + i * 100), Cl.stringAscii("below"), Cl.stringAscii("stx-transfer")],
          wallet1
@@ -810,7 +810,7 @@ describe("Smart Alerts Contract Tests", () => {
      }
     
      const { result } = simnet.callReadOnlyFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "can-create-alert",
        [Cl.principal(wallet1)],
        deployer
@@ -821,7 +821,7 @@ describe("Smart Alerts Contract Tests", () => {
   
    it("should estimate creation cost", () => {
      const { result } = simnet.callReadOnlyFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "estimate-creation-cost",
        [],
        deployer
@@ -833,7 +833,7 @@ describe("Smart Alerts Contract Tests", () => {
   describe("Admin Function Tests", () => {
    it("should allow owner to set fee oracle", () => {
      const { result } = simnet.callPublicFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "set-fee-oracle",
        [Cl.principal(wallet1)],
        deployer
@@ -844,7 +844,7 @@ describe("Smart Alerts Contract Tests", () => {
   
    it("should prevent non-owner from setting fee oracle", () => {
      const { result } = simnet.callPublicFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "set-fee-oracle",
        [Cl.principal(wallet2)],
        wallet1
@@ -855,7 +855,7 @@ describe("Smart Alerts Contract Tests", () => {
   
    it("should allow owner to transfer ownership", () => {
      const { result } = simnet.callPublicFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "transfer-ownership",
        [Cl.principal(wallet1)],
        deployer
@@ -866,7 +866,7 @@ describe("Smart Alerts Contract Tests", () => {
   
    it("should prevent non-owner from transferring ownership", () => {
      const { result } = simnet.callPublicFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "transfer-ownership",
        [Cl.principal(wallet2)],
        wallet1
@@ -877,7 +877,7 @@ describe("Smart Alerts Contract Tests", () => {
   
    it("should allow owner to emergency pause", () => {
      const { result } = simnet.callPublicFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "emergency-pause",
        [],
        deployer
@@ -888,7 +888,7 @@ describe("Smart Alerts Contract Tests", () => {
   
    it("should prevent non-owner from emergency pause", () => {
      const { result } = simnet.callPublicFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "emergency-pause",
        [],
        wallet1
@@ -901,7 +901,7 @@ describe("Smart Alerts Contract Tests", () => {
    it("should handle complete alert lifecycle", () => {
      // Create alert
      const { result: createResult } = simnet.callPublicFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "create-alert",
        [Cl.uint(1500), Cl.stringAscii("below"), Cl.stringAscii("stx-transfer")],
        wallet1
@@ -910,7 +910,7 @@ describe("Smart Alerts Contract Tests", () => {
     
      // Check if should trigger
      const { result: shouldTrigger } = simnet.callReadOnlyFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "should-alert-trigger",
        [Cl.principal(wallet1), Cl.uint(1), Cl.uint(1400)],
        deployer
@@ -919,7 +919,7 @@ describe("Smart Alerts Contract Tests", () => {
     
      // Mark as triggered
      const { result: markResult } = simnet.callPublicFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "mark-triggered",
        [Cl.principal(wallet1), Cl.uint(1), Cl.uint(1400)],
        deployer
@@ -928,7 +928,7 @@ describe("Smart Alerts Contract Tests", () => {
     
      // Update threshold
      const { result: updateResult } = simnet.callPublicFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "update-alert-threshold",
        [Cl.uint(1), Cl.uint(2000)],
        wallet1
@@ -937,7 +937,7 @@ describe("Smart Alerts Contract Tests", () => {
     
      // Deactivate
      const { result: deactivateResult } = simnet.callPublicFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "deactivate-alert",
        [Cl.uint(1)],
        wallet1
@@ -946,7 +946,7 @@ describe("Smart Alerts Contract Tests", () => {
     
      // Delete
      const { result: deleteResult } = simnet.callPublicFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "delete-alert",
        [Cl.uint(1)],
        wallet1
@@ -958,7 +958,7 @@ describe("Smart Alerts Contract Tests", () => {
      // User 1 creates 3 alerts
      for (let i = 0; i < 3; i++) {
        simnet.callPublicFn(
-         "smart-alerts",
+         "smart-alerts-v1",
          "create-alert",
          [Cl.uint(1000 + i * 100), Cl.stringAscii("below"), Cl.stringAscii("stx-transfer")],
          wallet1
@@ -968,7 +968,7 @@ describe("Smart Alerts Contract Tests", () => {
      // User 2 creates 2 alerts
      for (let i = 0; i < 2; i++) {
        simnet.callPublicFn(
-         "smart-alerts",
+         "smart-alerts-v1",
          "create-alert",
          [Cl.uint(2000 + i * 100), Cl.stringAscii("above"), Cl.stringAscii("nft-mint")],
          wallet2
@@ -977,7 +977,7 @@ describe("Smart Alerts Contract Tests", () => {
     
      // Check counts
      const { result: user1Count } = simnet.callReadOnlyFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "get-user-alert-count",
        [Cl.principal(wallet1)],
        deployer
@@ -985,7 +985,7 @@ describe("Smart Alerts Contract Tests", () => {
      expect(user1Count).toStrictEqual(Cl.tuple({ count: Cl.uint(3) }));
     
      const { result: user2Count } = simnet.callReadOnlyFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "get-user-alert-count",
        [Cl.principal(wallet2)],
        deployer
@@ -994,7 +994,7 @@ describe("Smart Alerts Contract Tests", () => {
     
      // Check global stats
      const { result: stats } = simnet.callReadOnlyFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "get-alert-stats",
        [],
        deployer
@@ -1010,7 +1010,7 @@ describe("Smart Alerts Contract Tests", () => {
   
    it("should track trigger history across multiple triggers", () => {
      simnet.callPublicFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "create-alert",
        [Cl.uint(1500), Cl.stringAscii("below"), Cl.stringAscii("stx-transfer")],
        wallet1
@@ -1020,7 +1020,7 @@ describe("Smart Alerts Contract Tests", () => {
      const fees = [1400, 1300, 1200];
      fees.forEach((fee) => {
        simnet.callPublicFn(
-         "smart-alerts",
+         "smart-alerts-v1",
          "mark-triggered",
          [Cl.principal(wallet1), Cl.uint(1), Cl.uint(fee)],
          deployer
@@ -1030,7 +1030,7 @@ describe("Smart Alerts Contract Tests", () => {
      // Check trigger history
      for (let i = 0; i < fees.length; i++) {
        const { result } = simnet.callReadOnlyFn(
-         "smart-alerts",
+         "smart-alerts-v1",
          "get-trigger-history",
          [Cl.uint(1), Cl.uint(i + 1)],
          deployer
@@ -1054,7 +1054,7 @@ describe("Smart Alerts Contract Tests", () => {
      // Create 10 alerts (max)
      for (let i = 0; i < 10; i++) {
        simnet.callPublicFn(
-         "smart-alerts",
+         "smart-alerts-v1",
          "create-alert",
          [Cl.uint(1000 + i * 100), Cl.stringAscii("below"), Cl.stringAscii("stx-transfer")],
          wallet1
@@ -1063,7 +1063,7 @@ describe("Smart Alerts Contract Tests", () => {
     
      // Cannot create another
      const { result: beforeDelete } = simnet.callPublicFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "create-alert",
        [Cl.uint(3000), Cl.stringAscii("below"), Cl.stringAscii("stx-transfer")],
        wallet1
@@ -1071,11 +1071,11 @@ describe("Smart Alerts Contract Tests", () => {
      expect(beforeDelete).toBeErr(Cl.uint(302));
     
      // Delete one alert
-     simnet.callPublicFn("smart-alerts", "delete-alert", [Cl.uint(1)], wallet1);
+     simnet.callPublicFn("smart-alerts-v1", "delete-alert", [Cl.uint(1)], wallet1);
     
      // Now can create another
      const { result: afterDelete } = simnet.callPublicFn(
-       "smart-alerts",
+       "smart-alerts-v1",
        "create-alert",
        [Cl.uint(3000), Cl.stringAscii("below"), Cl.stringAscii("stx-transfer")],
        wallet1

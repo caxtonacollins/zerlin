@@ -5,17 +5,17 @@ authors = []
 telemetry = true
 cache_dir = './.cache'
 requirements = []
-[contracts.fee-oracle]
+[contracts.fee-oracle-v1]
 path = 'contracts/fee-oracle.clar'
 clarity_version = 4
 epoch = 'latest'
 
-[contracts.smart-alerts]
+[contracts.smart-alerts-v1]
 path = 'contracts/smart-alerts.clar'
 clarity_version = 4
 epoch = 'latest'
 
-[contracts.tx-templates]
+[contracts.tx-templates-v1]
 path = 'contracts/tx-templates.clar'
 clarity_version = 4
 epoch = 'latest'

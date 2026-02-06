@@ -13,6 +13,7 @@
 (define-constant ERR-INVALID-THRESHOLD (err u303))
 (define-constant ERR-INVALID-ALERT-TYPE (err u304))
 (define-constant ERR-ALERT-INACTIVE (err u305))
+(define-constant ERR-PAUSED (err u306))
 
 ;; ============================================
 ;; CONFIGURATION
@@ -28,6 +29,8 @@
 (define-data-var next-alert-id uint u1)
 (define-data-var total-alerts-created uint u0)
 (define-data-var total-alerts-triggered uint u0)
+(define-data-var batch-fee uint u0)
+(define-data-var paused bool false)
 
 ;; ============================================
 ;; DATA MAPS
@@ -51,6 +54,15 @@
 (define-map user-alert-count
   { user: principal }
   { count: uint }
+)
+
+(define-map alert-trigger-history
+  { alert-id: uint, trigger-index: uint }
+  {
+    fee-at-trigger: uint,
+    block-height: uint,
+    timestamp: uint
+  }
 )
 
 ;; ============================================
@@ -271,6 +283,15 @@
         
         (var-set total-alerts-triggered (+ (var-get total-alerts-triggered) u1))
         
+        (map-set alert-trigger-history
+          { alert-id: alert-id, trigger-index: new-trigger-count }
+          {
+            fee-at-trigger: current-fee,
+            block-height: stacks-block-height,
+            timestamp: burn-block-height
+          }
+        )
+        
         (print {
           event: "alert-triggered",
           user: user,
@@ -307,4 +328,79 @@
     (print { event: "ownership-transferred", new-owner: new-owner })
     (ok true)
   )
+)
+
+(define-read-only (get-trigger-history (alert-id uint) (trigger-index uint))
+  (map-get? alert-trigger-history { alert-id: alert-id, trigger-index: trigger-index })
+)
+
+(define-public (update-alert-type (alert-id uint) (new-type (string-ascii 10)))
+  (begin
+    (asserts! (or (is-eq new-type "below") (is-eq new-type "above")) ERR-INVALID-ALERT-TYPE)
+    (match (get-alert tx-sender alert-id)
+      alert-data (begin
+        (map-set user-alerts { user: tx-sender, alert-id: alert-id }
+          (merge alert-data { alert-type: new-type })
+        )
+        (ok true)
+      )
+      ERR-ALERT-NOT-FOUND
+    )
+  )
+)
+
+(define-private (batch-check-helper-map (check (tuple (user principal) (alert-id uint))))
+  (match (should-alert-trigger (get user check) (get alert-id check) (var-get batch-fee))
+     triggered triggered
+     err false
+  )
+)
+
+(define-public (batch-check-alerts (alerts (list 10 (tuple (user principal) (alert-id uint)))) (fee uint))
+  (begin
+     (asserts! (or (is-eq tx-sender (var-get contract-owner)) (is-eq tx-sender (var-get fee-oracle-contract))) ERR-UNAUTHORIZED)
+     (var-set batch-fee fee)
+     (ok (map batch-check-helper-map alerts))
+  )
+)
+
+(define-private (create-batch-fold (alert (tuple (target-fee uint) (alert-type (string-ascii 10)) (tx-type (string-ascii 30)))) (state (response (list 10 uint) uint)))
+  (match state
+    current-list
+    (match (create-alert (get target-fee alert) (get alert-type alert) (get tx-type alert))
+      id (ok (unwrap-panic (as-max-len? (append current-list id) u10)))
+      error-code (err error-code)
+    )
+    error (err error)
+  )
+)
+
+(define-public (create-alerts-batch (alerts (list 10 (tuple (target-fee uint) (alert-type (string-ascii 10)) (tx-type (string-ascii 30))))))
+  (fold create-batch-fold alerts (ok (list)))
+)
+
+(define-read-only (is-paused)
+  (ok (var-get paused))
+)
+
+(define-public (emergency-pause)
+  (begin
+    (asserts! (is-eq tx-sender (var-get contract-owner)) ERR-UNAUTHORIZED)
+    (var-set paused true)
+    (print { event: "contract-paused", user: tx-sender })
+    (ok true)
+  )
+)
+
+(define-public (emergency-resume)
+  (begin
+    (asserts! (is-eq tx-sender (var-get contract-owner)) ERR-UNAUTHORIZED)
+    (var-set paused false)
+    (print { event: "contract-resumed", user: tx-sender })
+    (ok true)
+  )
+)
+
+(define-read-only (estimate-creation-cost)
+  (ok u2000)
 )

@@ -16,7 +16,7 @@ describe("Fee Oracle Contract Tests", () => {
         it("should initialize with valid fee rate", () => {
             const initialFeeRate = 1000;
             const { result } = simnet.callPublicFn(
-                "fee-oracle",
+                "fee-oracle-v1",
                 "initialize",
                 [Cl.uint(initialFeeRate)],
                 deployer
@@ -26,7 +26,7 @@ describe("Fee Oracle Contract Tests", () => {
 
             // Verify initialization state
             const { result: feeRate } = simnet.callReadOnlyFn(
-                "fee-oracle",
+                "fee-oracle-v1",
                 "get-current-fee-rate",
                 [],
                 deployer
@@ -34,7 +34,7 @@ describe("Fee Oracle Contract Tests", () => {
             expect(feeRate).toBeOk(Cl.uint(initialFeeRate));
 
             const { result: isInitialized } = simnet.callReadOnlyFn(
-                "fee-oracle",
+                "fee-oracle-v1",
                 "is-oracle-initialized",
                 [],
                 deployer
@@ -43,10 +43,10 @@ describe("Fee Oracle Contract Tests", () => {
         });
 
         it("should prevent double initialization", () => {
-            simnet.callPublicFn("fee-oracle", "initialize", [Cl.uint(1000)], deployer);
+            simnet.callPublicFn("fee-oracle-v1", "initialize", [Cl.uint(1000)], deployer);
 
             const { result } = simnet.callPublicFn(
-                "fee-oracle",
+                "fee-oracle-v1",
                 "initialize",
                 [Cl.uint(2000)],
                 deployer
@@ -57,7 +57,7 @@ describe("Fee Oracle Contract Tests", () => {
 
         it("should prevent non-owner from initializing", () => {
             const { result } = simnet.callPublicFn(
-                "fee-oracle",
+                "fee-oracle-v1",
                 "initialize",
                 [Cl.uint(1000)],
                 wallet1
@@ -68,7 +68,7 @@ describe("Fee Oracle Contract Tests", () => {
 
         it("should reject zero fee rate", () => {
             const { result } = simnet.callPublicFn(
-                "fee-oracle",
+                "fee-oracle-v1",
                 "initialize",
                 [Cl.uint(0)],
                 deployer
@@ -80,12 +80,12 @@ describe("Fee Oracle Contract Tests", () => {
 
     describe("Read-Only Function Tests", () => {
         beforeEach(() => {
-            simnet.callPublicFn("fee-oracle", "initialize", [Cl.uint(1500)], deployer);
+            simnet.callPublicFn("fee-oracle-v1", "initialize", [Cl.uint(1500)], deployer);
         });
 
         it("should get current fee rate", () => {
             const { result } = simnet.callReadOnlyFn(
-                "fee-oracle",
+                "fee-oracle-v1",
                 "get-current-fee-rate",
                 [],
                 deployer
@@ -96,7 +96,7 @@ describe("Fee Oracle Contract Tests", () => {
 
         it("should get last update block", () => {
             const { result } = simnet.callReadOnlyFn(
-                "fee-oracle",
+                "fee-oracle-v1",
                 "get-last-update-block",
                 [],
                 deployer
@@ -107,7 +107,7 @@ describe("Fee Oracle Contract Tests", () => {
 
         it("should get total updates", () => {
             const { result } = simnet.callReadOnlyFn(
-                "fee-oracle",
+                "fee-oracle-v1",
                 "get-total-updates",
                 [],
                 deployer
@@ -118,7 +118,7 @@ describe("Fee Oracle Contract Tests", () => {
 
         it("should check initialization status", () => {
             const { result } = simnet.callReadOnlyFn(
-                "fee-oracle",
+                "fee-oracle-v1",
                 "is-oracle-initialized",
                 [],
                 deployer
@@ -131,7 +131,7 @@ describe("Fee Oracle Contract Tests", () => {
             const currentBlock = simnet.blockHeight;
 
             const { result } = simnet.callReadOnlyFn(
-                "fee-oracle",
+                "fee-oracle-v1",
                 "get-fee-at-block",
                 [Cl.uint(currentBlock)],
                 deployer
@@ -149,7 +149,7 @@ describe("Fee Oracle Contract Tests", () => {
 
         it("should return error for non-existent block", () => {
             const { result } = simnet.callReadOnlyFn(
-                "fee-oracle",
+                "fee-oracle-v1",
                 "get-fee-at-block",
                 [Cl.uint(999999)],
                 deployer
@@ -160,16 +160,16 @@ describe("Fee Oracle Contract Tests", () => {
 
         it("should get transaction average when exists", () => {
             // First set an average
-            simnet.callPublicFn("fee-oracle", "authorize-oracle", [Cl.principal(deployer)], deployer);
+            simnet.callPublicFn("fee-oracle-v1", "authorize-oracle", [Cl.principal(deployer)], deployer);
             simnet.callPublicFn(
-                "fee-oracle",
+                "fee-oracle-v1",
                 "update-transaction-average",
                 [Cl.stringAscii("nft-mint"), Cl.uint(5000)],
                 deployer
             );
 
             const { result } = simnet.callReadOnlyFn(
-                "fee-oracle",
+                "fee-oracle-v1",
                 "get-transaction-average",
                 [Cl.stringAscii("nft-mint")],
                 deployer
@@ -180,7 +180,7 @@ describe("Fee Oracle Contract Tests", () => {
 
         it("should return 0 for non-existent transaction average", () => {
             const { result } = simnet.callReadOnlyFn(
-                "fee-oracle",
+                "fee-oracle-v1",
                 "get-transaction-average",
                 [Cl.stringAscii("unknown-tx-type")],
                 deployer
@@ -191,7 +191,7 @@ describe("Fee Oracle Contract Tests", () => {
 
         it("should get fee summary", () => {
             const { result } = simnet.callReadOnlyFn(
-                "fee-oracle",
+                "fee-oracle-v1",
                 "get-fee-summary",
                 [],
                 deployer
@@ -209,7 +209,7 @@ describe("Fee Oracle Contract Tests", () => {
 
         it("should get recommended buffer (2x current fee)", () => {
             const { result } = simnet.callReadOnlyFn(
-                "fee-oracle",
+                "fee-oracle-v1",
                 "get-recommended-buffer",
                 [],
                 deployer
@@ -221,7 +221,7 @@ describe("Fee Oracle Contract Tests", () => {
         it("should check if address is authorized oracle", () => {
             // Deployer is authorized during initialization
             const { result: deployerAuth } = simnet.callReadOnlyFn(
-                "fee-oracle",
+                "fee-oracle-v1",
                 "is-authorized-oracle",
                 [Cl.principal(deployer)],
                 deployer
@@ -230,7 +230,7 @@ describe("Fee Oracle Contract Tests", () => {
 
             // Other addresses are not authorized
             const { result: wallet1Auth } = simnet.callReadOnlyFn(
-                "fee-oracle",
+                "fee-oracle-v1",
                 "is-authorized-oracle",
                 [Cl.principal(wallet1)],
                 deployer
@@ -241,12 +241,12 @@ describe("Fee Oracle Contract Tests", () => {
 
     describe("Fee Estimation Tests", () => {
         beforeEach(() => {
-            simnet.callPublicFn("fee-oracle", "initialize", [Cl.uint(2)], deployer);
+            simnet.callPublicFn("fee-oracle-v1", "initialize", [Cl.uint(2)], deployer);
         });
 
         it("should estimate transfer fee (180 bytes * fee rate)", () => {
             const { result } = simnet.callReadOnlyFn(
-                "fee-oracle",
+                "fee-oracle-v1",
                 "estimate-transfer-fee",
                 [],
                 deployer
@@ -258,7 +258,7 @@ describe("Fee Oracle Contract Tests", () => {
         it("should estimate contract call fee with varying complexity", () => {
             // Complexity 1
             const { result: low } = simnet.callReadOnlyFn(
-                "fee-oracle",
+                "fee-oracle-v1",
                 "estimate-contract-call-fee",
                 [Cl.uint(1)],
                 deployer
@@ -267,7 +267,7 @@ describe("Fee Oracle Contract Tests", () => {
 
             // Complexity 5
             const { result: medium } = simnet.callReadOnlyFn(
-                "fee-oracle",
+                "fee-oracle-v1",
                 "estimate-contract-call-fee",
                 [Cl.uint(5)],
                 deployer
@@ -276,7 +276,7 @@ describe("Fee Oracle Contract Tests", () => {
 
             // Complexity 10
             const { result: high } = simnet.callReadOnlyFn(
-                "fee-oracle",
+                "fee-oracle-v1",
                 "estimate-contract-call-fee",
                 [Cl.uint(10)],
                 deployer
@@ -286,7 +286,7 @@ describe("Fee Oracle Contract Tests", () => {
 
         it("should estimate NFT mint fee with fallback", () => {
             const { result } = simnet.callReadOnlyFn(
-                "fee-oracle",
+                "fee-oracle-v1",
                 "estimate-nft-mint-fee",
                 [],
                 deployer
@@ -298,16 +298,16 @@ describe("Fee Oracle Contract Tests", () => {
 
         it("should estimate NFT mint fee with historical average", () => {
             // Set up transaction average
-            simnet.callPublicFn("fee-oracle", "authorize-oracle", [Cl.principal(deployer)], deployer);
+            simnet.callPublicFn("fee-oracle-v1", "authorize-oracle", [Cl.principal(deployer)], deployer);
             simnet.callPublicFn(
-                "fee-oracle",
+                "fee-oracle-v1",
                 "update-transaction-average",
                 [Cl.stringAscii("nft-mint"), Cl.uint(8000)],
                 deployer
             );
 
             const { result } = simnet.callReadOnlyFn(
-                "fee-oracle",
+                "fee-oracle-v1",
                 "estimate-nft-mint-fee",
                 [],
                 deployer
@@ -319,7 +319,7 @@ describe("Fee Oracle Contract Tests", () => {
         it("should estimate swap fee for DEX", () => {
             // Without historical data
             const { result: fallback } = simnet.callReadOnlyFn(
-                "fee-oracle",
+                "fee-oracle-v1",
                 "estimate-swap-fee",
                 [Cl.stringAscii("dex-swap-alex")],
                 deployer
@@ -327,16 +327,16 @@ describe("Fee Oracle Contract Tests", () => {
             expect(fallback).toBeOk(Cl.uint(1000)); // 500 * 2
 
             // With historical data
-            simnet.callPublicFn("fee-oracle", "authorize-oracle", [Cl.principal(deployer)], deployer);
+            simnet.callPublicFn("fee-oracle-v1", "authorize-oracle", [Cl.principal(deployer)], deployer);
             simnet.callPublicFn(
-                "fee-oracle",
+                "fee-oracle-v1",
                 "update-transaction-average",
                 [Cl.stringAscii("dex-swap-alex"), Cl.uint(7500)],
                 deployer
             );
 
             const { result: withData } = simnet.callReadOnlyFn(
-                "fee-oracle",
+                "fee-oracle-v1",
                 "estimate-swap-fee",
                 [Cl.stringAscii("dex-swap-alex")],
                 deployer
@@ -349,7 +349,7 @@ describe("Fee Oracle Contract Tests", () => {
             const requiredFee = 1000;
 
             const { result } = simnet.callReadOnlyFn(
-                "fee-oracle",
+                "fee-oracle-v1",
                 "check-sufficient-balance",
                 [Cl.principal(wallet1), Cl.uint(requiredFee)],
                 deployer
@@ -363,7 +363,7 @@ describe("Fee Oracle Contract Tests", () => {
             const requiredFee = Number(userBalance) + 1000000;
 
             const { result } = simnet.callReadOnlyFn(
-                "fee-oracle",
+                "fee-oracle-v1",
                 "check-sufficient-balance",
                 [Cl.principal(wallet1), Cl.uint(requiredFee)],
                 deployer
@@ -375,13 +375,13 @@ describe("Fee Oracle Contract Tests", () => {
 
     describe("Oracle Update Tests", () => {
         beforeEach(() => {
-            simnet.callPublicFn("fee-oracle", "initialize", [Cl.uint(1000)], deployer);
-            simnet.callPublicFn("fee-oracle", "authorize-oracle", [Cl.principal(wallet1)], deployer);
+            simnet.callPublicFn("fee-oracle-v1", "initialize", [Cl.uint(1000)], deployer);
+            simnet.callPublicFn("fee-oracle-v1", "authorize-oracle", [Cl.principal(wallet1)], deployer);
         });
 
         it("should allow authorized oracle to update fee rate", () => {
             const { result } = simnet.callPublicFn(
-                "fee-oracle",
+                "fee-oracle-v1",
                 "update-fee-rate",
                 [Cl.uint(2000), Cl.stringAscii("high")],
                 wallet1
@@ -391,7 +391,7 @@ describe("Fee Oracle Contract Tests", () => {
 
             // Verify update
             const { result: newFee } = simnet.callReadOnlyFn(
-                "fee-oracle",
+                "fee-oracle-v1",
                 "get-current-fee-rate",
                 [],
                 deployer
@@ -400,7 +400,7 @@ describe("Fee Oracle Contract Tests", () => {
 
             // Verify total updates incremented
             const { result: totalUpdates } = simnet.callReadOnlyFn(
-                "fee-oracle",
+                "fee-oracle-v1",
                 "get-total-updates",
                 [],
                 deployer
@@ -410,7 +410,7 @@ describe("Fee Oracle Contract Tests", () => {
 
         it("should prevent unauthorized user from updating fee rate", () => {
             const { result } = simnet.callPublicFn(
-                "fee-oracle",
+                "fee-oracle-v1",
                 "update-fee-rate",
                 [Cl.uint(2000), Cl.stringAscii("high")],
                 wallet2
@@ -421,7 +421,7 @@ describe("Fee Oracle Contract Tests", () => {
 
         it("should reject zero fee rate update", () => {
             const { result } = simnet.callPublicFn(
-                "fee-oracle",
+                "fee-oracle-v1",
                 "update-fee-rate",
                 [Cl.uint(0), Cl.stringAscii("low")],
                 wallet1
@@ -436,7 +436,7 @@ describe("Fee Oracle Contract Tests", () => {
             congestionLevels.forEach((congestion, index) => {
                 const feeRate = 1000 + (index * 500);
                 const { result } = simnet.callPublicFn(
-                    "fee-oracle",
+                    "fee-oracle-v1",
                     "update-fee-rate",
                     [Cl.uint(feeRate), Cl.stringAscii(congestion)],
                     wallet1
@@ -448,7 +448,7 @@ describe("Fee Oracle Contract Tests", () => {
 
         it("should update transaction average", () => {
             const { result } = simnet.callPublicFn(
-                "fee-oracle",
+                "fee-oracle-v1",
                 "update-transaction-average",
                 [Cl.stringAscii("ft-transfer"), Cl.uint(3000)],
                 wallet1
@@ -458,7 +458,7 @@ describe("Fee Oracle Contract Tests", () => {
 
             // Verify average is set
             const { result: avg } = simnet.callReadOnlyFn(
-                "fee-oracle",
+                "fee-oracle-v1",
                 "get-transaction-average",
                 [Cl.stringAscii("ft-transfer")],
                 deployer
@@ -469,7 +469,7 @@ describe("Fee Oracle Contract Tests", () => {
         it("should calculate rolling average correctly", () => {
             // First update
             simnet.callPublicFn(
-                "fee-oracle",
+                "fee-oracle-v1",
                 "update-transaction-average",
                 [Cl.stringAscii("test-tx"), Cl.uint(1000)],
                 wallet1
@@ -477,7 +477,7 @@ describe("Fee Oracle Contract Tests", () => {
 
             // Second update
             simnet.callPublicFn(
-                "fee-oracle",
+                "fee-oracle-v1",
                 "update-transaction-average",
                 [Cl.stringAscii("test-tx"), Cl.uint(2000)],
                 wallet1
@@ -485,7 +485,7 @@ describe("Fee Oracle Contract Tests", () => {
 
             // Average should be (1000 + 2000) / 2 = 1500
             const { result } = simnet.callReadOnlyFn(
-                "fee-oracle",
+                "fee-oracle-v1",
                 "get-transaction-average",
                 [Cl.stringAscii("test-tx")],
                 deployer
@@ -495,7 +495,7 @@ describe("Fee Oracle Contract Tests", () => {
 
         it("should prevent unauthorized user from updating transaction average", () => {
             const { result } = simnet.callPublicFn(
-                "fee-oracle",
+                "fee-oracle-v1",
                 "update-transaction-average",
                 [Cl.stringAscii("test-tx"), Cl.uint(3000)],
                 wallet2
@@ -506,7 +506,7 @@ describe("Fee Oracle Contract Tests", () => {
 
         it("should reject zero observed fee", () => {
             const { result } = simnet.callPublicFn(
-                "fee-oracle",
+                "fee-oracle-v1",
                 "update-transaction-average",
                 [Cl.stringAscii("test-tx"), Cl.uint(0)],
                 wallet1
@@ -528,7 +528,7 @@ describe("Fee Oracle Contract Tests", () => {
             ]);
 
             const { result } = simnet.callPublicFn(
-                "fee-oracle",
+                "fee-oracle-v1",
                 "batch-update-averages",
                 [updates],
                 wallet1
@@ -538,7 +538,7 @@ describe("Fee Oracle Contract Tests", () => {
 
             // Verify both were updated
             const { result: swap1 } = simnet.callReadOnlyFn(
-                "fee-oracle",
+                "fee-oracle-v1",
                 "get-transaction-average",
                 [Cl.stringAscii("swap-1")],
                 deployer
@@ -546,7 +546,7 @@ describe("Fee Oracle Contract Tests", () => {
             expect(swap1).toBeOk(Cl.uint(5000));
 
             const { result: swap2 } = simnet.callReadOnlyFn(
-                "fee-oracle",
+                "fee-oracle-v1",
                 "get-transaction-average",
                 [Cl.stringAscii("swap-2")],
                 deployer
@@ -563,7 +563,7 @@ describe("Fee Oracle Contract Tests", () => {
             ]);
 
             const { result } = simnet.callPublicFn(
-                "fee-oracle",
+                "fee-oracle-v1",
                 "batch-update-averages",
                 [updates],
                 wallet2
@@ -575,12 +575,12 @@ describe("Fee Oracle Contract Tests", () => {
 
     describe("Admin Function Tests", () => {
         beforeEach(() => {
-            simnet.callPublicFn("fee-oracle", "initialize", [Cl.uint(1000)], deployer);
+            simnet.callPublicFn("fee-oracle-v1", "initialize", [Cl.uint(1000)], deployer);
         });
 
         it("should allow owner to transfer ownership", () => {
             const { result } = simnet.callPublicFn(
-                "fee-oracle",
+                "fee-oracle-v1",
                 "transfer-ownership",
                 [Cl.principal(wallet1)],
                 deployer
@@ -591,7 +591,7 @@ describe("Fee Oracle Contract Tests", () => {
 
         it("should prevent non-owner from transferring ownership", () => {
             const { result } = simnet.callPublicFn(
-                "fee-oracle",
+                "fee-oracle-v1",
                 "transfer-ownership",
                 [Cl.principal(wallet2)],
                 wallet1
@@ -602,7 +602,7 @@ describe("Fee Oracle Contract Tests", () => {
 
         it("should allow owner to authorize oracle", () => {
             const { result } = simnet.callPublicFn(
-                "fee-oracle",
+                "fee-oracle-v1",
                 "authorize-oracle",
                 [Cl.principal(wallet2)],
                 deployer
@@ -612,7 +612,7 @@ describe("Fee Oracle Contract Tests", () => {
 
             // Verify authorization
             const { result: isAuth } = simnet.callReadOnlyFn(
-                "fee-oracle",
+                "fee-oracle-v1",
                 "is-authorized-oracle",
                 [Cl.principal(wallet2)],
                 deployer
@@ -622,11 +622,11 @@ describe("Fee Oracle Contract Tests", () => {
 
         it("should allow owner to revoke oracle", () => {
             // First authorize
-            simnet.callPublicFn("fee-oracle", "authorize-oracle", [Cl.principal(wallet2)], deployer);
+            simnet.callPublicFn("fee-oracle-v1", "authorize-oracle", [Cl.principal(wallet2)], deployer);
 
             // Then revoke
             const { result } = simnet.callPublicFn(
-                "fee-oracle",
+                "fee-oracle-v1",
                 "revoke-oracle",
                 [Cl.principal(wallet2)],
                 deployer
@@ -636,7 +636,7 @@ describe("Fee Oracle Contract Tests", () => {
 
             // Verify revocation
             const { result: isAuth } = simnet.callReadOnlyFn(
-                "fee-oracle",
+                "fee-oracle-v1",
                 "is-authorized-oracle",
                 [Cl.principal(wallet2)],
                 deployer
@@ -646,7 +646,7 @@ describe("Fee Oracle Contract Tests", () => {
 
         it("should prevent non-owner from authorizing oracle", () => {
             const { result } = simnet.callPublicFn(
-                "fee-oracle",
+                "fee-oracle-v1",
                 "authorize-oracle",
                 [Cl.principal(wallet3)],
                 wallet1
@@ -657,7 +657,7 @@ describe("Fee Oracle Contract Tests", () => {
 
         it("should prevent non-owner from revoking oracle", () => {
             const { result } = simnet.callPublicFn(
-                "fee-oracle",
+                "fee-oracle-v1",
                 "revoke-oracle",
                 [Cl.principal(deployer)],
                 wallet1
@@ -669,20 +669,20 @@ describe("Fee Oracle Contract Tests", () => {
 
     describe("Edge Cases and Integration", () => {
         it("should handle multiple oracles updating independently", () => {
-            simnet.callPublicFn("fee-oracle", "initialize", [Cl.uint(1000)], deployer);
-            simnet.callPublicFn("fee-oracle", "authorize-oracle", [Cl.principal(wallet1)], deployer);
-            simnet.callPublicFn("fee-oracle", "authorize-oracle", [Cl.principal(wallet2)], deployer);
+            simnet.callPublicFn("fee-oracle-v1", "initialize", [Cl.uint(1000)], deployer);
+            simnet.callPublicFn("fee-oracle-v1", "authorize-oracle", [Cl.principal(wallet1)], deployer);
+            simnet.callPublicFn("fee-oracle-v1", "authorize-oracle", [Cl.principal(wallet2)], deployer);
 
             // Both oracles update
             simnet.callPublicFn(
-                "fee-oracle",
+                "fee-oracle-v1",
                 "update-fee-rate",
                 [Cl.uint(1500), Cl.stringAscii("medium")],
                 wallet1
             );
 
             simnet.callPublicFn(
-                "fee-oracle",
+                "fee-oracle-v1",
                 "update-fee-rate",
                 [Cl.uint(2000), Cl.stringAscii("high")],
                 wallet2
@@ -690,7 +690,7 @@ describe("Fee Oracle Contract Tests", () => {
 
             // Latest update should be 2000
             const { result } = simnet.callReadOnlyFn(
-                "fee-oracle",
+                "fee-oracle-v1",
                 "get-current-fee-rate",
                 [],
                 deployer
@@ -699,7 +699,7 @@ describe("Fee Oracle Contract Tests", () => {
 
             // Total updates should be 3 (init + 2 updates)
             const { result: totalUpdates } = simnet.callReadOnlyFn(
-                "fee-oracle",
+                "fee-oracle-v1",
                 "get-total-updates",
                 [],
                 deployer
@@ -708,14 +708,14 @@ describe("Fee Oracle Contract Tests", () => {
         });
 
         it("should preserve historical data across updates", () => {
-            simnet.callPublicFn("fee-oracle", "initialize", [Cl.uint(1000)], deployer);
+            simnet.callPublicFn("fee-oracle-v1", "initialize", [Cl.uint(1000)], deployer);
             const initBlock = simnet.blockHeight;
 
-            simnet.callPublicFn("fee-oracle", "authorize-oracle", [Cl.principal(wallet1)], deployer);
+            simnet.callPublicFn("fee-oracle-v1", "authorize-oracle", [Cl.principal(wallet1)], deployer);
             simnet.mineBlock([]);
 
             simnet.callPublicFn(
-                "fee-oracle",
+                "fee-oracle-v1",
                 "update-fee-rate",
                 [Cl.uint(2000), Cl.stringAscii("high")],
                 wallet1
@@ -723,7 +723,7 @@ describe("Fee Oracle Contract Tests", () => {
 
             // Check historical data at init block
             const { result } = simnet.callReadOnlyFn(
-                "fee-oracle",
+                "fee-oracle-v1",
                 "get-fee-at-block",
                 [Cl.uint(initBlock)],
                 deployer
@@ -740,13 +740,13 @@ describe("Fee Oracle Contract Tests", () => {
         });
 
         it("should handle rolling average with multiple samples correctly", () => {
-            simnet.callPublicFn("fee-oracle", "initialize", [Cl.uint(1000)], deployer);
-            simnet.callPublicFn("fee-oracle", "authorize-oracle", [Cl.principal(deployer)], deployer);
+            simnet.callPublicFn("fee-oracle-v1", "initialize", [Cl.uint(1000)], deployer);
+            simnet.callPublicFn("fee-oracle-v1", "authorize-oracle", [Cl.principal(deployer)], deployer);
 
           const samples = [1000, 2000, 3000, 4000, 5000];
           samples.forEach(fee => {
               simnet.callPublicFn(
-                  "fee-oracle",
+                  "fee-oracle-v1",
                   "update-transaction-average",
                   [Cl.stringAscii("multi-sample"), Cl.uint(fee)],
                   deployer
@@ -755,7 +755,7 @@ describe("Fee Oracle Contract Tests", () => {
 
           // Average should be (1000+2000+3000+4000+5000)/5 = 3000
           const { result } = simnet.callReadOnlyFn(
-              "fee-oracle",
+              "fee-oracle-v1",
               "get-transaction-average",
               [Cl.stringAscii("multi-sample")],
               deployer
