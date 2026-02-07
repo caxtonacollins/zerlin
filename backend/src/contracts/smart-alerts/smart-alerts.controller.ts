@@ -1,11 +1,19 @@
-import { Controller, Get, Param, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Query } from '@nestjs/common';
 import { SmartAlertsService } from './smart-alerts.service';
-import { ApiTags, ApiOperation } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { CreateAlertDto } from './dto/create-alert.dto';
 
 @ApiTags('Smart Alerts')
 @Controller('smart-alerts')
 export class SmartAlertsController {
   constructor(private readonly smartAlertsService: SmartAlertsService) {}
+
+  @Post()
+  @ApiOperation({ summary: 'Create a new fee alert' })
+  @ApiResponse({ status: 201, description: 'The alert has been successfully created.' })
+  async createAlert(@Body() createAlertDto: CreateAlertDto) {
+    return this.smartAlertsService.createAlert(createAlertDto);
+  }
 
   @Get('stats')
   @ApiOperation({ summary: 'Get global alert stats' })

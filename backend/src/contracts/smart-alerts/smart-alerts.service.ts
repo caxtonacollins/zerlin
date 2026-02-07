@@ -1,7 +1,12 @@
 import { Injectable, Logger } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { StacksService } from '../../stacks/stacks.service';
 import { ConfigService } from '@nestjs/config';
 import { fetchCallReadOnlyFunction, cvToJSON, standardPrincipalCV, uintCV } from '@stacks/transactions';
+import { Alert } from '../../entities/alert.entity';
+import { User } from '../../entities/user.entity';
+import { CreateAlertDto } from './dto/create-alert.dto';
 
 @Injectable()
 export class SmartAlertsService {
@@ -12,8 +17,35 @@ export class SmartAlertsService {
   constructor(
     private readonly stacksService: StacksService,
     private readonly configService: ConfigService,
+    @InjectRepository(Alert)
+    private readonly alertRepository: Repository<Alert>,
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
   ) {
     this.contractAddress = this.configService.get<string>('CONTRACT_ADDRESS_DEPLOYER', 'STY1XRRA93GJP9YMS2CTHB6M08M11BKPDVRM0191');
+  }
+
+  async createAlert(dto: CreateAlertDto) {
+    let user = await this.userRepository.findOne({ where: { stacksAddress: dto.userAddress } });
+
+    if (!user) {
+      user = this.userRepository.create({
+        stacksAddress: dto.userAddress,
+        email: dto.email
+      });
+      await this.userRepository.save(user);
+    } else if (dto.email && user.email !== dto.email) {
+      user.email = dto.email;
+      await this.userRepository.save(user);
+    }
+
+    const alert = this.alertRepository.create({
+      user,
+      targetFee: dto.targetFee,
+      condition: dto.condition
+    });
+
+    return this.alertRepository.save(alert);
   }
 
   async getAlertStats() {
