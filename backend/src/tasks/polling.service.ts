@@ -1,7 +1,10 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Cron, CronExpression } from '@nestjs/schedule';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { StacksService } from '../stacks/stacks.service';
 import { RedisService } from '../redis/redis.service';
+import { Alert } from '../entities/alert.entity';
 
 @Injectable()
 export class PollingService {
@@ -10,6 +13,8 @@ export class PollingService {
   constructor(
     private stacksService: StacksService,
     private redisService: RedisService,
+    @InjectRepository(Alert)
+    private readonly alertRepository: Repository<Alert>,
   ) {}
 
   @Cron('*/30 * * * * *') // Every 30 seconds
@@ -21,18 +26,51 @@ export class PollingService {
 
       const mempool = await this.stacksService.getRecentMempoolStats();
 
+      // Get current fee rate (estimate for a standard transfer)
+      // Using a dummy recipient and small amount to get the rate
+      let currentFee = 0;
+      try {
+        // 1 microSTX transfer
+        currentFee = await this.stacksService.estimateTransferFee(BigInt(1), 'SP1P72Z3704VMT3DMHPP2CB8TGQWGDBHD8PR1618C');
+      } catch (e) {
+        this.logger.warn('Failed to fetch fee estimate, using default', e);
+        currentFee = 250; // Default fallback
+      }
+
       const status = {
         congestionLevel: this.calculateCongestion(mempool),
-        averageFeeRate: 0, // Todo: calculate from recent blocks
+        averageFeeRate: currentFee,
         mempoolSize: mempool ? mempool.total_count : 0,
         blockHeight: info.burn_block_height,
         updatedAt: new Date().toISOString()
       };
 
       await this.redisService.set('network_status', JSON.stringify(status), 60);
-      this.logger.debug(`Network status updated: Block ${status.blockHeight}`);
+      this.logger.debug(`Network status updated: Block ${status.blockHeight}, Fee: ${currentFee}`);
+
+      // Check Alerts
+      await this.checkAlerts(currentFee);
+
     } catch (error) {
       this.logger.error('Failed to poll network status', error);
+    }
+  }
+
+  private async checkAlerts(currentFee: number) {
+    const activeAlerts = await this.alertRepository.find({ where: { isActive: true }, relations: ['user'] });
+
+    for (const alert of activeAlerts) {
+      let triggered = false;
+      if (alert.condition === 'BELOW' && currentFee <= alert.targetFee) {
+        triggered = true;
+      } else if (alert.condition === 'ABOVE' && currentFee >= alert.targetFee) {
+        triggered = true;
+      }
+
+      if (triggered) {
+        this.logger.log(`[NOTIFICATION TRIGGERED] Alert ${alert.id} for User ${alert.user.stacksAddress}: Current Fee ${currentFee} is ${alert.condition} ${alert.targetFee}`);
+        // TODO: Integrate actual notification service (Email/Telegram)
+      }
     }
   }
 
