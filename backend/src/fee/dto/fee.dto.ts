@@ -6,6 +6,7 @@ export class EstimateFeeDto {
     description: 'Transaction type',
     example: 'transfer',
     enum: ['transfer', 'contract-call', 'contract-deploy', 'nft-mint', 'swap', 'sbtc-peg-in', 'sbtc-peg-out'],
+    default: 'transfer',
   })
   @IsString()
   @IsIn(['transfer', 'contract-call', 'contract-deploy', 'nft-mint', 'swap', 'sbtc-peg-in', 'sbtc-peg-out'])
@@ -15,6 +16,7 @@ export class EstimateFeeDto {
     description: 'Transaction payload (varies by type)',
     example: { amount: 1000000, recipient: 'SP2X0TZ59D5SZ8ACQ...' },
     required: false,
+    default: { amount: 1000000, recipient: 'SP2X0TZ59D5SZ8ACQ...' },
   })
   @IsOptional()
   @IsObject()
@@ -24,6 +26,7 @@ export class EstimateFeeDto {
     description: 'Template ID for template-based estimation',
     example: 'stx-transfer',
     required: false,
+    default: 'stx-transfer',
   })
   @IsOptional()
   @IsString()

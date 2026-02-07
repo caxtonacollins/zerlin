@@ -3,6 +3,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { User } from './entities/user.entity';
+import { Alert } from './entities/alert.entity';
 import { FeeEstimate } from './entities/fee-estimate.entity';
 import { NetworkStatus } from './entities/network-status.entity';
 import { StacksModule } from './stacks/stacks.module';
@@ -34,7 +36,7 @@ import { TxTemplatesModule } from './contracts/tx-templates/tx-templates.module'
         username: configService.get<string>('DB_USER'),
         password: configService.get<string>('DB_PASSWORD'),
         database: configService.get<string>('DB_NAME'),
-        entities: [FeeEstimate, NetworkStatus],
+        entities: [FeeEstimate, NetworkStatus, User, Alert],
         synchronize: true, // Auto-create tables in dev (set false for prod)
       }),
       inject: [ConfigService],
