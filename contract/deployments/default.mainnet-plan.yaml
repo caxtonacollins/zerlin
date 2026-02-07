@@ -9,23 +9,23 @@ plan:
     - id: 0
       transactions:
         - contract-publish:
-            contract-name: fee-oracle
+            contract-name: fee-oracle-v1
             expected-sender: SPY1XRRA93GJP9YMS2CTHB6M08M11BKPDV0DBNMQ
-            cost: 19588893
+            cost: 93160
             path: contracts/fee-oracle.clar
             anchor-block-only: true
             clarity-version: 4
         - contract-publish:
-            contract-name: smart-alerts
+            contract-name: smart-alerts-v1
             expected-sender: SPY1XRRA93GJP9YMS2CTHB6M08M11BKPDV0DBNMQ
-            cost: 10167827
+            cost: 118730
             path: contracts/smart-alerts.clar
             anchor-block-only: true
             clarity-version: 4
         - contract-publish:
-            contract-name: tx-templates
+            contract-name: tx-templates-v1
             expected-sender: SPY1XRRA93GJP9YMS2CTHB6M08M11BKPDV0DBNMQ
-            cost: 10169486
+            cost: 115150
             path: contracts/tx-templates.clar
             anchor-block-only: true
             clarity-version: 4
