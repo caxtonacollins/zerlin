@@ -259,8 +259,9 @@
   )
 )
 
-
-
+;; ============================================
+;; ADMIN FUNCTIONS
+;; ============================================
 
 (define-public (transfer-ownership (new-owner principal))
   (begin
