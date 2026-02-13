@@ -37,7 +37,7 @@ import { TxTemplatesModule } from './contracts/tx-templates/tx-templates.module'
         password: configService.get<string>('DB_PASSWORD'),
         database: configService.get<string>('DB_NAME'),
         entities: [FeeEstimate, NetworkStatus, User, Alert],
-        synchronize: true, // Auto-create tables in dev (set false for prod)
+        synchronize: true,
       }),
       inject: [ConfigService],
     }),
