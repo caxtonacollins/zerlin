@@ -66,7 +66,6 @@ export class PollingService {
 
       if (triggered) {
         this.logger.log(`[NOTIFICATION TRIGGERED] Alert ${alert.id} for User ${alert.user.stacksAddress}: Current Fee ${currentFee} is ${alert.condition} ${alert.targetFee}`);
-        // TODO: Integrate actual notification service (Email/Telegram)
       }
     }
   }
