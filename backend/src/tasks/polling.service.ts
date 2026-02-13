@@ -17,7 +17,7 @@ export class PollingService {
     private readonly alertRepository: Repository<Alert>,
   ) {}
 
-  @Cron('*/30 * * * * *') // Every 30 seconds
+  @Cron('*/30 * * * * *')
   async handleNetworkStatus() {
     this.logger.debug('Polling network status...');
     try {
