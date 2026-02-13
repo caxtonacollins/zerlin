@@ -14,9 +14,7 @@
 (define-data-var latest-update-block uint u0)
 (define-data-var total-updates uint u0)
 
-;; ============================================
-;; DATA MAPS
-;; ============================================
+
 
 ;; Historical fee data indexed by block height
 (define-map fee-history
@@ -45,9 +43,7 @@
   { authorized: bool }
 )
 
-;; ============================================
-;; INITIALIZATION
-;; ============================================
+
 
 (define-public (initialize (initial-fee-rate uint))
   (begin
