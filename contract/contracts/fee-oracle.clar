@@ -136,7 +136,7 @@
 
 
 
-;; Estimate STX transfer fee
+
 (define-read-only (estimate-transfer-fee)
   (let (
     (base-fee (var-get latest-fee-rate))
@@ -146,7 +146,7 @@
   )
 )
 
-;; Estimate contract call fee
+
 (define-read-only (estimate-contract-call-fee (function-complexity uint))
   (let (
     (base-fee (var-get latest-fee-rate))
@@ -156,7 +156,7 @@
   )
 )
 
-;; Estimate NFT mint fee
+
 (define-read-only (estimate-nft-mint-fee)
   (match (map-get? transaction-averages { tx-type: "nft-mint" })
     avg-data (ok (get avg-fee avg-data))
@@ -164,7 +164,7 @@
   )
 )
 
-;; Estimate swap fee
+
 (define-read-only (estimate-swap-fee (dex-name (string-ascii 30)))
   (match (map-get? transaction-averages { tx-type: dex-name })
     avg-data (ok (get avg-fee avg-data))
@@ -172,7 +172,7 @@
   )
 )
 
-;; Check sufficient balance
+
 (define-read-only (check-sufficient-balance 
   (user-address principal)
   (required-fee uint)
@@ -182,11 +182,9 @@
   )
 )
 
-;; ============================================
-;; WRITE FUNCTIONS
-;; ============================================
 
-;; Update fee rate (owner only)
+
+
 (define-public (update-fee-rate 
   (new-fee-rate uint)
   (congestion (string-ascii 10))
@@ -221,7 +219,7 @@
   )
 )
 
-;; Update transaction average
+
 (define-public (update-transaction-average
   (tx-type (string-ascii 30))
   (observed-fee uint)
@@ -261,11 +259,9 @@
   )
 )
 
-;; ============================================
-;; ADMIN FUNCTIONS
-;; ============================================
 
-;; Transfer ownership
+
+
 (define-public (transfer-ownership (new-owner principal))
   (begin
     (asserts! (is-eq tx-sender (var-get contract-owner)) ERR-UNAUTHORIZED)
