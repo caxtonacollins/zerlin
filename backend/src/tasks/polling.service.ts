@@ -26,8 +26,7 @@ export class PollingService {
 
       const mempool = await this.stacksService.getRecentMempoolStats();
 
-      // Get current fee rate (estimate for a standard transfer)
-      // Using a dummy recipient and small amount to get the rate
+
       let currentFee = 0;
       try {
         // 1 microSTX transfer
