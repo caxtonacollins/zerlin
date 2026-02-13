@@ -46,7 +46,6 @@ export class PollingService {
       await this.redisService.set('network_status', JSON.stringify(status), 60);
       this.logger.debug(`Network status updated: Block ${status.blockHeight}, Fee: ${currentFee}`);
 
-      // Check Alerts
       await this.checkAlerts(currentFee);
 
     } catch (error) {
