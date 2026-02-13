@@ -1,8 +1,4 @@
-;; ============================================
-;; CONTRACT #1: ZERLIN FEE ORACLE
-;; ============================================
-;; Main contract that stores canonical fee data for the Stacks network
-;; This is the source of truth for current and historical gas prices
+
 
 ;; ============================================
 ;; ERROR CODES
