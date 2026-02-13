@@ -7,9 +7,7 @@
 (define-constant ERR-ALREADY-INITIALIZED (err u103))
 (define-constant ERR-NOT-INITIALIZED (err u104))
 
-;; ============================================
-;; DATA VARIABLES
-;; ============================================
+
 (define-data-var contract-owner principal tx-sender)
 (define-data-var is-initialized bool false)
 (define-data-var latest-fee-rate uint u0)
