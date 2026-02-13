@@ -71,8 +71,7 @@ export class PollingService {
   }
 
   private calculateCongestion(mempoolStats: any): string {
-      if (!mempoolStats) return 'unknown';
-      // Simple heuristic
+    if (!mempoolStats) return 'unknown';
       if (mempoolStats.total_count > 5000) return 'high';
       if (mempoolStats.total_count > 1000) return 'medium';
       return 'low';
