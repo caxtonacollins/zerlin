@@ -74,36 +74,34 @@
   )
 )
 
-;; ============================================
-;; READ-ONLY FUNCTIONS
-;; ============================================
 
-;; Get current fee rate
+
+
 (define-read-only (get-current-fee-rate)
   (ok (var-get latest-fee-rate))
 )
 
-;; Get last update block
+
 (define-read-only (get-last-update-block)
   (ok (var-get latest-update-block))
 )
 
-;; Get total updates
+
 (define-read-only (get-total-updates)
   (ok (var-get total-updates))
 )
 
-;; Check if initialized
+
 (define-read-only (is-oracle-initialized)
   (ok (var-get is-initialized))
 )
 
-;; Check if authorized oracle
+
 (define-read-only (is-authorized-oracle (oracle principal))
   (ok (default-to false (get authorized (map-get? authorized-oracles { oracle: oracle }))))
 )
 
-;; Get fee at specific block
+
 (define-read-only (get-fee-at-block (block-height-input uint))
   (match (map-get? fee-history { block-height: block-height-input })
     fee-data (ok fee-data)
@@ -111,7 +109,7 @@
   )
 )
 
-;; Get transaction average
+
 (define-read-only (get-transaction-average (tx-type (string-ascii 30)))
   (match (map-get? transaction-averages { tx-type: tx-type })
     avg-data (ok (get avg-fee avg-data))
@@ -119,7 +117,7 @@
   )
 )
 
-;; Get fee summary
+
 (define-read-only (get-fee-summary)
   (ok {
     current-fee: (var-get latest-fee-rate),
@@ -129,16 +127,14 @@
   })
 )
 
-;; Get recommended buffer (2x current fee)
+
 (define-read-only (get-recommended-buffer)
   (let ((current-fee (var-get latest-fee-rate)))
     (ok (* current-fee u2))
   )
 )
 
-;; ============================================
-;; ESTIMATION FUNCTIONS
-;; ============================================
+
 
 ;; Estimate STX transfer fee
 (define-read-only (estimate-transfer-fee)
