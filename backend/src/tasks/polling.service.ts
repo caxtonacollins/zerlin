@@ -29,7 +29,6 @@ export class PollingService {
 
       let currentFee = 0;
       try {
-        // 1 microSTX transfer
         currentFee = await this.stacksService.estimateTransferFee(BigInt(1), 'SP1P72Z3704VMT3DMHPP2CB8TGQWGDBHD8PR1618C');
       } catch (e) {
         this.logger.warn('Failed to fetch fee estimate, using default', e);
