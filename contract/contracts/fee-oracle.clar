@@ -1,8 +1,6 @@
 
 
-;; ============================================
-;; ERROR CODES
-;; ============================================
+
 (define-constant ERR-UNAUTHORIZED (err u100))
 (define-constant ERR-INVALID-FEE (err u101))
 (define-constant ERR-INVALID-BLOCK (err u102))
