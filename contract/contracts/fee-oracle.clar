@@ -16,18 +16,18 @@
 
 
 
-;; Historical fee data indexed by block height
+
 (define-map fee-history
   { block-height: uint }
   {
-    fee-rate: uint,                    ;; Fee rate in microSTX per byte
-    timestamp: uint,                   ;; Bitcoin block height (burn-block-height)
-    network-congestion: (string-ascii 10), ;; "low", "medium", "high"
-    recorded-by: principal             ;; Oracle that submitted this data
+    fee-rate: uint,
+    timestamp: uint,
+    network-congestion: (string-ascii 10),
+    recorded-by: principal
   }
 )
 
-;; Rolling average fees for transaction types
+
 (define-map transaction-averages
   { tx-type: (string-ascii 30) }
   { 
@@ -37,7 +37,7 @@
   }
 )
 
-;; Authorized oracles map
+
 (define-map authorized-oracles
   { oracle: principal }
   { authorized: bool }
