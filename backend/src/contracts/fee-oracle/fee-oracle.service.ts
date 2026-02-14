@@ -56,6 +56,42 @@ export class FeeOracleService {
     }
   }
 
+  async estimateContractCallFee(complexity: number): Promise<number> {
+    try {
+      const network = this.stacksService.getNetwork();
+      const result = await fetchCallReadOnlyFunction({
+        contractAddress: this.contractAddress,
+        contractName: this.contractName,
+        functionName: 'estimate-contract-call-fee',
+        functionArgs: [uintCV(complexity)],
+        network,
+        senderAddress: this.contractAddress,
+      });
+      return Number(cvToJSON(result).value);
+    } catch (error) {
+      this.logger.error('Failed to estimate contract call fee', error);
+      throw error;
+    }
+  }
+
+  async estimateNftMintFee(): Promise<number> {
+    try {
+      const network = this.stacksService.getNetwork();
+      const result = await fetchCallReadOnlyFunction({
+        contractAddress: this.contractAddress,
+        contractName: this.contractName,
+        functionName: 'estimate-nft-mint-fee',
+        functionArgs: [],
+        network,
+        senderAddress: this.contractAddress,
+      });
+      return Number(cvToJSON(result).value);
+    } catch (error) {
+      this.logger.error('Failed to estimate NFT mint fee', error);
+      throw error;
+    }
+  }
+
   async checkSufficientBalance(userAddress: string, requiredFee: number): Promise<boolean> {
       try {
           const network = this.stacksService.getNetwork();
