@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { StacksService } from '../stacks/stacks.service';
 import { RedisService } from '../redis/redis.service';
+import { FeeOracleService } from '../contracts/fee-oracle/fee-oracle.service';
 import { Alert } from '../entities/alert.entity';
 
 @Injectable()
@@ -13,6 +14,7 @@ export class PollingService {
   constructor(
     private stacksService: StacksService,
     private redisService: RedisService,
+    private feeOracleService: FeeOracleService,
     @InjectRepository(Alert)
     private readonly alertRepository: Repository<Alert>,
   ) {}
@@ -45,6 +47,13 @@ export class PollingService {
 
       await this.redisService.set('network_status', JSON.stringify(status), 60);
       this.logger.debug(`Network status updated: Block ${status.blockHeight}, Fee: ${currentFee}`);
+
+      // Update on-chain fee oracle
+      try {
+        await this.feeOracleService.updateFeeRate(currentFee, status.congestionLevel);
+      } catch (e) {
+        this.logger.warn('Failed to update fee rate on-chain', e);
+      }
 
       await this.checkAlerts(currentFee);
 
