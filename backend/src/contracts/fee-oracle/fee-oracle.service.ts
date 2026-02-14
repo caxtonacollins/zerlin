@@ -73,4 +73,21 @@ export class FeeOracleService {
           throw error;
       }
   }
+
+  async updateFeeRate(newFeeRate: number, congestion: string): Promise<string> {
+    try {
+      this.logger.log(`Updating fee rate on contract to ${newFeeRate} (${congestion})`);
+      const txid = await this.stacksService.broadcastContractCall(
+        this.contractAddress,
+        this.contractName,
+        'update-fee-rate',
+        [uintCV(newFeeRate), stringAsciiCV(congestion)],
+      );
+      this.logger.log(`Fee update transaction broadcasted: ${txid}`);
+      return txid;
+    } catch (error) {
+      this.logger.error('Failed to update fee rate on contract', error);
+      throw error;
+    }
+  }
 }
