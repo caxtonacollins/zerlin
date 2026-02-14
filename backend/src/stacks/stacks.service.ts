@@ -9,6 +9,7 @@ export class StacksService {
   private apiUrl: string;
   private readonly timeout: number;
   private readonly maxRetries: number;
+  private readonly privateKey: string;
 
   constructor(private configService: ConfigService) {
     const networkEnv = this.configService.get<string>('STACKS_NETWORK', 'mainnet');
@@ -19,6 +20,7 @@ export class StacksService {
     );
     this.timeout = this.configService.get<number>('STACKS_API_TIMEOUT', 5000);
     this.maxRetries = this.configService.get<number>('STACKS_API_MAX_RETRIES', 2);
+    this.privateKey = this.configService.get<string>('STACKS_PRIVATE_KEY');
 
     if (networkEnv === 'testnet') {
         this.network = STACKS_TESTNET;
@@ -148,5 +150,9 @@ export class StacksService {
        this.logger.error(`Error estimating contract deploy`, error);
        throw error;
      }
+  }
+
+  getPrivateKey(): string {
+    return this.privateKey;
   }
 }
