@@ -5,6 +5,7 @@ import { FeeEstimate } from '../entities/fee-estimate.entity';
 import { NetworkStatus } from '../entities/network-status.entity';
 import { StacksService } from '../stacks/stacks.service';
 import { RedisService } from '../redis/redis.service';
+import { FeeOracleService } from '../contracts/fee-oracle/fee-oracle.service';
 import { EstimateFeeDto, FeeEstimateResponseDto, NetworkStatusResponseDto } from './dto/fee.dto';
 
 @Injectable()
@@ -18,6 +19,7 @@ export class FeeService {
     private networkStatusRepo: Repository<NetworkStatus>,
     private stacksService: StacksService,
     private redisService: RedisService,
+      private feeOracleService: FeeOracleService,
   ) {}
 
     async estimateFee(dto: EstimateFeeDto): Promise<FeeEstimateResponseDto> {
@@ -31,45 +33,33 @@ export class FeeService {
 
         // Estimate based on type
         if (type === 'transfer') {
-          feeInMicroStx = await this.stacksService.estimateTransferFee(
-              BigInt(payload?.amount || 0),
-              payload?.recipient
-          );
+            feeInMicroStx = await this.feeOracleService.estimateTransferFee();
           breakdown = {
               baseFee: feeInMicroStx,
               executionCost: 0,
               dataSize: 180,
         };
       } else if (type === 'contract-call') {
-          const estimate = await this.stacksService.estimateContractCallFee(
-              payload?.contractAddress,
-              payload?.contractName,
-              payload?.functionName,
-              payload?.functionArgs || []
-          );
-          feeInMicroStx = estimate.estimatedCost;
+            feeInMicroStx = await this.feeOracleService.estimateContractCallFee(1); // Default complexity
           breakdown = {
-              baseFee: estimate.feeRate,
-              executionCost: estimate.estimatedCost - estimate.feeRate,
+              baseFee: networkInfo.averageFeeRate,
+              executionCost: feeInMicroStx - networkInfo.averageFeeRate,
               dataSize: 250,
           };
-      } else if (type === 'contract-deploy') {
-          const estimate = await this.stacksService.estimateContractDeployFee(
-              payload?.contractName || 'contract',
-              payload?.codeBody || ''
-          );
-          feeInMicroStx = estimate.estimatedCost;
+        } else if (type === 'nft-mint') {
+            feeInMicroStx = await this.feeOracleService.estimateNftMintFee();
           breakdown = {
-              baseFee: estimate.feeRate,
-              executionCost: estimate.estimatedCost - estimate.feeRate,
-              dataSize: payload?.codeBody?.length || 5000,
+              baseFee: networkInfo.averageFeeRate,
+              executionCost: feeInMicroStx - networkInfo.averageFeeRate,
+              dataSize: 450,
           };
       } else {
-          // For other types, use default estimation
-          feeInMicroStx = 3000; // Default 0.003 STX
+            // For other types, use contract base rate
+            const baseRate = await this.feeOracleService.getFeeRate();
+            feeInMicroStx = baseRate * 300; 
           breakdown = {
-              baseFee: 1000,
-              executionCost: 2000,
+              baseFee: baseRate,
+              executionCost: feeInMicroStx - baseRate,
               dataSize: 300,
           };
       }
