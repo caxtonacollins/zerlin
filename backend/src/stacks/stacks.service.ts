@@ -1,6 +1,12 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { STACKS_MAINNET, STACKS_TESTNET, StacksNetwork } from '@stacks/network';
+import {
+  makeContractCall,
+  broadcastTransaction,
+  AnchorMode,
+  ClarityValue,
+} from '@stacks/transactions';
 
 @Injectable()
 export class StacksService {
@@ -152,7 +158,43 @@ export class StacksService {
      }
   }
 
-  getPrivateKey(): string {
+  async broadcastContractCall(
+    contractAddress: string,
+    contractName: string,
+    functionName: string,
+    functionArgs: ClarityValue[],
+  ) {
+    if (!this.privateKey) {
+      throw new Error('STACKS_PRIVATE_KEY is not configured');
+    }
+
+    try {
+      const txOptions = {
+        contractAddress,
+        contractName,
+        functionName,
+        functionArgs,
+        senderKey: this.privateKey,
+        validateWithAbi: true,
+        network: this.network,
+        anchorMode: AnchorMode.Any,
+      };
+
+      const transaction = await makeContractCall(txOptions);
+      const broadcastResponse = await broadcastTransaction({ transaction });
+
+      if ('error' in broadcastResponse && broadcastResponse.error) {
+        throw new Error(`Transaction failed: ${broadcastResponse.error} ${broadcastResponse.reason || ''}`);
+      }
+
+      return (broadcastResponse as any).txid;
+    } catch (error) {
+      this.logger.error(`Error broadcasting contract call ${functionName}`, error);
+      throw error;
+    }
+  }
+
+  getPrivateKey(): string | undefined {
     return this.privateKey;
   }
 }
