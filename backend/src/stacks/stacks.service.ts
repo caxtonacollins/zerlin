@@ -9,7 +9,7 @@ export class StacksService {
   private apiUrl: string;
   private readonly timeout: number;
   private readonly maxRetries: number;
-  private readonly privateKey: string;
+  private readonly privateKey: string | undefined;
 
   constructor(private configService: ConfigService) {
     const networkEnv = this.configService.get<string>('STACKS_NETWORK', 'mainnet');
