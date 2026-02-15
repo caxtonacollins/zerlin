@@ -21,6 +21,7 @@ describe('FeeOracleService', () => {
 
   const mockStacksService = {
     getNetwork: jest.fn().mockReturnValue(STACKS_TESTNET),
+    broadcastContractCall: jest.fn(),
   };
 
   const mockConfigService = {
@@ -113,5 +114,37 @@ describe('FeeOracleService', () => {
               functionName: 'check-sufficient-balance'
           }));
       });
+  });
+
+  describe('updateFeeRate', () => {
+    it('should broadcast contract call to update fee rate', async () => {
+      const txid = '0x123';
+      (stacksService.broadcastContractCall as jest.Mock).mockResolvedValue(txid);
+
+      const result = await service.updateFeeRate(300, 'low');
+      expect(result).toBe(txid);
+      expect(stacksService.broadcastContractCall).toHaveBeenCalledWith(
+        expect.any(String),
+        expect.any(String),
+        'update-fee-rate',
+        expect.arrayContaining([expect.anything(), expect.anything()])
+      );
+    });
+  });
+
+  describe('initialize', () => {
+    it('should broadcast contract call to initialize oracle', async () => {
+      const txid = '0x456';
+      (stacksService.broadcastContractCall as jest.Mock).mockResolvedValue(txid);
+
+      const result = await service.initialize(250);
+      expect(result).toBe(txid);
+      expect(stacksService.broadcastContractCall).toHaveBeenCalledWith(
+        expect.any(String),
+        expect.any(String),
+        'initialize',
+        expect.arrayContaining([expect.anything()])
+      );
+    });
   });
 });
