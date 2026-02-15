@@ -110,4 +110,46 @@ export class SmartAlertsService {
           throw error;
       }
   }
+
+  async markTriggered(userAddress: string, alertId: number, currentFee: number): Promise<string> {
+    try {
+      this.logger.log(`Marking alert ${alertId} as triggered for user ${userAddress}`);
+      const txid = await this.stacksService.broadcastContractCall(
+        this.contractAddress,
+        this.contractName,
+        'mark-triggered',
+        [
+          standardPrincipalCV(userAddress),
+          uintCV(alertId),
+          uintCV(currentFee),
+        ],
+      );
+      this.logger.log(`Alert trigger transaction broadcasted: ${txid}`);
+      return txid;
+    } catch (error) {
+      this.logger.error(`Failed to mark alert ${alertId} as triggered`, error);
+      throw error;
+    }
+  }
+
+  async setFeeOracle(oracleAddress: string): Promise<string> {
+    try {
+      this.logger.log(`Setting fee oracle to ${oracleAddress} in SmartAlerts contract`);
+      const txid = await this.stacksService.broadcastContractCall(
+        this.contractAddress,
+        this.contractName,
+        'set-fee-oracle',
+        [standardPrincipalCV(oracleAddress)],
+      );
+      this.logger.log(`Set fee oracle transaction broadcasted: ${txid}`);
+      return txid;
+    } catch (error) {
+      this.logger.error('Failed to set fee oracle in SmartAlerts contract', error);
+      throw error;
+    }
+  }
+
+  async initialize(oracleAddress: string): Promise<string> {
+    return this.setFeeOracle(oracleAddress);
+  }
 }
