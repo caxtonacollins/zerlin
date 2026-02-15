@@ -8,9 +8,9 @@ import { STACKS_TESTNET } from '@stacks/network';
 jest.mock('@stacks/transactions', () => ({
   fetchCallReadOnlyFunction: jest.fn(),
   cvToJSON: jest.fn(),
-  standardPrincipalCV: jest.fn(),
-  uintCV: jest.fn(),
-  stringAsciiCV: jest.fn(),
+  standardPrincipalCV: jest.fn().mockImplementation((val) => ({ type: 'principal', value: val })),
+  uintCV: jest.fn().mockImplementation((val) => ({ type: 'uint', value: val })),
+  stringAsciiCV: jest.fn().mockImplementation((val) => ({ type: 'string-ascii', value: val })),
 }));
 
 import { fetchCallReadOnlyFunction, cvToJSON } from '@stacks/transactions';
