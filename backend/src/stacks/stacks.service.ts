@@ -8,30 +8,58 @@ import {
   ClarityValue,
 } from '@stacks/transactions';
 
+import { generateWallet, deriveAccount } from '@stacks/wallet-sdk';
+
 @Injectable()
 export class StacksService {
   private readonly logger = new Logger(StacksService.name);
   private network: StacksNetwork;
-  private apiUrl: string;
+  private readonly apiUrl: string;
   private readonly timeout: number;
   private readonly maxRetries: number;
-  private readonly privateKey: string | undefined;
+  private privateKey: string | undefined;
 
   constructor(private configService: ConfigService) {
     const networkEnv = this.configService.get<string>('STACKS_NETWORK', 'mainnet');
     this.apiUrl = this.configService.get<string>(
       'STACKS_API_URL',
-      // 'https://api.mainnet.hiro.so',
-      'https://api.testnet.hiro.so'
+      'https://api.mainnet.hiro.so',
+      // 'https://api.testnet.hiro.so'
     );
     this.timeout = this.configService.get<number>('STACKS_API_TIMEOUT', 5000);
     this.maxRetries = this.configService.get<number>('STACKS_API_MAX_RETRIES', 2);
-    this.privateKey = this.configService.get<string>('STACKS_PRIVATE_KEY');
+
+    // Check for private key or mnemonic
+    const privateKey = this.configService.get<string>('STACKS_PRIVATE_KEY');
+    const mnemonic = this.configService.get<string>('STACKS_MNEMONIC');
+
+    if (privateKey) {
+      this.privateKey = privateKey;
+    } else if (mnemonic) {
+      this.initializeFromMnemonic(mnemonic);
+    }
 
     if (networkEnv === 'testnet') {
         this.network = STACKS_TESTNET;
     } else {
         this.network = STACKS_MAINNET;
+    }
+  }
+
+  private async initializeFromMnemonic(mnemonic: string) {
+    try {
+      const wallet = await generateWallet({
+        secretKey: mnemonic,
+        password: '',
+      });
+      const account = deriveAccount({
+        rootNode: wallet.rootByRootKey,
+        index: 0,
+      });
+      this.privateKey = account.stxPrivateKey;
+      this.logger.log('StacksService initialized with private key derived from mnemonic');
+    } catch (error) {
+      this.logger.error('Failed to derive private key from mnemonic', error);
     }
   }
 
