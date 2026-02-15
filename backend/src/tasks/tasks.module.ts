@@ -5,14 +5,12 @@ import { PollingService } from './polling.service';
 import { Alert } from '../entities/alert.entity';
 import { StacksModule } from '../stacks/stacks.module';
 import { RedisModule } from '../redis/redis.module';
-import { FeeOracleModule } from '../fee-oracle/fee-oracle.module';
-import { FeeEstimate } from '../entities/fee-estimate.entity';
-import { NetworkStatus } from '../entities/network-status.entity';
+import { FeeOracleModule } from '../contracts/fee-oracle/fee-oracle.module';
 
 @Module({
   imports: [
     ScheduleModule.forRoot(),
-    TypeOrmModule.forFeature([FeeEstimate, NetworkStatus]),
+    TypeOrmModule.forFeature([Alert]),
     StacksModule,
     RedisModule,
     FeeOracleModule
