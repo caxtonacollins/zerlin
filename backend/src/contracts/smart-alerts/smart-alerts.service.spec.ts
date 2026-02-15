@@ -8,21 +8,37 @@ import { STACKS_TESTNET } from '@stacks/network';
 jest.mock('@stacks/transactions', () => ({
   fetchCallReadOnlyFunction: jest.fn(),
   cvToJSON: jest.fn(),
-  standardPrincipalCV: jest.fn(),
-  uintCV: jest.fn(),
+  standardPrincipalCV: jest.fn().mockImplementation((val) => ({ type: 'principal', value: val })),
+  uintCV: jest.fn().mockImplementation((val) => ({ type: 'uint', value: val })),
 }));
 
 import { fetchCallReadOnlyFunction, cvToJSON } from '@stacks/transactions';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import { Alert } from '../../entities/alert.entity';
+import { User } from '../../entities/user.entity';
 
 describe('SmartAlertsService', () => {
   let service: SmartAlertsService;
+  let stacksService: StacksService;
 
   const mockStacksService = {
     getNetwork: jest.fn().mockReturnValue(STACKS_TESTNET),
+    broadcastContractCall: jest.fn(),
   };
 
   const mockConfigService = {
     get: jest.fn().mockReturnValue('ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM'),
+  };
+
+  const mockAlertRepository = {
+    create: jest.fn(),
+    save: jest.fn(),
+  };
+
+  const mockUserRepository = {
+    findOne: jest.fn(),
+    create: jest.fn(),
+    save: jest.fn(),
   };
 
   beforeEach(async () => {
@@ -31,15 +47,50 @@ describe('SmartAlertsService', () => {
         SmartAlertsService,
         { provide: StacksService, useValue: mockStacksService },
         { provide: ConfigService, useValue: mockConfigService },
+        { provide: getRepositoryToken(Alert), useValue: mockAlertRepository },
+        { provide: getRepositoryToken(User), useValue: mockUserRepository },
       ],
     }).compile();
 
     service = module.get<SmartAlertsService>(SmartAlertsService);
+    stacksService = module.get<StacksService>(StacksService);
     jest.clearAllMocks();
   });
 
   it('should be defined', () => {
     expect(service).toBeDefined();
+  });
+
+  describe('markTriggered', () => {
+    it('should broadcast contract call to mark alert as triggered', async () => {
+      const txid = '0xabc';
+      (stacksService.broadcastContractCall as jest.Mock).mockResolvedValue(txid);
+
+      const result = await service.markTriggered('ST123...', 1, 100);
+      expect(result).toBe(txid);
+      expect(stacksService.broadcastContractCall).toHaveBeenCalledWith(
+        expect.any(String),
+        expect.any(String),
+        'mark-triggered',
+        expect.arrayContaining([expect.anything(), expect.anything(), expect.anything()])
+      );
+    });
+  });
+
+  describe('setFeeOracle', () => {
+    it('should broadcast contract call to set fee oracle', async () => {
+      const txid = '0xdef';
+      (stacksService.broadcastContractCall as jest.Mock).mockResolvedValue(txid);
+
+      const result = await service.setFeeOracle('ST456...');
+      expect(result).toBe(txid);
+      expect(stacksService.broadcastContractCall).toHaveBeenCalledWith(
+        expect.any(String),
+        expect.any(String),
+        'set-fee-oracle',
+        expect.arrayContaining([expect.anything()])
+      );
+    });
   });
 
   describe('getAlertStats', () => {
