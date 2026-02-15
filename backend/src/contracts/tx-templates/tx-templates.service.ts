@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { StacksService } from '../../stacks/stacks.service';
 import { ConfigService } from '@nestjs/config';
-import { fetchCallReadOnlyFunction, cvToJSON, stringAsciiCV, uintCV } from '@stacks/transactions';
+import { fetchCallReadOnlyFunction, cvToJSON, stringAsciiCV, uintCV, standardPrincipalCV } from '@stacks/transactions';
 
 @Injectable()
 export class TxTemplatesService {
