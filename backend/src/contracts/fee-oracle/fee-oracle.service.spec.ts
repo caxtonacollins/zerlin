@@ -76,6 +76,32 @@ describe('FeeOracleService', () => {
      });
   });
 
+  describe('estimateContractCallFee', () => {
+    it('should return estimated contract call fee', async () => {
+      (fetchCallReadOnlyFunction as jest.Mock).mockResolvedValue({});
+      (cvToJSON as jest.Mock).mockReturnValue({ value: '1500' });
+
+      const fee = await service.estimateContractCallFee(1);
+      expect(fee).toBe(1500);
+      expect(fetchCallReadOnlyFunction).toHaveBeenCalledWith(expect.objectContaining({
+        functionName: 'estimate-contract-call-fee'
+      }));
+    });
+  });
+
+  describe('estimateNftMintFee', () => {
+    it('should return estimated NFT mint fee', async () => {
+      (fetchCallReadOnlyFunction as jest.Mock).mockResolvedValue({});
+      (cvToJSON as jest.Mock).mockReturnValue({ value: '3000' });
+
+      const fee = await service.estimateNftMintFee();
+      expect(fee).toBe(3000);
+      expect(fetchCallReadOnlyFunction).toHaveBeenCalledWith(expect.objectContaining({
+        functionName: 'estimate-nft-mint-fee'
+      }));
+    });
+  });
+
   describe('checkSufficientBalance', () => {
       it('should return true if balance is sufficient', async () => {
           (fetchCallReadOnlyFunction as jest.Mock).mockResolvedValue({});
