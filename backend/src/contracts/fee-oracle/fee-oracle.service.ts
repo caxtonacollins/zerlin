@@ -126,4 +126,21 @@ export class FeeOracleService {
       throw error;
     }
   }
+
+  async initialize(initialFeeRate: number): Promise<string> {
+    try {
+      this.logger.log(`Initializing fee oracle with rate ${initialFeeRate}`);
+      const txid = await this.stacksService.broadcastContractCall(
+        this.contractAddress,
+        this.contractName,
+        'initialize',
+        [uintCV(initialFeeRate)],
+      );
+      this.logger.log(`Oracle initialization transaction broadcasted: ${txid}`);
+      return txid;
+    } catch (error) {
+      this.logger.error('Failed to initialize fee oracle', error);
+      throw error;
+    }
+  }
 }
