@@ -8,7 +8,7 @@ import {
   ClarityValue,
 } from '@stacks/transactions';
 
-import { generateWallet, deriveAccount } from '@stacks/wallet-sdk';
+import { generateWallet, getRootNode, deriveStxPrivateKey } from '@stacks/wallet-sdk';
 
 @Injectable()
 export class StacksService {
@@ -36,7 +36,9 @@ export class StacksService {
     if (privateKey) {
       this.privateKey = privateKey;
     } else if (mnemonic) {
-      this.initializeFromMnemonic(mnemonic);
+      this.initializeFromMnemonic(mnemonic).catch(error => {
+        this.logger.error('Failed to initialize from mnemonic', error);
+      });
     }
 
     if (networkEnv === 'testnet') {
@@ -52,14 +54,12 @@ export class StacksService {
         secretKey: mnemonic,
         password: '',
       });
-      const account = deriveAccount({
-        rootNode: wallet.rootByRootKey,
-        index: 0,
-      });
-      this.privateKey = account.stxPrivateKey;
+      const rootNode = getRootNode(wallet);
+      this.privateKey = deriveStxPrivateKey({ rootNode, index: 0 });
       this.logger.log('StacksService initialized with private key derived from mnemonic');
     } catch (error) {
       this.logger.error('Failed to derive private key from mnemonic', error);
+      throw error;
     }
   }
 
