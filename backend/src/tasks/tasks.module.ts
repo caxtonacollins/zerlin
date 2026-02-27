@@ -13,7 +13,7 @@ import { FeeOracleModule } from '../contracts/fee-oracle/fee-oracle.module';
     TypeOrmModule.forFeature([Alert]),
     StacksModule,
     RedisModule,
-    FeeOracleModule
+    FeeOracleModule,
   ],
   providers: [PollingService],
 })
