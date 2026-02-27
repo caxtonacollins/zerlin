@@ -1,4 +1,3 @@
-### Decision: **@stacks/connect** + **@stacks/transactions** + **@stacks/network**
 
 **Rationale:**
 - Official Stacks.js libraries
