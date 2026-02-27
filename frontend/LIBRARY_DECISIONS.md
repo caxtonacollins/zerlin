@@ -1,4 +1,3 @@
-  - Area charts (congestion zones)
   - Bar charts (fee comparisons)
 - SVG-based rendering (crisp on all displays, easy to style)
 - Responsive by default
