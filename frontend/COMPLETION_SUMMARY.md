@@ -1,4 +1,3 @@
-- ✅ Constants (network, contracts, API)
 - ✅ Class name utility (cn)
 - ✅ Stacks blockchain helpers
 
