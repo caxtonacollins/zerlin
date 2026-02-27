@@ -1,4 +1,3 @@
-
 **Rationale:**
 - Simple API for formatting numbers, currency, percentages
 - Perfect for our fee display needs:
