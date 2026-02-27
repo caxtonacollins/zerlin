@@ -1,4 +1,3 @@
-- Active maintenance and large community
 
 **Alternatives Considered:**
 - GSAP: More powerful but overkill for UI animations, larger bundle, requires license for commercial use
