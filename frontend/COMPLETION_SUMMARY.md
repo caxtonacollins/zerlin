@@ -1,4 +1,3 @@
-### 3. Dashboard
 - Active alerts display
 - Usage statistics
 - Recent estimates table
