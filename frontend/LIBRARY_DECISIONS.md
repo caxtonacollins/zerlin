@@ -1,4 +1,3 @@
-**Installation:**
 ```bash
 pnpm add clsx tailwind-merge
 ```
