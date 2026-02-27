@@ -1,4 +1,3 @@
-
 ## 🚀 Ready for Production
 
 The frontend is **production-ready** with:
