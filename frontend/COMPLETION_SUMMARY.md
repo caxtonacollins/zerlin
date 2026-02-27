@@ -1,4 +1,3 @@
-- Trend analysis
 
 ### 3. Dashboard
 - Active alerts display
