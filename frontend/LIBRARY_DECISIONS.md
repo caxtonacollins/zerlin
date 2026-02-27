@@ -1,4 +1,3 @@
-- Beautiful default styling (matches our aesthetic)
 - Fully customizable
 - Promise-based API (perfect for async operations)
 - Accessible (ARIA live regions)
