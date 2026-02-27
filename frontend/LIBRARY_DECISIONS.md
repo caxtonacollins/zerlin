@@ -1,4 +1,3 @@
-- Tiny bundle size (~9KB gzipped) vs Formik (~15KB)
 - Perfect for our calculator with dynamic fields based on transaction type
 - Subscription-based model - only components that need updates will re-render
 - Excellent TypeScript support
