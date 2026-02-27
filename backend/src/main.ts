@@ -25,7 +25,10 @@ async function bootstrap() {
     .setDescription('STX Gas Calculator & Fee Estimator for Stacks Blockchain')
     .setVersion('1.0.0')
     .addTag('Fee Estimation', 'Endpoints for estimating transaction fees')
-    .addServer(process.env.API_URL || 'http://localhost:3000', 'Development server')
+    .addServer(
+      process.env.API_URL || 'http://localhost:3000',
+      'Development server',
+    )
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
@@ -41,4 +44,4 @@ async function bootstrap() {
   console.log(`Swagger docs available at: http://localhost:${port}/api`);
 }
 
-bootstrap();
+void bootstrap();
