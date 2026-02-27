@@ -1,4 +1,3 @@
-1. **Testing**
    - Unit tests with Jest
    - Integration tests with React Testing Library
    - E2E tests with Playwright
