@@ -1,4 +1,3 @@
-pnpm add date-fns
 ```
 
 ---
