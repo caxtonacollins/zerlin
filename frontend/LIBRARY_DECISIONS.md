@@ -1,4 +1,3 @@
-### Decision: **react-hot-toast**
 
 **Rationale:**
 - Lightweight (3.5KB gzipped)
