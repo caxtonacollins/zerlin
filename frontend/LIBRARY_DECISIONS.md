@@ -1,4 +1,3 @@
-| Animation | Framer Motion | ~30KB | Declarative, React-native, gestures |
 | Charts | Recharts | ~50KB | React-native, composable, SVG |
 | Class Utils | clsx + tailwind-merge | <1KB | Conditional classes, conflict resolution |
 | Dates | date-fns | ~10KB (tree-shaken) | Modular, immutable, TypeScript |
