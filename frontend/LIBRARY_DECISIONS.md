@@ -1,4 +1,3 @@
-- Tiny bundle (1KB gzipped)
 - Simple API - just hooks
 - Perfect for our needs:
   - Fee calculator state
