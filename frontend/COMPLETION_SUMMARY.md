@@ -1,4 +1,3 @@
-- ✅ Gradient text effects
 
 ### 🧩 Components (Complete)
 
