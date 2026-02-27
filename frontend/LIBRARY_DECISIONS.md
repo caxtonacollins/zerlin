@@ -1,4 +1,3 @@
-
 | Category | Library | Bundle Size | Rationale |
 |----------|---------|-------------|-----------|
 | UI Components | shadcn/ui + Radix UI | 0KB (copy-paste) | Accessible, customizable, Tailwind-native |
