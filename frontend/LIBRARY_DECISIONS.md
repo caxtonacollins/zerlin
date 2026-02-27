@@ -1,4 +1,3 @@
-
 ## Blockchain Integration
 
 ### Decision: **@stacks/connect** + **@stacks/transactions** + **@stacks/network**
