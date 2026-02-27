@@ -1,4 +1,3 @@
-- dinero.js: Overkill (designed for financial calculations, we just need display)
 - Intl.NumberFormat: Native but less convenient API
 
 **Installation:**
