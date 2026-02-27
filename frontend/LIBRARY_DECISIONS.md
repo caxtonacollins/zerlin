@@ -1,4 +1,3 @@
-- Excellent TypeScript support and documentation
 - Built specifically for Tailwind CSS (our chosen styling framework)
 - Active community and regular updates in 2026
 - Radix UI underneath provides battle-tested accessibility (ARIA, keyboard nav, focus management)
