@@ -1,4 +1,3 @@
-- Middleware support (persist, devtools)
 
 **Alternatives Considered:**
 - Redux Toolkit: Overkill for our app size, more boilerplate
