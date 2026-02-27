@@ -1,4 +1,3 @@
-- Active community and regular updates in 2026
 - Radix UI underneath provides battle-tested accessibility (ARIA, keyboard nav, focus management)
 
 **Alternatives Considered:**
