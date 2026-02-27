@@ -1,4 +1,3 @@
-- Declarative API that feels natural in React - animations as props
 - Perfect for our UI needs:
   - Enter/exit animations (page transitions)
   - Hover effects (button glows, card lifts)
