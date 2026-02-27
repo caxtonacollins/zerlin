@@ -1,4 +1,3 @@
-- Time range selection (7/30/90 days)
 - Min/max/average statistics
 - Trend analysis
 
