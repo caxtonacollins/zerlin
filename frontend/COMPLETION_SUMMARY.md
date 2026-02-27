@@ -1,4 +1,3 @@
-✅ Responsive design
 ✅ Accessibility compliance
 ✅ Type safety
 ✅ Error handling
