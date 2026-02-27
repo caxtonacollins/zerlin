@@ -1,4 +1,3 @@
-- Usage statistics
 - Recent estimates table
 - Alert management UI
 
