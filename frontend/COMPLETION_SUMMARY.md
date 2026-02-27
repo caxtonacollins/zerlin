@@ -1,4 +1,3 @@
-- ✅ Class name utility (cn)
 - ✅ Stacks blockchain helpers
 
 ### 📝 TypeScript Types (Complete)
