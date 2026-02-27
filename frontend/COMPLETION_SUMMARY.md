@@ -1,4 +1,3 @@
-The Zerlin frontend has been successfully built with **52 commits** to the main repository.
 
 ## ✅ What's Been Built
 
