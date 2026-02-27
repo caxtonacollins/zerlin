@@ -1,4 +1,3 @@
-- **API Integration** - REST client, error handling
 
 ## 🙏 Acknowledgments
 
