@@ -1,4 +1,3 @@
-- **Index Files** - Clean exports and imports
 
 ### State Management
 - **Zustand** - Lightweight, no boilerplate
