@@ -1,4 +1,3 @@
-- Simple API for formatting numbers, currency, percentages
 - Perfect for our fee display needs:
   - Format STX amounts (0.00395 STX)
   - Format USD ($0.0026)
