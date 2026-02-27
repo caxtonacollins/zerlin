@@ -1,4 +1,3 @@
-- Perfect for our UI needs:
   - Enter/exit animations (page transitions)
   - Hover effects (button glows, card lifts)
   - Layout animations (expanding accordions)
