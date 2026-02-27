@@ -1,4 +1,3 @@
-
 **React Hook Form:**
 - Superior performance - uses uncontrolled components, minimal re-renders
 - Tiny bundle size (~9KB gzipped) vs Formik (~15KB)
