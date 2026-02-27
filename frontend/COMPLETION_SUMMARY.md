@@ -1,4 +1,3 @@
-- ✅ feeStore - Fee calculation state with Zustand
 - ✅ walletStore - Wallet connection state
 
 ### 📄 Pages (4 pages)
