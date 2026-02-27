@@ -1,4 +1,3 @@
-
 ### Decision: **Framer Motion**
 
 **Rationale:**
