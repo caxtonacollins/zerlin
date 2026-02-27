@@ -2,7 +2,10 @@ import { Controller, Get, Post, Body, Param, Query } from '@nestjs/common';
 import { SmartAlertsService } from './smart-alerts.service';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { CreateAlertDto } from './dto/create-alert.dto';
-import { MarkTriggeredDto, InitializeSmartAlertsDto } from './dto/mark-triggered.dto';
+import {
+  MarkTriggeredDto,
+  InitializeSmartAlertsDto,
+} from './dto/mark-triggered.dto';
 
 @ApiTags('smart-alerts')
 @Controller('smart-alerts')
@@ -18,7 +21,11 @@ export class SmartAlertsController {
   @Post('mark-triggered')
   @ApiOperation({ summary: 'Mark an alert as triggered on-chain' })
   async markTriggered(@Body() dto: MarkTriggeredDto) {
-    return this.smartAlertsService.markTriggered(dto.userAddress, dto.alertId, dto.currentFee);
+    return this.smartAlertsService.markTriggered(
+      dto.userAddress,
+      dto.alertId,
+      dto.currentFee,
+    );
   }
 
   @Post('initialize')
@@ -44,8 +51,12 @@ export class SmartAlertsController {
   async checkTrigger(
     @Query('address') address: string,
     @Query('id') id: number,
-    @Query('fee') fee: number
+    @Query('fee') fee: number,
   ) {
-    return this.smartAlertsService.checkAlertTrigger(address, Number(id), Number(fee));
+    return this.smartAlertsService.checkAlertTrigger(
+      address,
+      Number(id),
+      Number(fee),
+    );
   }
 }

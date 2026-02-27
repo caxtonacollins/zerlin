@@ -8,7 +8,9 @@ import { STACKS_TESTNET } from '@stacks/network';
 jest.mock('@stacks/transactions', () => ({
   fetchCallReadOnlyFunction: jest.fn(),
   cvToJSON: jest.fn(),
-  standardPrincipalCV: jest.fn().mockImplementation((val) => ({ type: 'principal', value: val })),
+  standardPrincipalCV: jest
+    .fn()
+    .mockImplementation((val) => ({ type: 'principal', value: val })),
   uintCV: jest.fn().mockImplementation((val) => ({ type: 'uint', value: val })),
 }));
 
@@ -64,7 +66,9 @@ describe('SmartAlertsService', () => {
   describe('markTriggered', () => {
     it('should broadcast contract call to mark alert as triggered', async () => {
       const txid = '0xabc';
-      (stacksService.broadcastContractCall as jest.Mock).mockResolvedValue(txid);
+      (stacksService.broadcastContractCall as jest.Mock).mockResolvedValue(
+        txid,
+      );
 
       const result = await service.markTriggered('ST123...', 1, 100);
       expect(result).toBe(txid);
@@ -72,7 +76,11 @@ describe('SmartAlertsService', () => {
         expect.any(String),
         expect.any(String),
         'mark-triggered',
-        expect.arrayContaining([expect.anything(), expect.anything(), expect.anything()])
+        expect.arrayContaining([
+          expect.anything(),
+          expect.anything(),
+          expect.anything(),
+        ]),
       );
     });
   });
@@ -80,7 +88,9 @@ describe('SmartAlertsService', () => {
   describe('setFeeOracle', () => {
     it('should broadcast contract call to set fee oracle', async () => {
       const txid = '0xdef';
-      (stacksService.broadcastContractCall as jest.Mock).mockResolvedValue(txid);
+      (stacksService.broadcastContractCall as jest.Mock).mockResolvedValue(
+        txid,
+      );
 
       const result = await service.setFeeOracle('ST456...');
       expect(result).toBe(txid);
@@ -88,7 +98,7 @@ describe('SmartAlertsService', () => {
         expect.any(String),
         expect.any(String),
         'set-fee-oracle',
-        expect.arrayContaining([expect.anything()])
+        expect.arrayContaining([expect.anything()]),
       );
     });
   });
@@ -96,7 +106,9 @@ describe('SmartAlertsService', () => {
   describe('getAlertStats', () => {
     it('should return alert stats', async () => {
       (fetchCallReadOnlyFunction as jest.Mock).mockResolvedValue({});
-      (cvToJSON as jest.Mock).mockReturnValue({ value: { 'total-created': 10 } });
+      (cvToJSON as jest.Mock).mockReturnValue({
+        value: { 'total-created': 10 },
+      });
 
       const stats = await service.getAlertStats();
       expect(stats).toEqual({ 'total-created': 10 });
@@ -104,23 +116,23 @@ describe('SmartAlertsService', () => {
   });
 
   describe('checkAlertTrigger', () => {
-      it('should return true if alert should trigger', async () => {
-          (fetchCallReadOnlyFunction as jest.Mock).mockResolvedValue({});
-          (cvToJSON as jest.Mock).mockReturnValue({ 
-              success: true, 
-              value: { value: true } 
-          });
-
-          const result = await service.checkAlertTrigger('ST123...', 1, 500);
-          expect(result).toBe(true);
+    it('should return true if alert should trigger', async () => {
+      (fetchCallReadOnlyFunction as jest.Mock).mockResolvedValue({});
+      (cvToJSON as jest.Mock).mockReturnValue({
+        success: true,
+        value: { value: true },
       });
 
-      it('should return false if alert check fails/errors', async () => {
-         (fetchCallReadOnlyFunction as jest.Mock).mockResolvedValue({});
-         (cvToJSON as jest.Mock).mockReturnValue({ success: false }); // e.g. ERR_ALERT_NOT_FOUND
+      const result = await service.checkAlertTrigger('ST123...', 1, 500);
+      expect(result).toBe(true);
+    });
 
-         const result = await service.checkAlertTrigger('ST123...', 99, 500);
-         expect(result).toBe(false);
-      });
+    it('should return false if alert check fails/errors', async () => {
+      (fetchCallReadOnlyFunction as jest.Mock).mockResolvedValue({});
+      (cvToJSON as jest.Mock).mockReturnValue({ success: false }); // e.g. ERR_ALERT_NOT_FOUND
+
+      const result = await service.checkAlertTrigger('ST123...', 99, 500);
+      expect(result).toBe(false);
+    });
   });
 });

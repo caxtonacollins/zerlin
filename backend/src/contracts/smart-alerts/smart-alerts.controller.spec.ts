@@ -2,7 +2,10 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { SmartAlertsController } from './smart-alerts.controller';
 import { SmartAlertsService } from './smart-alerts.service';
 import { CreateAlertDto } from './dto/create-alert.dto';
-import { MarkTriggeredDto, InitializeSmartAlertsDto } from './dto/mark-triggered.dto';
+import {
+  MarkTriggeredDto,
+  InitializeSmartAlertsDto,
+} from './dto/mark-triggered.dto';
 
 describe('SmartAlertsController', () => {
   let controller: SmartAlertsController;
@@ -34,10 +37,10 @@ describe('SmartAlertsController', () => {
 
   describe('createAlert', () => {
     it('should call createAlert on service', async () => {
-      const dto: CreateAlertDto = { 
-        userAddress: 'ST123...', 
-        targetFee: 1000, 
-        condition: 'BELOW' 
+      const dto: CreateAlertDto = {
+        userAddress: 'ST123...',
+        targetFee: 1000,
+        condition: 'BELOW',
       };
       await controller.createAlert(dto);
       expect(service.createAlert).toHaveBeenCalledWith(dto);
@@ -46,13 +49,17 @@ describe('SmartAlertsController', () => {
 
   describe('markTriggered', () => {
     it('should call markTriggered on service', async () => {
-      const dto: MarkTriggeredDto = { 
-        userAddress: 'ST123...', 
-        alertId: 1, 
-        currentFee: 100 
+      const dto: MarkTriggeredDto = {
+        userAddress: 'ST123...',
+        alertId: 1,
+        currentFee: 100,
       };
       await controller.markTriggered(dto);
-      expect(service.markTriggered).toHaveBeenCalledWith(dto.userAddress, dto.alertId, dto.currentFee);
+      expect(service.markTriggered).toHaveBeenCalledWith(
+        dto.userAddress,
+        dto.alertId,
+        dto.currentFee,
+      );
     });
   });
 

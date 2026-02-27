@@ -11,7 +11,7 @@ import { Alert } from '../../entities/alert.entity';
   imports: [
     StacksModule,
     ConfigModule,
-    TypeOrmModule.forFeature([User, Alert])
+    TypeOrmModule.forFeature([User, Alert]),
   ],
   controllers: [SmartAlertsController],
   providers: [SmartAlertsService],
