@@ -1,4 +1,3 @@
-- **Component Architecture** - Atomic design, scalability
 - **TypeScript** - Type safety, interfaces, generics
 - **API Integration** - REST client, error handling
 
