@@ -1,4 +1,3 @@
-- Native HTML validation API integration
 
 **Zod:**
 - TypeScript-first schema validation
