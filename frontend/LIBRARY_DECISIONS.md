@@ -1,4 +1,3 @@
-| Blockchain | Stacks.js | ~100KB | Official, required for Stacks |
 
 **Total Estimated Bundle:** ~220KB (gzipped, excluding Next.js framework)
 
