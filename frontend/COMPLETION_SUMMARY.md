@@ -1,4 +1,3 @@
-- **React Hook Form** - Performant form handling
 - **Local State** - useState for component-specific data
 
 ### Styling Approach
