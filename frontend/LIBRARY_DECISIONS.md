@@ -1,4 +1,3 @@
-  - Fee calculator state
   - Alert management
   - Wallet connection state
 - No unnecessary re-renders
