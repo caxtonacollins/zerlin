@@ -1,4 +1,3 @@
-- **Optimized Images** - Next.js Image component
 
 ## 🚀 Ready for Production
 
