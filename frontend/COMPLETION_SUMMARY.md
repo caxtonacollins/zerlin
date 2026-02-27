@@ -1,4 +1,3 @@
-
 This project demonstrates:
 
 - **Modern React Patterns** - Hooks, composition, type safety
