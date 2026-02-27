@@ -1,4 +1,3 @@
-
 **Alternatives Considered:**
 - Chart.js: Not React-native, requires wrapper library, imperative API
 - Nivo: Beautiful defaults but heavier bundle, less customizable
