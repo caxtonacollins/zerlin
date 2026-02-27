@@ -1,4 +1,3 @@
-- ✅ useEstimate - Calculate transaction fees
 - ✅ useFeeHistory - Fetch historical data
 - ✅ useWallet - Wallet connection logic
 
