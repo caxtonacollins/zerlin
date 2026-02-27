@@ -1,4 +1,3 @@
-  - Date range calculations (7/30/90 day charts)
 - Active maintenance
 
 **Alternatives Considered:**
