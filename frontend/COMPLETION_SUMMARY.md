@@ -1,4 +1,3 @@
-- **Responsive** - Mobile-first breakpoints
 
 ### Performance
 - **Code Splitting** - Next.js automatic splitting
