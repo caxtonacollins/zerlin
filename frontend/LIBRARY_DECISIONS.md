@@ -1,4 +1,3 @@
-**Alternatives Considered:**
 - GSAP: More powerful but overkill for UI animations, larger bundle, requires license for commercial use
 - React Spring: Physics-based animations are beautiful but harder to control precisely
 - Auto Animate: Too limited for our needs (no gesture support, less control)
