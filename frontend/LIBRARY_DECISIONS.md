@@ -1,4 +1,3 @@
-- Excellent TypeScript support
 - Native HTML validation API integration
 
 **Zod:**
