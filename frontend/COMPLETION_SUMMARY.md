@@ -1,4 +1,3 @@
-This project demonstrates:
 
 - **Modern React Patterns** - Hooks, composition, type safety
 - **Next.js 16 App Router** - Server components, layouts, routing
