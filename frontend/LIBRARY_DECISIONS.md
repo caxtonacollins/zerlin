@@ -1,4 +1,3 @@
-6. Set up folder structure (atoms, molecules, organisms)
 7. Begin component development
 
 ---
