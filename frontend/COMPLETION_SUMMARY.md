@@ -1,4 +1,3 @@
-
 ### 🗄️ State Management (2 stores)
 - ✅ feeStore - Fee calculation state with Zustand
 - ✅ walletStore - Wallet connection state
