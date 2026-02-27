@@ -1,4 +1,3 @@
-
 **tailwind-merge:**
 - Intelligently merges Tailwind classes (prevents conflicts)
 - Essential for component composition with className overrides
