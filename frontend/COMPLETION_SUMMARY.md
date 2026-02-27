@@ -1,4 +1,3 @@
-- ✅ Library decisions document
 - ✅ Development log
 - ✅ Environment variables template
 - ✅ Completion summary (this file)
