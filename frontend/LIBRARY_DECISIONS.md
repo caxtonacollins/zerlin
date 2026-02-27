@@ -1,4 +1,3 @@
-- Most popular React animation library in 2026 (industry standard)
 - Declarative API that feels natural in React - animations as props
 - Perfect for our UI needs:
   - Enter/exit animations (page transitions)
