@@ -1,4 +1,3 @@
-| State | Zustand | ~1KB | Minimal, no boilerplate |
 | Blockchain | Stacks.js | ~100KB | Official, required for Stacks |
 
 **Total Estimated Bundle:** ~220KB (gzipped, excluding Next.js framework)
