@@ -1,4 +1,3 @@
-- Great TypeScript support
 - Active maintenance and large community
 
 **Alternatives Considered:**
