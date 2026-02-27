@@ -1,4 +1,3 @@
-
 **Molecules (5 components)**
 - ✅ FeeDisplay - Gradient text with loading states
 - ✅ NetworkStatus - Congestion indicator with badges
