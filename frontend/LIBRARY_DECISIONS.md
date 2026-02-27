@@ -1,4 +1,3 @@
-### Decision: **Recharts**
 
 **Rationale:**
 - Built specifically for React - components compose naturally
