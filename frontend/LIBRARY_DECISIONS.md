@@ -1,4 +1,3 @@
-- Excellent error messages for user feedback
 - Zero dependencies
 - Seamless integration with React Hook Form via @hookform/resolvers
 
