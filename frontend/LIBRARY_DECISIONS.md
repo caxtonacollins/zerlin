@@ -1,4 +1,3 @@
-  - Format STX amounts (0.00395 STX)
   - Format USD ($0.0026)
   - Format percentages (23% lower)
 - Locale support for internationalization
