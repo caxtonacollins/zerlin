@@ -1,4 +1,3 @@
-- ✅ History - Historical charts with insights
 - ✅ Docs - API documentation and guides
 
 ### 🔧 Utilities (Complete)
