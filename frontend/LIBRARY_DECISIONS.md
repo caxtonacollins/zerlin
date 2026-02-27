@@ -1,4 +1,3 @@
-- Excellent performance with automatic GPU acceleration
 - Built-in variants system for orchestrating complex animations
 - Great TypeScript support
 - Active maintenance and large community
