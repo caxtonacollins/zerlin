@@ -1,4 +1,3 @@
-
 ### State Management
 - **Zustand** - Lightweight, no boilerplate
 - **React Hook Form** - Performant form handling
