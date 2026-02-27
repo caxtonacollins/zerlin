@@ -1,4 +1,6 @@
-import React from 'react';
+'use client';
+
+import React, { useState } from 'react';
 import { Button } from '@/components/atoms';
 
 interface WalletConnectProps {
@@ -6,8 +8,23 @@ interface WalletConnectProps {
 }
 
 export function WalletConnect({ onConnect }: WalletConnectProps) {
+  const [isConnecting, setIsConnecting] = useState(false);
+
+  const handleConnect = async () => {
+    setIsConnecting(true);
+    try {
+      await onConnect();
+    } finally {
+      setIsConnecting(false);
+    }
+  };
+
   return (
-    <Button onClick={onConnect} variant="secondary">
+    <Button 
+      onClick={handleConnect} 
+      variant="secondary"
+      loading={isConnecting}
+    >
       Connect Wallet
     </Button>
   );

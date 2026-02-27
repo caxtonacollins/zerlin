@@ -1,9 +1,43 @@
 import { create } from 'zustand';
-import type { WalletState } from '@/types/wallet';
+import { persist } from 'zustand/middleware';
 
-export const useWalletStore = create<WalletState>(() => ({
-  isConnected: false,
-  connection: null,
-  isConnecting: false,
-  error: null,
-}));
+interface WalletState {
+  isConnected: boolean;
+  stxAddress: string | null;
+  btcAddress: string | null;
+  publicKey: string | null;
+  setWalletData: (data: {
+    stxAddress: string;
+    btcAddress: string;
+    publicKey: string;
+  }) => void;
+  disconnect: () => void;
+}
+
+export const useWalletStore = create<WalletState>()(
+  persist(
+    (set) => ({
+      isConnected: false,
+      stxAddress: null,
+      btcAddress: null,
+      publicKey: null,
+      setWalletData: (data) =>
+        set({
+          isConnected: true,
+          stxAddress: data.stxAddress,
+          btcAddress: data.btcAddress,
+          publicKey: data.publicKey,
+        }),
+      disconnect: () =>
+        set({
+          isConnected: false,
+          stxAddress: null,
+          btcAddress: null,
+          publicKey: null,
+        }),
+    }),
+    {
+      name: 'wallet-storage',
+    }
+  )
+);
