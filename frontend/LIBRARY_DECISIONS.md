@@ -1,4 +1,3 @@
-| Forms | React Hook Form | ~9KB | Performance, minimal re-renders |
 | Validation | Zod | ~8KB | TypeScript-first, type inference |
 | Animation | Framer Motion | ~30KB | Declarative, React-native, gestures |
 | Charts | Recharts | ~50KB | React-native, composable, SVG |
