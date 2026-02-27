@@ -1,4 +1,3 @@
-## 🎓 What Was Learned
 
 This project demonstrates:
 
