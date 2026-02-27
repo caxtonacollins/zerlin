@@ -1,4 +1,3 @@
-- Victory: Good but smaller community, less documentation
 
 **Installation:**
 ```bash
