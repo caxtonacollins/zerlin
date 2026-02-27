@@ -1,4 +1,3 @@
-- Error handling
 
 ### 2. Historical Data Visualization
 - Interactive charts with Recharts
