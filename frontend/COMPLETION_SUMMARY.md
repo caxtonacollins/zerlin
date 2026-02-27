@@ -1,4 +1,3 @@
-- Min/max/average statistics
 - Trend analysis
 
 ### 3. Dashboard
