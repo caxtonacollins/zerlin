@@ -1,4 +1,3 @@
-
 **Organisms (5 components)**
 - ✅ FeeCalculator - Main calculator with transaction selector
 - ✅ FeeBreakdown - Expandable fee details
