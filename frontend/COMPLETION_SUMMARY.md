@@ -1,4 +1,3 @@
-- **Stores:** 2
 - **Type Files:** 4
 
 ## 🎯 Key Features Implemented
