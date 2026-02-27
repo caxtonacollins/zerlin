@@ -1,4 +1,3 @@
-- ✅ Bitcoin-native color scheme (orange #F7931A, purple #5546FF)
 - ✅ Custom CSS variables for theming
 - ✅ Noise texture overlay effect
 - ✅ Glassmorphism card styles
