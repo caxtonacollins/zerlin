@@ -1,4 +1,3 @@
-- ✅ Environment variables template
 - ✅ Completion summary (this file)
 
 ## 📊 Statistics
