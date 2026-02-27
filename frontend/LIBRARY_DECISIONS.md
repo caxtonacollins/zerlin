@@ -1,4 +1,3 @@
-npx shadcn@latest init
 ```
 
 ---
