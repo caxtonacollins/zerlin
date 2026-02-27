@@ -1,4 +1,3 @@
-- ✅ Home - Hero section with calculator and features
 - ✅ Dashboard - Alerts management and stats
 - ✅ History - Historical charts with insights
 - ✅ Docs - API documentation and guides
