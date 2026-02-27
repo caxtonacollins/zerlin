@@ -1,4 +1,3 @@
-pnpm add @stacks/connect @stacks/transactions @stacks/network
 ```
 
 ---
