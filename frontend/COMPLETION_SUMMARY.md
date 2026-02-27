@@ -1,4 +1,3 @@
-- ✅ FeeCalculator - Main calculator with transaction selector
 - ✅ FeeBreakdown - Expandable fee details
 - ✅ HistoricalChart - Recharts integration with time ranges
 - ✅ Navigation - Header with links and wallet connect
