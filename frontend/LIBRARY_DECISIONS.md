@@ -1,4 +1,3 @@
-  - Format timestamps (fee history)
   - Relative time ("2 hours ago")
   - Date range calculations (7/30/90 day charts)
 - Active maintenance
