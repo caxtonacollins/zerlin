@@ -1,4 +1,3 @@
-
 **Rationale:**
 - Built specifically for React - components compose naturally
 - Declarative API matches React philosophy
