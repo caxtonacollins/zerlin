@@ -1,4 +1,3 @@
-- Context API: Would work but Zustand is more ergonomic
 
 **Installation:**
 ```bash
