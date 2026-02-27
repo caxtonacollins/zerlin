@@ -1,4 +1,3 @@
-- ✅ useFeeHistory - Fetch historical data
 - ✅ useWallet - Wallet connection logic
 
 ### 🗄️ State Management (2 stores)
