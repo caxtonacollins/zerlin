@@ -1,4 +1,3 @@
-   - Share links for estimates
    - Dark/light mode toggle
 
 4. **Performance**
