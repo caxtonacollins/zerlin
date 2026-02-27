@@ -1,4 +1,3 @@
-   - Alert notifications (email, push)
    - Export functionality (CSV, JSON)
    - Share links for estimates
    - Dark/light mode toggle
