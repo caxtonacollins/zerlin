@@ -1,4 +1,3 @@
-   - Staggered list animations
 
 3. **Advanced Features**
    - Alert notifications (email, push)
