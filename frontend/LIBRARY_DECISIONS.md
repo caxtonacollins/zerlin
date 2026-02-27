@@ -1,4 +1,3 @@
-- Accessible (ARIA live regions)
 - Works great with Tailwind CSS
 - Smooth animations out of the box
 
