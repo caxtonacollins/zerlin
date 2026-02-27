@@ -1,4 +1,3 @@
-- Tailwind CSS 4
 - Stacks.js
 - Recharts
 - Zustand
