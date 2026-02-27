@@ -1,4 +1,3 @@
-- Superior performance - uses uncontrolled components, minimal re-renders
 - Tiny bundle size (~9KB gzipped) vs Formik (~15KB)
 - Perfect for our calculator with dynamic fields based on transaction type
 - Subscription-based model - only components that need updates will re-render
