@@ -1,4 +1,3 @@
-- ✅ NetworkStatus - Congestion indicator with badges
 - ✅ TransactionTypeSelector - Styled dropdown
 - ✅ WalletConnect - Connect wallet button
 - ✅ BalanceCheck - Sufficient/insufficient balance indicator
