@@ -1,4 +1,3 @@
-- **Local State** - useState for component-specific data
 
 ### Styling Approach
 - **Tailwind CSS** - Utility-first styling
