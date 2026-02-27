@@ -1,4 +1,3 @@
-- ✅ Stacks blockchain helpers
 
 ### 📝 TypeScript Types (Complete)
 - ✅ fee.ts - FeeEstimate, NetworkStatus, CongestionLevel
