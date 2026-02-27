@@ -1,4 +1,3 @@
-- ✅ Spinner - Animated loading indicator
 
 **Molecules (5 components)**
 - ✅ FeeDisplay - Gradient text with loading states
