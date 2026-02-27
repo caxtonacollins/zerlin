@@ -1,4 +1,3 @@
-
 **Rationale:**
 - shadcn/ui provides pre-styled, accessible components built on top of Radix UI primitives
 - Copy-paste component model means zero runtime dependencies and full ownership of code
