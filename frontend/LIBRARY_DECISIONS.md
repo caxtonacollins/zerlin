@@ -1,4 +1,3 @@
-- Perfect for our Bitcoin-native precision aesthetic - components are fully customizable
 - Excellent TypeScript support and documentation
 - Built specifically for Tailwind CSS (our chosen styling framework)
 - Active community and regular updates in 2026
