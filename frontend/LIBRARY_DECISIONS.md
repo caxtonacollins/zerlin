@@ -1,4 +1,3 @@
-- Fully customizable
 - Promise-based API (perfect for async operations)
 - Accessible (ARIA live regions)
 - Works great with Tailwind CSS
