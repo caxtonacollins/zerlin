@@ -1,4 +1,3 @@
-
 ### 🔧 Utilities (Complete)
 - ✅ API client for backend communication
 - ✅ Formatters (STX, USD, dates, addresses)
