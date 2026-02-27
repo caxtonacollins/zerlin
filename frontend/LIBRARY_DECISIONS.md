@@ -1,4 +1,3 @@
-
 **Total Estimated Bundle:** ~220KB (gzipped, excluding Next.js framework)
 
 ---
