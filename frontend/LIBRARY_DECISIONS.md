@@ -1,4 +1,3 @@
-- Jotai/Recoil: Atomic state is unnecessary complexity for our use case
 - Context API: Would work but Zustand is more ergonomic
 
 **Installation:**
