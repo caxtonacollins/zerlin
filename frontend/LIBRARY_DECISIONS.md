@@ -1,4 +1,3 @@
-  - Alert management
   - Wallet connection state
 - No unnecessary re-renders
 - Great TypeScript support
