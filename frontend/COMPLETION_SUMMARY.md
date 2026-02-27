@@ -1,4 +1,3 @@
-- Touch-friendly interactions
 - Optimized layouts
 
 ### 6. Accessibility
