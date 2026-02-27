@@ -1,4 +1,3 @@
-- React 19
 - TypeScript 5
 - Tailwind CSS 4
 - Stacks.js
