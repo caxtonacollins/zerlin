@@ -1,4 +1,3 @@
-✅ Accessibility compliance
 ✅ Type safety
 ✅ Error handling
 ✅ Loading states
