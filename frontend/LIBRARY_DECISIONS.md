@@ -1,4 +1,3 @@
-## Date Manipulation
 
 ### Decision: **date-fns**
 
