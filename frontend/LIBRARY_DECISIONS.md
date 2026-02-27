@@ -1,4 +1,3 @@
-- Seamless integration with React Hook Form via @hookform/resolvers
 
 **Alternatives Considered:**
 - Formik: Causes full form re-renders on every keystroke, performance issues with 50+ fields
