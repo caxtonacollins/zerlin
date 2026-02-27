@@ -1,4 +1,3 @@
-| Dates | date-fns | ~10KB (tree-shaken) | Modular, immutable, TypeScript |
 | Numbers | numeral | ~5KB | Simple formatting API |
 | Toasts | react-hot-toast | ~3.5KB | Lightweight, beautiful, accessible |
 | State | Zustand | ~1KB | Minimal, no boilerplate |
