@@ -1,4 +1,3 @@
-- Network configuration (mainnet/testnet)
 - Well-documented
 - Active maintenance by Stacks Foundation
 
