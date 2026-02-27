@@ -1,4 +1,3 @@
-- Intl.NumberFormat: Native but less convenient API
 
 **Installation:**
 ```bash
