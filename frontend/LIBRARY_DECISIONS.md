@@ -1,4 +1,3 @@
-### Decision: **date-fns**
 
 **Rationale:**
 - Modular (tree-shakeable) - only import functions you use
