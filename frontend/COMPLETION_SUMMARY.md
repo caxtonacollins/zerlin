@@ -1,4 +1,3 @@
-- ✅ Tailwind CSS with custom theme
 - ✅ Environment variables setup
 
 ### 🎨 Design System (Complete)
