@@ -1,4 +1,3 @@
-- Lightweight (3.5KB gzipped)
 - Beautiful default styling (matches our aesthetic)
 - Fully customizable
 - Promise-based API (perfect for async operations)
