@@ -1,4 +1,3 @@
-- Alert management UI
 
 ### 4. Documentation
 - API integration guide
