@@ -1,4 +1,3 @@
-- Community links
 
 ### 5. Responsive Design
 - Mobile-first approach
