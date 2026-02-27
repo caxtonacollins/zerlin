@@ -1,4 +1,3 @@
-- ✅ useWallet - Wallet connection logic
 
 ### 🗄️ State Management (2 stores)
 - ✅ feeStore - Fee calculation state with Zustand
