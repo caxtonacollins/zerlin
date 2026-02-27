@@ -1,4 +1,3 @@
-- Dynamic fee calculation
 - Loading states
 - Error handling
 
