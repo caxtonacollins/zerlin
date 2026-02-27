@@ -1,4 +1,3 @@
-- Transaction type selector
 - Dynamic fee calculation
 - Loading states
 - Error handling
