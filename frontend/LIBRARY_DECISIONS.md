@@ -1,4 +1,3 @@
-
 This document outlines the external library choices for the Zerlin frontend, with rationale based on research conducted in February 2026.
 
 ---
