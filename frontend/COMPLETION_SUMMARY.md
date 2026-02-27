@@ -1,4 +1,3 @@
-- ✅ Button - Full-featured with variants, sizes, loading states
 - ✅ Input - With error states and validation styling
 - ✅ Badge - Status indicators with color variants
 - ✅ Skeleton - Loading placeholders with pulse animation
