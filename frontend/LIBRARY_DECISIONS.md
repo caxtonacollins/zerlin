@@ -1,4 +1,3 @@
-- Modular (tree-shakeable) - only import functions you use
 - Immutable and pure functions (functional programming friendly)
 - Excellent TypeScript support
 - Smaller bundle than moment.js
