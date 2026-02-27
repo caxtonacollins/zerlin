@@ -1,4 +1,3 @@
-- Required for wallet integration (Xverse, Leather, Hiro)
 - Contract read/write operations
 - Network configuration (mainnet/testnet)
 - Well-documented
