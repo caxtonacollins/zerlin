@@ -1,4 +1,3 @@
-- Subscription-based model - only components that need updates will re-render
 - Excellent TypeScript support
 - Native HTML validation API integration
 
