@@ -1,4 +1,3 @@
-### Decision: **Framer Motion**
 
 **Rationale:**
 - Most popular React animation library in 2026 (industry standard)
