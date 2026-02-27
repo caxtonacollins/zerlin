@@ -1,4 +1,3 @@
-- ✅ Badge - Status indicators with color variants
 - ✅ Skeleton - Loading placeholders with pulse animation
 - ✅ Spinner - Animated loading indicator
 
