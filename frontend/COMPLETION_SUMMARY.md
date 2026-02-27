@@ -1,4 +1,3 @@
-- **Components:** 15 (5 atoms, 5 molecules, 5 organisms)
 - **Pages:** 4 (home, dashboard, history, docs)
 - **Hooks:** 4
 - **Stores:** 2
