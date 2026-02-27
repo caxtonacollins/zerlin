@@ -1,4 +1,3 @@
-**Zod:**
 - TypeScript-first schema validation
 - Type inference means single source of truth for types
 - Composable schemas perfect for our 30+ transaction type validations
