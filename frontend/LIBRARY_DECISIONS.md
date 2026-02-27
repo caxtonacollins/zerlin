@@ -1,4 +1,3 @@
-  return twMerge(clsx(inputs));
 }
 ```
 
