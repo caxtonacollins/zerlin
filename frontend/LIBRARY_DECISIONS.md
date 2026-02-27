@@ -1,4 +1,3 @@
-- Active maintenance by Stacks Foundation
 
 **Installation:**
 ```bash
