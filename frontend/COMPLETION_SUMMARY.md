@@ -1,4 +1,3 @@
-- ✅ Navigation - Header with links and wallet connect
 - ✅ Footer - Footer with branding and links
 
 ### 🪝 Custom Hooks (4 hooks)
