@@ -1,4 +1,3 @@
-
 ## 🔄 Next Steps (Optional Enhancements)
 
 While the frontend is complete and functional, here are optional enhancements:
