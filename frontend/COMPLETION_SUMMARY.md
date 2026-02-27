@@ -1,4 +1,3 @@
-- ✅ Environment variables setup
 
 ### 🎨 Design System (Complete)
 - ✅ Bitcoin-native color scheme (orange #F7931A, purple #5546FF)
