@@ -1,4 +1,3 @@
-- Essential for component composition with className overrides
 - Works perfectly with clsx
 
 **Installation:**
