@@ -1,4 +1,3 @@
-✅ Type safety
 ✅ Error handling
 ✅ Loading states
 ✅ Clean code architecture
