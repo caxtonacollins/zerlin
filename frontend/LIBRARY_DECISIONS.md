@@ -1,4 +1,3 @@
-**Rationale:**
 - Minimal boilerplate (no providers, no context)
 - Tiny bundle (1KB gzipped)
 - Simple API - just hooks
