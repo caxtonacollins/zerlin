@@ -1,4 +1,3 @@
-- Moment.js: Deprecated, large bundle, mutable API
 
 **Installation:**
 ```bash
