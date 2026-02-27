@@ -1,4 +1,3 @@
-## 📊 Statistics
 
 - **Total Commits:** 52
 - **Files Created:** 45+
