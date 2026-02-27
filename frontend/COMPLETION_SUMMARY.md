@@ -1,4 +1,3 @@
-## 🎯 Key Features Implemented
 
 ### 1. Real-time Fee Estimation
 - Transaction type selector
