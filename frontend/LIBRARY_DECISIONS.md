@@ -1,4 +1,3 @@
-- shadcn/ui provides pre-styled, accessible components built on top of Radix UI primitives
 - Copy-paste component model means zero runtime dependencies and full ownership of code
 - Perfect for our Bitcoin-native precision aesthetic - components are fully customizable
 - Excellent TypeScript support and documentation
