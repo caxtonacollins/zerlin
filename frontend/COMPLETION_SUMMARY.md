@@ -1,4 +1,3 @@
-- ✅ Skeleton - Loading placeholders with pulse animation
 - ✅ Spinner - Animated loading indicator
 
 **Molecules (5 components)**
