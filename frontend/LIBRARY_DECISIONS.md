@@ -1,4 +1,3 @@
-### Decision: **numeral**
 
 **Rationale:**
 - Simple API for formatting numbers, currency, percentages
