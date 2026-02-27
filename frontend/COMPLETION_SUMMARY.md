@@ -1,4 +1,3 @@
-- Zustand
 - Framer Motion
 
 ---
