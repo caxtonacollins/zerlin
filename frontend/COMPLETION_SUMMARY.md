@@ -1,4 +1,3 @@
-- **Type Files:** 4
 
 ## 🎯 Key Features Implemented
 
