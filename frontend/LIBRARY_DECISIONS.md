@@ -1,4 +1,3 @@
-
 **Installation:**
 ```bash
 pnpm add react-hot-toast
