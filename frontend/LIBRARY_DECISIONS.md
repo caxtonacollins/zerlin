@@ -1,4 +1,3 @@
-- Active community (23,600+ GitHub stars)
 - Customizable tooltips and legends
 - Works great with dark themes (our primary aesthetic)
 
