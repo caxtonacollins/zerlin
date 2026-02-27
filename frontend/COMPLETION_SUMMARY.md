@@ -1,4 +1,3 @@
-- ✅ Formatters (STX, USD, dates, addresses)
 - ✅ Constants (network, contracts, API)
 - ✅ Class name utility (cn)
 - ✅ Stacks blockchain helpers
