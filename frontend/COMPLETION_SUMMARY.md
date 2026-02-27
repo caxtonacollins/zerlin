@@ -1,4 +1,3 @@
-- Mobile-first approach
 - Breakpoints for all screen sizes
 - Touch-friendly interactions
 - Optimized layouts
