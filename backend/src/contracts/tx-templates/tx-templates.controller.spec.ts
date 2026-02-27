@@ -1,7 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { TxTemplatesController } from './tx-templates.controller';
 import { TxTemplatesService } from './tx-templates.service';
-import { CreateTemplateDto, UpdateTemplateDto, InitializeTemplatesDto } from './dto/template.dto';
+import {
+  CreateTemplateDto,
+  UpdateTemplateDto,
+  InitializeTemplatesDto,
+} from './dto/template.dto';
 
 describe('TxTemplatesController', () => {
   let controller: TxTemplatesController;
@@ -65,7 +69,11 @@ describe('TxTemplatesController', () => {
     it('should call updateTemplate on service', async () => {
       const dto: UpdateTemplateDto = { newSizeBytes: 200, newGasUnits: 2000 };
       await controller.updateTemplate('test-id', dto);
-      expect(service.updateTemplate).toHaveBeenCalledWith('test-id', dto.newSizeBytes, dto.newGasUnits);
+      expect(service.updateTemplate).toHaveBeenCalledWith(
+        'test-id',
+        dto.newSizeBytes,
+        dto.newGasUnits,
+      );
     });
   });
 

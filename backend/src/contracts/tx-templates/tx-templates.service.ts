@@ -1,7 +1,13 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { StacksService } from '../../stacks/stacks.service';
 import { ConfigService } from '@nestjs/config';
-import { fetchCallReadOnlyFunction, cvToJSON, stringAsciiCV, uintCV, standardPrincipalCV } from '@stacks/transactions';
+import {
+  fetchCallReadOnlyFunction,
+  cvToJSON,
+  stringAsciiCV,
+  uintCV,
+  standardPrincipalCV,
+} from '@stacks/transactions';
 
 @Injectable()
 export class TxTemplatesService {
@@ -13,7 +19,10 @@ export class TxTemplatesService {
     private readonly stacksService: StacksService,
     private readonly configService: ConfigService,
   ) {
-    this.contractAddress = this.configService.get<string>('CONTRACT_ADDRESS_DEPLOYER', 'STY1XRRA93GJP9YMS2CTHB6M08M11BKPDVRM0191');
+    this.contractAddress = this.configService.get<string>(
+      'CONTRACT_ADDRESS_DEPLOYER',
+      'STY1XRRA93GJP9YMS2CTHB6M08M11BKPDVRM0191',
+    );
   }
 
   async getTemplate(templateId: string) {
@@ -29,63 +38,63 @@ export class TxTemplatesService {
       });
       return cvToJSON(result).value;
     } catch (error) {
-       this.logger.error(`Failed to get template ${templateId}`, error);
-       throw error;
+      this.logger.error(`Failed to get template ${templateId}`, error);
+      throw error;
     }
   }
 
   async getTemplateGas(templateId: string) {
-      try {
-          const network = this.stacksService.getNetwork();
-          const result = await fetchCallReadOnlyFunction({
-            contractAddress: this.contractAddress,
-            contractName: this.contractName,
-            functionName: 'get-template-gas',
-            functionArgs: [stringAsciiCV(templateId)],
-            network,
-            senderAddress: this.contractAddress,
-          });
-          return cvToJSON(result).value;
-      } catch (error) {
-          this.logger.error(`Failed to get gas for ${templateId}`, error);
-          throw error;
-      }
+    try {
+      const network = this.stacksService.getNetwork();
+      const result = await fetchCallReadOnlyFunction({
+        contractAddress: this.contractAddress,
+        contractName: this.contractName,
+        functionName: 'get-template-gas',
+        functionArgs: [stringAsciiCV(templateId)],
+        network,
+        senderAddress: this.contractAddress,
+      });
+      return cvToJSON(result).value;
+    } catch (error) {
+      this.logger.error(`Failed to get gas for ${templateId}`, error);
+      throw error;
+    }
   }
 
   async estimateFeeForTemplate(templateId: string, feeRate: number) {
-      try {
-          const network = this.stacksService.getNetwork();
-          const result = await fetchCallReadOnlyFunction({
-            contractAddress: this.contractAddress,
-            contractName: this.contractName,
-            functionName: 'estimate-fee-for-template',
-            functionArgs: [stringAsciiCV(templateId), uintCV(feeRate)],
-            network,
-            senderAddress: this.contractAddress,
-          });
-          return cvToJSON(result).value;
-      } catch (error) {
-          this.logger.error(`Failed to estimate fee for ${templateId}`, error);
-          throw error;
-      }
+    try {
+      const network = this.stacksService.getNetwork();
+      const result = await fetchCallReadOnlyFunction({
+        contractAddress: this.contractAddress,
+        contractName: this.contractName,
+        functionName: 'estimate-fee-for-template',
+        functionArgs: [stringAsciiCV(templateId), uintCV(feeRate)],
+        network,
+        senderAddress: this.contractAddress,
+      });
+      return cvToJSON(result).value;
+    } catch (error) {
+      this.logger.error(`Failed to estimate fee for ${templateId}`, error);
+      throw error;
+    }
   }
 
   async getFullEstimate(templateId: string) {
-      try {
-          const network = this.stacksService.getNetwork();
-          const result = await fetchCallReadOnlyFunction({
-            contractAddress: this.contractAddress,
-            contractName: this.contractName,
-            functionName: 'get-full-estimate',
-            functionArgs: [stringAsciiCV(templateId)],
-            network,
-            senderAddress: this.contractAddress,
-          });
-          return cvToJSON(result).value;
-      } catch (error) {
-          this.logger.error(`Failed to get full estimate for ${templateId}`, error);
-          throw error;
-      }
+    try {
+      const network = this.stacksService.getNetwork();
+      const result = await fetchCallReadOnlyFunction({
+        contractAddress: this.contractAddress,
+        contractName: this.contractName,
+        functionName: 'get-full-estimate',
+        functionArgs: [stringAsciiCV(templateId)],
+        network,
+        senderAddress: this.contractAddress,
+      });
+      return cvToJSON(result).value;
+    } catch (error) {
+      this.logger.error(`Failed to get full estimate for ${templateId}`, error);
+      throw error;
+    }
   }
 
   async initializeTemplates(): Promise<string> {
@@ -97,7 +106,9 @@ export class TxTemplatesService {
         'initialize-templates',
         [],
       );
-      this.logger.log(`Templates initialization transaction broadcasted: ${txid}`);
+      this.logger.log(
+        `Templates initialization transaction broadcasted: ${txid}`,
+      );
       return txid;
     } catch (error) {
       this.logger.error('Failed to initialize templates', error);
@@ -145,11 +156,7 @@ export class TxTemplatesService {
         this.contractAddress,
         this.contractName,
         'update-template',
-        [
-          stringAsciiCV(templateId),
-          uintCV(newSizeBytes),
-          uintCV(newGasUnits),
-        ],
+        [stringAsciiCV(templateId), uintCV(newSizeBytes), uintCV(newGasUnits)],
       );
       this.logger.log(`Template update transaction broadcasted: ${txid}`);
       return txid;
@@ -161,7 +168,9 @@ export class TxTemplatesService {
 
   async setFeeOracle(oracleAddress: string): Promise<string> {
     try {
-      this.logger.log(`Setting fee oracle to ${oracleAddress} in TxTemplates contract`);
+      this.logger.log(
+        `Setting fee oracle to ${oracleAddress} in TxTemplates contract`,
+      );
       const txid = await this.stacksService.broadcastContractCall(
         this.contractAddress,
         this.contractName,
@@ -171,7 +180,10 @@ export class TxTemplatesService {
       this.logger.log(`Set fee oracle transaction broadcasted: ${txid}`);
       return txid;
     } catch (error) {
-      this.logger.error('Failed to set fee oracle in TxTemplates contract', error);
+      this.logger.error(
+        'Failed to set fee oracle in TxTemplates contract',
+        error,
+      );
       throw error;
     }
   }

@@ -1,7 +1,11 @@
 import { Controller, Get, Post, Body, Param, Query } from '@nestjs/common';
 import { TxTemplatesService } from './tx-templates.service';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
-import { CreateTemplateDto, UpdateTemplateDto, InitializeTemplatesDto } from './dto/template.dto';
+import {
+  CreateTemplateDto,
+  UpdateTemplateDto,
+  InitializeTemplatesDto,
+} from './dto/template.dto';
 
 @ApiTags('tx-templates')
 @Controller('tx-templates')
@@ -30,8 +34,15 @@ export class TxTemplatesController {
 
   @Post('update/:id')
   @ApiOperation({ summary: 'Update an existing transaction template' })
-  async updateTemplate(@Param('id') id: string, @Body() dto: UpdateTemplateDto) {
-    return this.txTemplatesService.updateTemplate(id, dto.newSizeBytes, dto.newGasUnits);
+  async updateTemplate(
+    @Param('id') id: string,
+    @Body() dto: UpdateTemplateDto,
+  ) {
+    return this.txTemplatesService.updateTemplate(
+      id,
+      dto.newSizeBytes,
+      dto.newGasUnits,
+    );
   }
 
   @Get(':id')
