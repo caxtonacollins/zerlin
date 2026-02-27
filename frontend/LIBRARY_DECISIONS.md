@@ -1,4 +1,3 @@
-## Animation Library
 
 ### Decision: **Framer Motion**
 
