@@ -1,4 +1,3 @@
-- Works great with Tailwind CSS
 - Smooth animations out of the box
 
 **Alternatives Considered:**
