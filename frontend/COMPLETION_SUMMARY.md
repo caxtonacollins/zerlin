@@ -1,4 +1,3 @@
-4. **Performance**
    - Image optimization
    - Bundle size analysis
    - Lighthouse score optimization
