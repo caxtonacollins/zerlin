@@ -1,4 +1,3 @@
-
 **Alternatives Considered:**
 - Radix UI (raw): Too low-level, would require styling everything from scratch
 - Headless UI: Less feature-complete than Radix, smaller ecosystem
