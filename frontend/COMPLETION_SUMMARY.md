@@ -1,4 +1,3 @@
-- Loading states
 - Error handling
 
 ### 2. Historical Data Visualization
