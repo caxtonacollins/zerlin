@@ -1,4 +1,3 @@
-- ARIA labels on interactive elements
 - Keyboard navigation support
 - Focus management
 - Screen reader friendly
