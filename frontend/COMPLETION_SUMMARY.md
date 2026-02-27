@@ -1,4 +1,3 @@
-### 📄 Pages (4 pages)
 - ✅ Home - Hero section with calculator and features
 - ✅ Dashboard - Alerts management and stats
 - ✅ History - Historical charts with insights
