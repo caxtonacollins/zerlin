@@ -1,4 +1,3 @@
-- ✅ Footer - Footer with branding and links
 
 ### 🪝 Custom Hooks (4 hooks)
 - ✅ useCurrentFee - Fetch fee from smart contract
