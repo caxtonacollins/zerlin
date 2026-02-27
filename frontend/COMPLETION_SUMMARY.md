@@ -1,4 +1,3 @@
-- Active alerts display
 - Usage statistics
 - Recent estimates table
 - Alert management UI
