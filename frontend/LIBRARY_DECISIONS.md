@@ -1,4 +1,3 @@
-
 ### Decision: **react-hot-toast**
 
 **Rationale:**
