@@ -1,4 +1,3 @@
-
 ## Toast Notifications
 
 ### Decision: **react-hot-toast**
