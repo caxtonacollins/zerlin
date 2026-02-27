@@ -1,4 +1,3 @@
-- Day.js: Smaller but less feature-complete
 - Moment.js: Deprecated, large bundle, mutable API
 
 **Installation:**
