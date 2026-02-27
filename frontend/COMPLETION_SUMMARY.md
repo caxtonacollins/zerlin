@@ -1,4 +1,3 @@
-- Focus management
 - Screen reader friendly
 
 ## 🏗️ Architecture Highlights
