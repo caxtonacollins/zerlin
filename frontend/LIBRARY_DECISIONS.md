@@ -1,4 +1,3 @@
-- Can be used outside React components
 - Middleware support (persist, devtools)
 
 **Alternatives Considered:**
