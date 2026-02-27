@@ -1,4 +1,3 @@
-- ✅ BalanceCheck - Sufficient/insufficient balance indicator
 
 **Organisms (5 components)**
 - ✅ FeeCalculator - Main calculator with transaction selector
