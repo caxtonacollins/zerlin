@@ -1,4 +1,3 @@
-- ✅ FeeDisplay - Gradient text with loading states
 - ✅ NetworkStatus - Congestion indicator with badges
 - ✅ TransactionTypeSelector - Styled dropdown
 - ✅ WalletConnect - Connect wallet button
