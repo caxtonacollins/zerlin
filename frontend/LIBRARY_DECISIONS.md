@@ -1,4 +1,3 @@
-- Well-documented
 - Active maintenance by Stacks Foundation
 
 **Installation:**
