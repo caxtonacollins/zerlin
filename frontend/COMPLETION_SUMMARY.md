@@ -1,4 +1,3 @@
-## 🙏 Acknowledgments
 
 Built with:
 - Next.js 16
