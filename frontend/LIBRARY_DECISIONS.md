@@ -1,4 +1,3 @@
-**Rationale:**
 
 **clsx:**
 - Tiny (228 bytes), fast conditional className builder
