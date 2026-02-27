@@ -1,4 +1,3 @@
-- Locale support for internationalization
 - Small bundle size
 - Well-documented
 
