@@ -1,4 +1,3 @@
-- Ark UI: Newer, less proven in production
 
 **Installation:**
 ```bash
