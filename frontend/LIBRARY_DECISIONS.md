@@ -1,4 +1,3 @@
-## Utility Libraries
 
 ### Decision: **clsx** + **tailwind-merge**
 
