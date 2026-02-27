@@ -1,4 +1,3 @@
-- **Pages:** 4 (home, dashboard, history, docs)
 - **Hooks:** 4
 - **Stores:** 2
 - **Type Files:** 4
