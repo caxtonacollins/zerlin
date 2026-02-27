@@ -1,4 +1,3 @@
-- Perfect for our fee visualization needs:
   - Line charts (historical fee trends)
   - Area charts (congestion zones)
   - Bar charts (fee comparisons)
