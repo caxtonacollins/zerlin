@@ -1,4 +1,3 @@
-  - Format USD ($0.0026)
   - Format percentages (23% lower)
 - Locale support for internationalization
 - Small bundle size
