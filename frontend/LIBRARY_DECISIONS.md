@@ -1,4 +1,3 @@
-**Alternatives Considered:**
 - react-toastify: Heavier, less modern API
 - sonner: Newer, less proven
 
