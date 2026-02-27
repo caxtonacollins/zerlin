@@ -1,4 +1,3 @@
-2. Install Tailwind CSS
 3. Run `npx shadcn@latest init` to set up component system
 4. Install all libraries listed above
 5. Configure Tailwind with custom colors (Bitcoin orange, Stacks purple)
