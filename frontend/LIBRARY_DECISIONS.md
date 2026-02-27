@@ -1,4 +1,3 @@
-## Chart Library
 
 ### Decision: **Recharts**
 
