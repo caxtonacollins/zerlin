@@ -1,4 +1,3 @@
-- ✅ transaction.ts - TransactionTemplate, categories
 
 ### 📚 Documentation (Complete)
 - ✅ README with setup instructions
