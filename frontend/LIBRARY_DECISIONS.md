@@ -1,4 +1,3 @@
-- Perfect for our needs:
   - Fee calculator state
   - Alert management
   - Wallet connection state
