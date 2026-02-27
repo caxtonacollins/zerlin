@@ -1,4 +1,3 @@
-- SVG-based rendering (crisp on all displays, easy to style)
 - Responsive by default
 - Excellent documentation with many examples
 - Active community (23,600+ GitHub stars)
