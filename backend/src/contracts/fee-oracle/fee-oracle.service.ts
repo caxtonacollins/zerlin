@@ -1,7 +1,13 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { StacksService } from '../../stacks/stacks.service';
 import { ConfigService } from '@nestjs/config';
-import { fetchCallReadOnlyFunction, cvToJSON, standardPrincipalCV, uintCV, stringAsciiCV } from '@stacks/transactions';
+import {
+  fetchCallReadOnlyFunction,
+  cvToJSON,
+  standardPrincipalCV,
+  uintCV,
+  stringAsciiCV,
+} from '@stacks/transactions';
 
 @Injectable()
 export class FeeOracleService {
@@ -13,7 +19,10 @@ export class FeeOracleService {
     private readonly stacksService: StacksService,
     private readonly configService: ConfigService,
   ) {
-    this.contractAddress = this.configService.get<string>('CONTRACT_ADDRESS_DEPLOYER', 'STY1XRRA93GJP9YMS2CTHB6M08M11BKPDVRM0191');
+    this.contractAddress = this.configService.get<string>(
+      'CONTRACT_ADDRESS_DEPLOYER',
+      'STY1XRRA93GJP9YMS2CTHB6M08M11BKPDVRM0191',
+    );
   }
 
   getContractFullName(): string {
@@ -40,19 +49,19 @@ export class FeeOracleService {
 
   async estimateTransferFee(): Promise<number> {
     try {
-        const network = this.stacksService.getNetwork();
-        const result = await fetchCallReadOnlyFunction({
-          contractAddress: this.contractAddress,
-          contractName: this.contractName,
-          functionName: 'estimate-transfer-fee',
-          functionArgs: [],
-          network,
-          senderAddress: this.contractAddress,
-        });
-        return Number(cvToJSON(result).value);
+      const network = this.stacksService.getNetwork();
+      const result = await fetchCallReadOnlyFunction({
+        contractAddress: this.contractAddress,
+        contractName: this.contractName,
+        functionName: 'estimate-transfer-fee',
+        functionArgs: [],
+        network,
+        senderAddress: this.contractAddress,
+      });
+      return Number(cvToJSON(result).value);
     } catch (error) {
-        this.logger.error('Failed to estimate transfer fee', error);
-        throw error;
+      this.logger.error('Failed to estimate transfer fee', error);
+      throw error;
     }
   }
 
@@ -92,27 +101,32 @@ export class FeeOracleService {
     }
   }
 
-  async checkSufficientBalance(userAddress: string, requiredFee: number): Promise<boolean> {
-      try {
-          const network = this.stacksService.getNetwork();
-          const result = await fetchCallReadOnlyFunction({
-            contractAddress: this.contractAddress,
-            contractName: this.contractName,
-            functionName: 'check-sufficient-balance',
-            functionArgs: [standardPrincipalCV(userAddress), uintCV(requiredFee)],
-            network,
-            senderAddress: this.contractAddress,
-          });
-          return cvToJSON(result).value === true;
-      } catch (error) {
-          this.logger.error(`Failed to check balance for ${userAddress}`, error);
-          throw error;
-      }
+  async checkSufficientBalance(
+    userAddress: string,
+    requiredFee: number,
+  ): Promise<boolean> {
+    try {
+      const network = this.stacksService.getNetwork();
+      const result = await fetchCallReadOnlyFunction({
+        contractAddress: this.contractAddress,
+        contractName: this.contractName,
+        functionName: 'check-sufficient-balance',
+        functionArgs: [standardPrincipalCV(userAddress), uintCV(requiredFee)],
+        network,
+        senderAddress: this.contractAddress,
+      });
+      return cvToJSON(result).value === true;
+    } catch (error) {
+      this.logger.error(`Failed to check balance for ${userAddress}`, error);
+      throw error;
+    }
   }
 
   async updateFeeRate(newFeeRate: number, congestion: string): Promise<string> {
     try {
-      this.logger.log(`Updating fee rate on contract to ${newFeeRate} (${congestion})`);
+      this.logger.log(
+        `Updating fee rate on contract to ${newFeeRate} (${congestion})`,
+      );
       const txid = await this.stacksService.broadcastContractCall(
         this.contractAddress,
         this.contractName,

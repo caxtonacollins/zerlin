@@ -10,7 +10,10 @@ export class FeeOracleController {
 
   @Get('fee-rate')
   @ApiOperation({ summary: 'Get current fee rate' })
-  @ApiResponse({ status: 200, description: 'Current fee rate in microSTX/byte' })
+  @ApiResponse({
+    status: 200,
+    description: 'Current fee rate in microSTX/byte',
+  })
   async getFeeRate() {
     return this.feeOracleService.getFeeRate();
   }
@@ -22,7 +25,9 @@ export class FeeOracleController {
   }
 
   @Post('update-rate')
-  @ApiOperation({ summary: 'Update on-chain fee rate (requires Oracle authorization)' })
+  @ApiOperation({
+    summary: 'Update on-chain fee rate (requires Oracle authorization)',
+  })
   async updateFeeRate(@Body() dto: UpdateFeeRateDto) {
     return this.feeOracleService.updateFeeRate(dto.feeRate, dto.congestion);
   }

@@ -8,9 +8,13 @@ import { STACKS_TESTNET } from '@stacks/network';
 jest.mock('@stacks/transactions', () => ({
   fetchCallReadOnlyFunction: jest.fn(),
   cvToJSON: jest.fn(),
-  standardPrincipalCV: jest.fn().mockImplementation((val) => ({ type: 'principal', value: val })),
+  standardPrincipalCV: jest
+    .fn()
+    .mockImplementation((val) => ({ type: 'principal', value: val })),
   uintCV: jest.fn().mockImplementation((val) => ({ type: 'uint', value: val })),
-  stringAsciiCV: jest.fn().mockImplementation((val) => ({ type: 'string-ascii', value: val })),
+  stringAsciiCV: jest
+    .fn()
+    .mockImplementation((val) => ({ type: 'string-ascii', value: val })),
 }));
 
 import { fetchCallReadOnlyFunction, cvToJSON } from '@stacks/transactions';
@@ -53,28 +57,34 @@ describe('FeeOracleService', () => {
 
       const rate = await service.getFeeRate();
       expect(rate).toBe(100);
-      expect(fetchCallReadOnlyFunction).toHaveBeenCalledWith(expect.objectContaining({
-        functionName: 'get-current-fee-rate',
-      }));
+      expect(fetchCallReadOnlyFunction).toHaveBeenCalledWith(
+        expect.objectContaining({
+          functionName: 'get-current-fee-rate',
+        }),
+      );
     });
 
     it('should handle errors', async () => {
-      (fetchCallReadOnlyFunction as jest.Mock).mockRejectedValue(new Error('Network error'));
+      (fetchCallReadOnlyFunction as jest.Mock).mockRejectedValue(
+        new Error('Network error'),
+      );
       await expect(service.getFeeRate()).rejects.toThrow('Network error');
     });
   });
 
   describe('estimateTransferFee', () => {
-     it('should return estimated transfer fee', async () => {
-         (fetchCallReadOnlyFunction as jest.Mock).mockResolvedValue({});
-         (cvToJSON as jest.Mock).mockReturnValue({ value: '500' });
+    it('should return estimated transfer fee', async () => {
+      (fetchCallReadOnlyFunction as jest.Mock).mockResolvedValue({});
+      (cvToJSON as jest.Mock).mockReturnValue({ value: '500' });
 
-         const fee = await service.estimateTransferFee();
-         expect(fee).toBe(500);
-         expect(fetchCallReadOnlyFunction).toHaveBeenCalledWith(expect.objectContaining({
-             functionName: 'estimate-transfer-fee'
-         }));
-     });
+      const fee = await service.estimateTransferFee();
+      expect(fee).toBe(500);
+      expect(fetchCallReadOnlyFunction).toHaveBeenCalledWith(
+        expect.objectContaining({
+          functionName: 'estimate-transfer-fee',
+        }),
+      );
+    });
   });
 
   describe('estimateContractCallFee', () => {
@@ -84,9 +94,11 @@ describe('FeeOracleService', () => {
 
       const fee = await service.estimateContractCallFee(1);
       expect(fee).toBe(1500);
-      expect(fetchCallReadOnlyFunction).toHaveBeenCalledWith(expect.objectContaining({
-        functionName: 'estimate-contract-call-fee'
-      }));
+      expect(fetchCallReadOnlyFunction).toHaveBeenCalledWith(
+        expect.objectContaining({
+          functionName: 'estimate-contract-call-fee',
+        }),
+      );
     });
   });
 
@@ -97,29 +109,35 @@ describe('FeeOracleService', () => {
 
       const fee = await service.estimateNftMintFee();
       expect(fee).toBe(3000);
-      expect(fetchCallReadOnlyFunction).toHaveBeenCalledWith(expect.objectContaining({
-        functionName: 'estimate-nft-mint-fee'
-      }));
+      expect(fetchCallReadOnlyFunction).toHaveBeenCalledWith(
+        expect.objectContaining({
+          functionName: 'estimate-nft-mint-fee',
+        }),
+      );
     });
   });
 
   describe('checkSufficientBalance', () => {
-      it('should return true if balance is sufficient', async () => {
-          (fetchCallReadOnlyFunction as jest.Mock).mockResolvedValue({});
-          (cvToJSON as jest.Mock).mockReturnValue({ value: true });
+    it('should return true if balance is sufficient', async () => {
+      (fetchCallReadOnlyFunction as jest.Mock).mockResolvedValue({});
+      (cvToJSON as jest.Mock).mockReturnValue({ value: true });
 
-          const result = await service.checkSufficientBalance('ST123...', 1000);
-          expect(result).toBe(true);
-          expect(fetchCallReadOnlyFunction).toHaveBeenCalledWith(expect.objectContaining({
-              functionName: 'check-sufficient-balance'
-          }));
-      });
+      const result = await service.checkSufficientBalance('ST123...', 1000);
+      expect(result).toBe(true);
+      expect(fetchCallReadOnlyFunction).toHaveBeenCalledWith(
+        expect.objectContaining({
+          functionName: 'check-sufficient-balance',
+        }),
+      );
+    });
   });
 
   describe('updateFeeRate', () => {
     it('should broadcast contract call to update fee rate', async () => {
       const txid = '0x123';
-      (stacksService.broadcastContractCall as jest.Mock).mockResolvedValue(txid);
+      (stacksService.broadcastContractCall as jest.Mock).mockResolvedValue(
+        txid,
+      );
 
       const result = await service.updateFeeRate(300, 'low');
       expect(result).toBe(txid);
@@ -127,7 +145,7 @@ describe('FeeOracleService', () => {
         expect.any(String),
         expect.any(String),
         'update-fee-rate',
-        expect.arrayContaining([expect.anything(), expect.anything()])
+        expect.arrayContaining([expect.anything(), expect.anything()]),
       );
     });
   });
@@ -135,7 +153,9 @@ describe('FeeOracleService', () => {
   describe('initialize', () => {
     it('should broadcast contract call to initialize oracle', async () => {
       const txid = '0x456';
-      (stacksService.broadcastContractCall as jest.Mock).mockResolvedValue(txid);
+      (stacksService.broadcastContractCall as jest.Mock).mockResolvedValue(
+        txid,
+      );
 
       const result = await service.initialize(250);
       expect(result).toBe(txid);
@@ -143,7 +163,7 @@ describe('FeeOracleService', () => {
         expect.any(String),
         expect.any(String),
         'initialize',
-        expect.arrayContaining([expect.anything()])
+        expect.arrayContaining([expect.anything()]),
       );
     });
   });

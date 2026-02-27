@@ -49,7 +49,10 @@ describe('FeeOracleController', () => {
     it('should call updateFeeRate on service with dto values', async () => {
       const dto: UpdateFeeRateDto = { feeRate: 300, congestion: 'low' };
       await controller.updateFeeRate(dto);
-      expect(service.updateFeeRate).toHaveBeenCalledWith(dto.feeRate, dto.congestion);
+      expect(service.updateFeeRate).toHaveBeenCalledWith(
+        dto.feeRate,
+        dto.congestion,
+      );
     });
   });
 
