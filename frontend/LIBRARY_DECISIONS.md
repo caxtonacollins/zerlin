@@ -1,4 +1,3 @@
-| Toasts | react-hot-toast | ~3.5KB | Lightweight, beautiful, accessible |
 | State | Zustand | ~1KB | Minimal, no boilerplate |
 | Blockchain | Stacks.js | ~100KB | Official, required for Stacks |
 
