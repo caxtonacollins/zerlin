@@ -1,4 +1,3 @@
-| Class Utils | clsx + tailwind-merge | <1KB | Conditional classes, conflict resolution |
 | Dates | date-fns | ~10KB (tree-shaken) | Modular, immutable, TypeScript |
 | Numbers | numeral | ~5KB | Simple formatting API |
 | Toasts | react-hot-toast | ~3.5KB | Lightweight, beautiful, accessible |
