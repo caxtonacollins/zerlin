@@ -1,4 +1,3 @@
-- Perfect for dynamic component variants
 - Clean syntax for conditional classes
 
 **tailwind-merge:**
