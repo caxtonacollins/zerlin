@@ -1,4 +1,3 @@
-  - Enter/exit animations (page transitions)
   - Hover effects (button glows, card lifts)
   - Layout animations (expanding accordions)
   - Gesture animations (drag, tap)
