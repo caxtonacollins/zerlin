@@ -1,4 +1,3 @@
-- ✅ Project structure with atomic design
 - ✅ TypeScript configuration
 - ✅ Tailwind CSS with custom theme
 - ✅ Environment variables setup
