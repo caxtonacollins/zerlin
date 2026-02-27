@@ -1,4 +1,3 @@
-- **Blockchain Integration** - Stacks.js, wallet connection
 - **State Management** - Zustand for global state
 - **Component Architecture** - Atomic design, scalability
 - **TypeScript** - Type safety, interfaces, generics
