@@ -1,4 +1,3 @@
-- Nivo: Beautiful defaults but heavier bundle, less customizable
 - Victory: Good but smaller community, less documentation
 
 **Installation:**
