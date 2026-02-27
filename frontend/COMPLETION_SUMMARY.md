@@ -1,4 +1,3 @@
-- **Hooks:** 4
 - **Stores:** 2
 - **Type Files:** 4
 
