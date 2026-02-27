@@ -1,4 +1,3 @@
-- Works great with dark themes (our primary aesthetic)
 
 **Alternatives Considered:**
 - Chart.js: Not React-native, requires wrapper library, imperative API
