@@ -1,4 +1,3 @@
-- Next.js 16
 - React 19
 - TypeScript 5
 - Tailwind CSS 4
