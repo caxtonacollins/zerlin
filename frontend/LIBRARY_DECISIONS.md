@@ -1,4 +1,3 @@
-
 ### Decision: **shadcn/ui** (built on Radix UI)
 
 **Rationale:**
