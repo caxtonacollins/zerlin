@@ -1,15 +1,31 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsOptional, IsNumber, IsObject, IsIn } from 'class-validator';
+import { IsString, IsOptional, IsObject, IsIn } from 'class-validator';
 
 export class EstimateFeeDto {
   @ApiProperty({
     description: 'Transaction type',
     example: 'transfer',
-    enum: ['transfer', 'contract-call', 'contract-deploy', 'nft-mint', 'swap', 'sbtc-peg-in', 'sbtc-peg-out'],
+    enum: [
+      'transfer',
+      'contract-call',
+      'contract-deploy',
+      'nft-mint',
+      'swap',
+      'sbtc-peg-in',
+      'sbtc-peg-out',
+    ],
     default: 'transfer',
   })
   @IsString()
-  @IsIn(['transfer', 'contract-call', 'contract-deploy', 'nft-mint', 'swap', 'sbtc-peg-in', 'sbtc-peg-out'])
+  @IsIn([
+    'transfer',
+    'contract-call',
+    'contract-deploy',
+    'nft-mint',
+    'swap',
+    'sbtc-peg-in',
+    'sbtc-peg-out',
+  ])
   type: string;
 
   @ApiProperty({
@@ -34,7 +50,10 @@ export class EstimateFeeDto {
 }
 
 export class FeeBreakdownDto {
-  @ApiProperty({ description: 'Base transaction fee in microSTX', example: 180 })
+  @ApiProperty({
+    description: 'Base transaction fee in microSTX',
+    example: 180,
+  })
   baseFee: number;
 
   @ApiProperty({ description: 'Execution cost in microSTX', example: 0 })
@@ -45,7 +64,11 @@ export class FeeBreakdownDto {
 }
 
 export class NetworkStatusDto {
-  @ApiProperty({ description: 'Network congestion level', example: 'low', enum: ['low', 'medium', 'high'] })
+  @ApiProperty({
+    description: 'Network congestion level',
+    example: 'low',
+    enum: ['low', 'medium', 'high'],
+  })
   congestion: string;
 
   @ApiProperty({ description: 'Average fee rate in microSTX', example: 1 })
@@ -82,7 +105,10 @@ export class FeeEstimateResponseDto {
   @ApiProperty({ description: 'Network status', type: NetworkStatusDto })
   networkStatus: NetworkStatusDto;
 
-  @ApiProperty({ description: 'Timestamp', example: '2026-02-05T19:00:00.000Z' })
+  @ApiProperty({
+    description: 'Timestamp',
+    example: '2026-02-05T19:00:00.000Z',
+  })
   timestamp?: Date;
 
   @ApiProperty({ description: 'Whether result was cached', example: false })
