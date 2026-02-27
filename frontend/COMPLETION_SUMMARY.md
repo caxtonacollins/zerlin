@@ -1,4 +1,3 @@
-- **cn() Utility** - Conditional class merging
 - **Responsive** - Mobile-first breakpoints
 
 ### Performance
