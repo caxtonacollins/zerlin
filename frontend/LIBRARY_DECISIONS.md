@@ -1,4 +1,3 @@
-- Great TypeScript support
 - Can be used outside React components
 - Middleware support (persist, devtools)
 
