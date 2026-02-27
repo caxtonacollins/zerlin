@@ -1,4 +1,3 @@
-  - Format percentages (23% lower)
 - Locale support for internationalization
 - Small bundle size
 - Well-documented
