@@ -1,4 +1,3 @@
-- **Code Splitting** - Next.js automatic splitting
 - **Tree Shaking** - Only import what's used
 - **Lazy Loading** - Components loaded on demand
 - **Optimized Images** - Next.js Image component
