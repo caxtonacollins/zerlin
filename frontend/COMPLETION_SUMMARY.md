@@ -1,4 +1,3 @@
-- **Type-safe Props** - Full TypeScript coverage
 - **Index Files** - Clean exports and imports
 
 ### State Management
