@@ -8,7 +8,11 @@ import {
   ClarityValue,
 } from '@stacks/transactions';
 
-import { generateWallet, getRootNode, deriveStxPrivateKey } from '@stacks/wallet-sdk';
+import {
+  generateWallet,
+  getRootNode,
+  deriveStxPrivateKey,
+} from '@stacks/wallet-sdk';
 
 @Injectable()
 export class StacksService {
@@ -20,14 +24,20 @@ export class StacksService {
   private privateKey: string | undefined;
 
   constructor(private configService: ConfigService) {
-    const networkEnv = this.configService.get<string>('STACKS_NETWORK', 'mainnet');
+    const networkEnv = this.configService.get<string>(
+      'STACKS_NETWORK',
+      'mainnet',
+    );
     this.apiUrl = this.configService.get<string>(
       'STACKS_API_URL',
       'https://api.mainnet.hiro.so',
       // 'https://api.testnet.hiro.so'
     );
     this.timeout = this.configService.get<number>('STACKS_API_TIMEOUT', 5000);
-    this.maxRetries = this.configService.get<number>('STACKS_API_MAX_RETRIES', 2);
+    this.maxRetries = this.configService.get<number>(
+      'STACKS_API_MAX_RETRIES',
+      2,
+    );
 
     // Check for private key or mnemonic
     const privateKey = this.configService.get<string>('STACKS_PRIVATE_KEY');
@@ -36,15 +46,15 @@ export class StacksService {
     if (privateKey) {
       this.privateKey = privateKey;
     } else if (mnemonic) {
-      this.initializeFromMnemonic(mnemonic).catch(error => {
+      this.initializeFromMnemonic(mnemonic).catch((error) => {
         this.logger.error('Failed to initialize from mnemonic', error);
       });
     }
 
     if (networkEnv === 'testnet') {
-        this.network = STACKS_TESTNET;
+      this.network = STACKS_TESTNET;
     } else {
-        this.network = STACKS_MAINNET;
+      this.network = STACKS_MAINNET;
     }
   }
 
@@ -56,7 +66,9 @@ export class StacksService {
       });
       const rootNode = getRootNode(wallet);
       this.privateKey = deriveStxPrivateKey({ rootNode, index: 0 });
-      this.logger.log('StacksService initialized with private key derived from mnemonic');
+      this.logger.log(
+        'StacksService initialized with private key derived from mnemonic',
+      );
     } catch (error) {
       this.logger.error('Failed to derive private key from mnemonic', error);
       throw error;
@@ -67,7 +79,10 @@ export class StacksService {
     return this.network;
   }
 
-  private async fetchWithTimeout(url: string, options: RequestInit = {}): Promise<Response> {
+  private async fetchWithTimeout(
+    url: string,
+    options: RequestInit = {},
+  ): Promise<Response> {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), this.timeout);
 
@@ -84,7 +99,10 @@ export class StacksService {
     }
   }
 
-  private async fetchWithRetry(url: string, options: RequestInit = {}): Promise<Response> {
+  private async fetchWithRetry(
+    url: string,
+    options: RequestInit = {},
+  ): Promise<Response> {
     let lastError: Error;
 
     for (let attempt = 0; attempt <= this.maxRetries; attempt++) {
@@ -96,8 +114,10 @@ export class StacksService {
 
         if (attempt < this.maxRetries) {
           const delay = Math.min(1000 * Math.pow(2, attempt), 5000);
-          this.logger.warn(`Fetch attempt ${attempt + 1} failed for ${url}, retrying in ${delay}ms...`);
-          await new Promise(resolve => setTimeout(resolve, delay));
+          this.logger.warn(
+            `Fetch attempt ${attempt + 1} failed for ${url}, retrying in ${delay}ms...`,
+          );
+          await new Promise((resolve) => setTimeout(resolve, delay));
         }
       }
     }
@@ -120,7 +140,9 @@ export class StacksService {
 
   async getRecentMempoolStats() {
     try {
-      const response = await this.fetchWithRetry(`${this.apiUrl}/extended/v1/tx/mempool/stats`);
+      const response = await this.fetchWithRetry(
+        `${this.apiUrl}/extended/v1/tx/mempool/stats`,
+      );
       if (!response.ok) {
         return null;
       }
@@ -134,29 +156,37 @@ export class StacksService {
   // Basic estimation wrapper using @stacks/transactions
   // Note: Accurate estimation often requires constructing the transaction payload
   // This is a simplified estimation based on byte size and current network fee rate
-  async estimateTransferFee(amountMicroStx: bigint, recipient: string, memo?: string) {
+  async estimateTransferFee(
+    _amountMicroStx: bigint,
+    _recipient: string,
+    _memo?: string,
+  ) {
     try {
-      const response = await this.fetchWithRetry(`${this.apiUrl}/v2/fees/transfer`);
-        const data = await response.json();
-        return data as number; 
+      const response = await this.fetchWithRetry(
+        `${this.apiUrl}/v2/fees/transfer`,
+      );
+      const data = await response.json();
+      return data as number;
     } catch (e) {
-        this.logger.error('Failed to get transfer fee', e);
-        throw e;
+      this.logger.error('Failed to get transfer fee', e);
+      throw e;
     }
   }
 
   async estimateContractCallFee(
-    contractAddress: string,
-    contractName: string,
-    functionName: string,
-    functionArgs: string[],
+    _contractAddress: string,
+    _contractName: string,
+    _functionName: string,
+    _functionArgs?: any[],
   ) {
     // Placeholder: Real implementation requires simulating the transaction
     // using @stacks/transactions read-only call to estimate execution cost
     // For MVP, we can fetch the current network fee rate and multiply by a standard
     // contract call size + buffer.
     try {
-      const feeRateRes = await this.fetchWithRetry(`${this.apiUrl}/v2/fees/transfer`);
+      const feeRateRes = await this.fetchWithRetry(
+        `${this.apiUrl}/v2/fees/transfer`,
+      );
       const feeRate = await feeRateRes.json();
 
       return {
@@ -164,26 +194,25 @@ export class StacksService {
         estimatedCost: 3000, // microSTX dummy
       };
     } catch (error) {
-       this.logger.error(`Error estimating contract call`, error);
-       throw error;
+      this.logger.error(`Error estimating contract call`, error);
+      throw error;
     }
   }
 
-  async estimateContractDeployFee(
-    contractName: string,
-    codeBody: string,
-  ) {
-     try {
-       const feeRateRes = await this.fetchWithRetry(`${this.apiUrl}/v2/fees/transfer`);
-       const feeRate = await feeRateRes.json();
-       return {
-         feeRate,
-         estimatedCost: 50000, // Higher default for deploy
-       };
-     } catch (error) {
-       this.logger.error(`Error estimating contract deploy`, error);
-       throw error;
-     }
+  async estimateContractDeployFee(_contractName: string, _codeBody: string) {
+    try {
+      const feeRateRes = await this.fetchWithRetry(
+        `${this.apiUrl}/v2/fees/transfer`,
+      );
+      const feeRate = await feeRateRes.json();
+      return {
+        feeRate,
+        estimatedCost: 50000, // Higher default for deploy
+      };
+    } catch (error) {
+      this.logger.error(`Error estimating contract deploy`, error);
+      throw error;
+    }
   }
 
   async broadcastContractCall(
@@ -212,12 +241,17 @@ export class StacksService {
       const broadcastResponse = await broadcastTransaction({ transaction });
 
       if ('error' in broadcastResponse && broadcastResponse.error) {
-        throw new Error(`Transaction failed: ${broadcastResponse.error} ${broadcastResponse.reason || ''}`);
+        throw new Error(
+          `Transaction failed: ${broadcastResponse.error} ${broadcastResponse.reason || ''}`,
+        );
       }
 
       return (broadcastResponse as any).txid;
     } catch (error) {
-      this.logger.error(`Error broadcasting contract call ${functionName}`, error);
+      this.logger.error(
+        `Error broadcasting contract call ${functionName}`,
+        error,
+      );
       throw error;
     }
   }
