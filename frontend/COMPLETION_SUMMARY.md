@@ -1,4 +1,3 @@
-- **Tailwind CSS** - Utility-first styling
 - **Custom Theme** - Bitcoin-native colors
 - **cn() Utility** - Conditional class merging
 - **Responsive** - Mobile-first breakpoints
