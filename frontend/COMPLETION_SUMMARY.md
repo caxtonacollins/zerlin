@@ -1,4 +1,3 @@
-2. **Animations**
    - Page transitions with Framer Motion
    - Micro-interactions on hover
    - Staggered list animations
