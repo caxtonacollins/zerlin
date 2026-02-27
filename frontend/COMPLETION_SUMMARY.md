@@ -1,4 +1,3 @@
-### 2. Historical Data Visualization
 - Interactive charts with Recharts
 - Time range selection (7/30/90 days)
 - Min/max/average statistics
