@@ -1,0 +1,314 @@
+# Library Decisions for Zerlin Frontend
+
+This document outlines the external library choices for the Zerlin frontend, with rationale based on research conducted in February 2026.
+
+---
+
+## UI Component Library
+
+### Decision: **shadcn/ui** (built on Radix UI)
+
+**Rationale:**
+- shadcn/ui provides pre-styled, accessible components built on top of Radix UI primitives
+- Copy-paste component model means zero runtime dependencies and full ownership of code
+- Perfect for our Bitcoin-native precision aesthetic - components are fully customizable
+- Excellent TypeScript support and documentation
+- Built specifically for Tailwind CSS (our chosen styling framework)
+- Active community and regular updates in 2026
+- Radix UI underneath provides battle-tested accessibility (ARIA, keyboard nav, focus management)
+
+**Alternatives Considered:**
+- Radix UI (raw): Too low-level, would require styling everything from scratch
+- Headless UI: Less feature-complete than Radix, smaller ecosystem
+- Ark UI: Newer, less proven in production
+
+**Installation:**
+```bash
+npx shadcn@latest init
+```
+
+---
+
+## Form Management
+
+### Decision: **React Hook Form** + **Zod**
+
+**Rationale:**
+
+**React Hook Form:**
+- Superior performance - uses uncontrolled components, minimal re-renders
+- Tiny bundle size (~9KB gzipped) vs Formik (~15KB)
+- Perfect for our calculator with dynamic fields based on transaction type
+- Subscription-based model - only components that need updates will re-render
+- Excellent TypeScript support
+- Native HTML validation API integration
+
+**Zod:**
+- TypeScript-first schema validation
+- Type inference means single source of truth for types
+- Composable schemas perfect for our 30+ transaction type validations
+- Excellent error messages for user feedback
+- Zero dependencies
+- Seamless integration with React Hook Form via @hookform/resolvers
+
+**Alternatives Considered:**
+- Formik: Causes full form re-renders on every keystroke, performance issues with 50+ fields
+- Yup: Less TypeScript-native than Zod, weaker type inference
+
+**Installation:**
+```bash
+pnpm add react-hook-form zod @hookform/resolvers
+```
+
+---
+
+## Animation Library
+
+### Decision: **Framer Motion**
+
+**Rationale:**
+- Most popular React animation library in 2026 (industry standard)
+- Declarative API that feels natural in React - animations as props
+- Perfect for our UI needs:
+  - Enter/exit animations (page transitions)
+  - Hover effects (button glows, card lifts)
+  - Layout animations (expanding accordions)
+  - Gesture animations (drag, tap)
+- Excellent performance with automatic GPU acceleration
+- Built-in variants system for orchestrating complex animations
+- Great TypeScript support
+- Active maintenance and large community
+
+**Alternatives Considered:**
+- GSAP: More powerful but overkill for UI animations, larger bundle, requires license for commercial use
+- React Spring: Physics-based animations are beautiful but harder to control precisely
+- Auto Animate: Too limited for our needs (no gesture support, less control)
+
+**Installation:**
+```bash
+pnpm add framer-motion
+```
+
+---
+
+## Chart Library
+
+### Decision: **Recharts**
+
+**Rationale:**
+- Built specifically for React - components compose naturally
+- Declarative API matches React philosophy
+- Perfect for our fee visualization needs:
+  - Line charts (historical fee trends)
+  - Area charts (congestion zones)
+  - Bar charts (fee comparisons)
+- SVG-based rendering (crisp on all displays, easy to style)
+- Responsive by default
+- Excellent documentation with many examples
+- Active community (23,600+ GitHub stars)
+- Customizable tooltips and legends
+- Works great with dark themes (our primary aesthetic)
+
+**Alternatives Considered:**
+- Chart.js: Not React-native, requires wrapper library, imperative API
+- Nivo: Beautiful defaults but heavier bundle, less customizable
+- Victory: Good but smaller community, less documentation
+
+**Installation:**
+```bash
+pnpm add recharts
+```
+
+---
+
+## Utility Libraries
+
+### Decision: **clsx** + **tailwind-merge**
+
+**Rationale:**
+
+**clsx:**
+- Tiny (228 bytes), fast conditional className builder
+- Perfect for dynamic component variants
+- Clean syntax for conditional classes
+
+**tailwind-merge:**
+- Intelligently merges Tailwind classes (prevents conflicts)
+- Essential for component composition with className overrides
+- Works perfectly with clsx
+
+**Installation:**
+```bash
+pnpm add clsx tailwind-merge
+```
+
+**Usage Pattern:**
+```typescript
+import { clsx } from 'clsx';
+import { twMerge } from 'tailwind-merge';
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
+```
+
+---
+
+## Date Manipulation
+
+### Decision: **date-fns**
+
+**Rationale:**
+- Modular (tree-shakeable) - only import functions you use
+- Immutable and pure functions (functional programming friendly)
+- Excellent TypeScript support
+- Smaller bundle than moment.js
+- Perfect for our needs:
+  - Format timestamps (fee history)
+  - Relative time ("2 hours ago")
+  - Date range calculations (7/30/90 day charts)
+- Active maintenance
+
+**Alternatives Considered:**
+- Day.js: Smaller but less feature-complete
+- Moment.js: Deprecated, large bundle, mutable API
+
+**Installation:**
+```bash
+pnpm add date-fns
+```
+
+---
+
+## Number Formatting
+
+### Decision: **numeral**
+
+**Rationale:**
+- Simple API for formatting numbers, currency, percentages
+- Perfect for our fee display needs:
+  - Format STX amounts (0.00395 STX)
+  - Format USD ($0.0026)
+  - Format percentages (23% lower)
+- Locale support for internationalization
+- Small bundle size
+- Well-documented
+
+**Alternatives Considered:**
+- dinero.js: Overkill (designed for financial calculations, we just need display)
+- Intl.NumberFormat: Native but less convenient API
+
+**Installation:**
+```bash
+pnpm add numeral @types/numeral
+```
+
+---
+
+## Toast Notifications
+
+### Decision: **react-hot-toast**
+
+**Rationale:**
+- Lightweight (3.5KB gzipped)
+- Beautiful default styling (matches our aesthetic)
+- Fully customizable
+- Promise-based API (perfect for async operations)
+- Accessible (ARIA live regions)
+- Works great with Tailwind CSS
+- Smooth animations out of the box
+
+**Alternatives Considered:**
+- react-toastify: Heavier, less modern API
+- sonner: Newer, less proven
+
+**Installation:**
+```bash
+pnpm add react-hot-toast
+```
+
+---
+
+## State Management
+
+### Decision: **Zustand**
+
+**Rationale:**
+- Minimal boilerplate (no providers, no context)
+- Tiny bundle (1KB gzipped)
+- Simple API - just hooks
+- Perfect for our needs:
+  - Fee calculator state
+  - Alert management
+  - Wallet connection state
+- No unnecessary re-renders
+- Great TypeScript support
+- Can be used outside React components
+- Middleware support (persist, devtools)
+
+**Alternatives Considered:**
+- Redux Toolkit: Overkill for our app size, more boilerplate
+- Jotai/Recoil: Atomic state is unnecessary complexity for our use case
+- Context API: Would work but Zustand is more ergonomic
+
+**Installation:**
+```bash
+pnpm add zustand
+```
+
+---
+
+## Blockchain Integration
+
+### Decision: **@stacks/connect** + **@stacks/transactions** + **@stacks/network**
+
+**Rationale:**
+- Official Stacks.js libraries
+- Required for wallet integration (Xverse, Leather, Hiro)
+- Contract read/write operations
+- Network configuration (mainnet/testnet)
+- Well-documented
+- Active maintenance by Stacks Foundation
+
+**Installation:**
+```bash
+pnpm add @stacks/connect @stacks/transactions @stacks/network
+```
+
+---
+
+## Summary Table
+
+| Category | Library | Bundle Size | Rationale |
+|----------|---------|-------------|-----------|
+| UI Components | shadcn/ui + Radix UI | 0KB (copy-paste) | Accessible, customizable, Tailwind-native |
+| Forms | React Hook Form | ~9KB | Performance, minimal re-renders |
+| Validation | Zod | ~8KB | TypeScript-first, type inference |
+| Animation | Framer Motion | ~30KB | Declarative, React-native, gestures |
+| Charts | Recharts | ~50KB | React-native, composable, SVG |
+| Class Utils | clsx + tailwind-merge | <1KB | Conditional classes, conflict resolution |
+| Dates | date-fns | ~10KB (tree-shaken) | Modular, immutable, TypeScript |
+| Numbers | numeral | ~5KB | Simple formatting API |
+| Toasts | react-hot-toast | ~3.5KB | Lightweight, beautiful, accessible |
+| State | Zustand | ~1KB | Minimal, no boilerplate |
+| Blockchain | Stacks.js | ~100KB | Official, required for Stacks |
+
+**Total Estimated Bundle:** ~220KB (gzipped, excluding Next.js framework)
+
+---
+
+## Next Steps
+
+1. Initialize Next.js project with TypeScript
+2. Install Tailwind CSS
+3. Run `npx shadcn@latest init` to set up component system
+4. Install all libraries listed above
+5. Configure Tailwind with custom colors (Bitcoin orange, Stacks purple)
+6. Set up folder structure (atoms, molecules, organisms)
+7. Begin component development
+
+---
+
+**Document Version:** 1.0  
+**Last Updated:** February 27, 2026  
+**Author:** Zerlin Development Team
