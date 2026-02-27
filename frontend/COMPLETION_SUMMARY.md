@@ -1,4 +1,3 @@
-- Framer Motion
 
 ---
 
