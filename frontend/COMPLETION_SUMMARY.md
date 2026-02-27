@@ -1,4 +1,3 @@
-
 ## 🏗️ Architecture Highlights
 
 ### Component Architecture
