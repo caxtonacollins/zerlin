@@ -1,4 +1,3 @@
-- Recent estimates table
 - Alert management UI
 
 ### 4. Documentation
