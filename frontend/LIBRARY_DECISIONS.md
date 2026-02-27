@@ -1,4 +1,3 @@
-- Clean syntax for conditional classes
 
 **tailwind-merge:**
 - Intelligently merges Tailwind classes (prevents conflicts)
