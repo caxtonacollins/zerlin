@@ -1,4 +1,3 @@
-  - Wallet connection state
 - No unnecessary re-renders
 - Great TypeScript support
 - Can be used outside React components
