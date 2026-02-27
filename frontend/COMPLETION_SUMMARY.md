@@ -1,4 +1,3 @@
-- ✅ README with setup instructions
 - ✅ Library decisions document
 - ✅ Development log
 - ✅ Environment variables template
