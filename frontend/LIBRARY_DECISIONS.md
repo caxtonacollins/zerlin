@@ -1,4 +1,3 @@
-- Tiny (228 bytes), fast conditional className builder
 - Perfect for dynamic component variants
 - Clean syntax for conditional classes
 
