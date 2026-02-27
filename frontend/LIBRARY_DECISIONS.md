@@ -1,4 +1,3 @@
-## UI Component Library
 
 ### Decision: **shadcn/ui** (built on Radix UI)
 
