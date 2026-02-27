@@ -1,4 +1,3 @@
-
 ### Decision: **Recharts**
 
 **Rationale:**
