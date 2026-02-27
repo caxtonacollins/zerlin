@@ -1,4 +1,3 @@
-- ✅ Docs - API documentation and guides
 
 ### 🔧 Utilities (Complete)
 - ✅ API client for backend communication
