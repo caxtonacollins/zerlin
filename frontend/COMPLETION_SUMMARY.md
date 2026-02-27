@@ -1,4 +1,3 @@
-   - User behavior tracking
    - Error monitoring with Sentry
    - Performance monitoring
    - A/B testing
