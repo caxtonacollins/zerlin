@@ -1,4 +1,3 @@
-- Screen reader friendly
 
 ## 🏗️ Architecture Highlights
 
