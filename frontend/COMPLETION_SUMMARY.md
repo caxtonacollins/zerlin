@@ -1,4 +1,3 @@
-While the frontend is complete and functional, here are optional enhancements:
 
 1. **Testing**
    - Unit tests with Jest
