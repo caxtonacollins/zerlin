@@ -1,4 +1,3 @@
-- ✅ wallet.ts - WalletConnection, WalletState
 - ✅ transaction.ts - TransactionTemplate, categories
 
 ### 📚 Documentation (Complete)
