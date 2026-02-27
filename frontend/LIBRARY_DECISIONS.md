@@ -1,4 +1,3 @@
-pnpm add clsx tailwind-merge
 ```
 
 **Usage Pattern:**
