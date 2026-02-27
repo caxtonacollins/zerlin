@@ -1,4 +1,3 @@
-**Rationale:**
 - Official Stacks.js libraries
 - Required for wallet integration (Xverse, Leather, Hiro)
 - Contract read/write operations
