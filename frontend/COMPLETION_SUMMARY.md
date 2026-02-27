@@ -1,4 +1,3 @@
-   - Integration tests with React Testing Library
    - E2E tests with Playwright
 
 2. **Animations**
