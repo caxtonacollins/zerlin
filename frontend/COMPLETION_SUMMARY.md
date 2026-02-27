@@ -1,4 +1,3 @@
-- Smart contract information
 - Community links
 
 ### 5. Responsive Design
