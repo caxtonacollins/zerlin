@@ -1,4 +1,3 @@
-- Optimized layouts
 
 ### 6. Accessibility
 - ARIA labels on interactive elements
