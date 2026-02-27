@@ -1,4 +1,3 @@
-- sonner: Newer, less proven
 
 **Installation:**
 ```bash
