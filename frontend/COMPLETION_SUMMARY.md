@@ -1,4 +1,3 @@
-- TypeScript 5
 - Tailwind CSS 4
 - Stacks.js
 - Recharts
