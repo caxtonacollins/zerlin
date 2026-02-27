@@ -1,4 +1,3 @@
-- Auto Animate: Too limited for our needs (no gesture support, less control)
 
 **Installation:**
 ```bash
