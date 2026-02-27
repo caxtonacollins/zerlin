@@ -1,4 +1,10 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  ManyToOne,
+} from 'typeorm';
 import { User } from './user.entity';
 
 @Entity()
@@ -15,7 +21,7 @@ export class Alert {
   @Column({
     type: 'enum',
     enum: ['ABOVE', 'BELOW'],
-    default: 'BELOW'
+    default: 'BELOW',
   })
   condition: 'ABOVE' | 'BELOW';
 
