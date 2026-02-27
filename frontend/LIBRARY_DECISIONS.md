@@ -1,4 +1,3 @@
-- Headless UI: Less feature-complete than Radix, smaller ecosystem
 - Ark UI: Newer, less proven in production
 
 **Installation:**
