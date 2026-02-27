@@ -1,4 +1,3 @@
-- API integration guide
 - Supported transaction types
 - Smart contract information
 - Community links
