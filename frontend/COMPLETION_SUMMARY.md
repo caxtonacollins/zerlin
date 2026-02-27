@@ -1,4 +1,3 @@
-- ✅ API client for backend communication
 - ✅ Formatters (STX, USD, dates, addresses)
 - ✅ Constants (network, contracts, API)
 - ✅ Class name utility (cn)
