@@ -1,4 +1,3 @@
-
 ### 5. Responsive Design
 - Mobile-first approach
 - Breakpoints for all screen sizes
