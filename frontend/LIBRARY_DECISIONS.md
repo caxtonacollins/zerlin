@@ -1,4 +1,3 @@
-- Type inference means single source of truth for types
 - Composable schemas perfect for our 30+ transaction type validations
 - Excellent error messages for user feedback
 - Zero dependencies
