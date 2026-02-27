@@ -1,4 +1,3 @@
-
 **Alternatives Considered:**
 - Formik: Causes full form re-renders on every keystroke, performance issues with 50+ fields
 - Yup: Less TypeScript-native than Zod, weaker type inference
