@@ -1,4 +1,3 @@
-   - Dark/light mode toggle
 
 4. **Performance**
    - Image optimization
