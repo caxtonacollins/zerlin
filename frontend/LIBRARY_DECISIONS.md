@@ -1,4 +1,3 @@
-- Zero dependencies
 - Seamless integration with React Hook Form via @hookform/resolvers
 
 **Alternatives Considered:**
