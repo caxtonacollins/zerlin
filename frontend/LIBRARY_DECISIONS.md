@@ -1,4 +1,3 @@
-- Customizable tooltips and legends
 - Works great with dark themes (our primary aesthetic)
 
 **Alternatives Considered:**
