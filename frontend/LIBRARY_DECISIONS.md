@@ -1,4 +1,3 @@
-- Active maintenance
 
 **Alternatives Considered:**
 - Day.js: Smaller but less feature-complete
