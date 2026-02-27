@@ -1,4 +1,3 @@
-3. **Advanced Features**
    - Alert notifications (email, push)
    - Export functionality (CSV, JSON)
    - Share links for estimates
