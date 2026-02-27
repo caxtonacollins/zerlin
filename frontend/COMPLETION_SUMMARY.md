@@ -1,4 +1,3 @@
-   - Bundle size analysis
    - Lighthouse score optimization
    - CDN integration
 
