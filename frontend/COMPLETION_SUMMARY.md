@@ -1,4 +1,3 @@
-   - CDN integration
 
 5. **Analytics**
    - User behavior tracking
