@@ -1,4 +1,3 @@
-
 ## 📊 Statistics
 
 - **Total Commits:** 52
