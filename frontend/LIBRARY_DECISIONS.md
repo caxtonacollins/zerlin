@@ -1,4 +1,3 @@
-### Decision: **shadcn/ui** (built on Radix UI)
 
 **Rationale:**
 - shadcn/ui provides pre-styled, accessible components built on top of Radix UI primitives
