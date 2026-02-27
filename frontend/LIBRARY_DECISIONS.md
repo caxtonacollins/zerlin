@@ -1,4 +1,3 @@
-- Small bundle size
 - Well-documented
 
 **Alternatives Considered:**
