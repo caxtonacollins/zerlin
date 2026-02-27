@@ -1,4 +1,3 @@
-- Well-documented
 
 **Alternatives Considered:**
 - dinero.js: Overkill (designed for financial calculations, we just need display)
