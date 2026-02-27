@@ -1,4 +1,3 @@
-- ✅ Dashboard - Alerts management and stats
 - ✅ History - Historical charts with insights
 - ✅ Docs - API documentation and guides
 
