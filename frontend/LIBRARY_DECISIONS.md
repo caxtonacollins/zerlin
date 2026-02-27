@@ -1,4 +1,3 @@
-### Decision: **Zustand**
 
 **Rationale:**
 - Minimal boilerplate (no providers, no context)
