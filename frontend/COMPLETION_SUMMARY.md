@@ -1,4 +1,3 @@
-
 ### 6. Accessibility
 - ARIA labels on interactive elements
 - Keyboard navigation support
