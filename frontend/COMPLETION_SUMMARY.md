@@ -1,4 +1,3 @@
-- Recharts
 - Zustand
 - Framer Motion
 
