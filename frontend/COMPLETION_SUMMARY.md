@@ -1,4 +1,3 @@
-   - Performance monitoring
    - A/B testing
 
 ## 🎓 What Was Learned
