@@ -1,4 +1,3 @@
-The frontend is **production-ready** with:
 
 ✅ Complete feature set
 ✅ Responsive design
