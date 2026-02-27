@@ -1,4 +1,3 @@
-  - Gesture animations (drag, tap)
 - Excellent performance with automatic GPU acceleration
 - Built-in variants system for orchestrating complex animations
 - Great TypeScript support
