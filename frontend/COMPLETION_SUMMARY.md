@@ -1,4 +1,3 @@
-- ✅ useCurrentFee - Fetch fee from smart contract
 - ✅ useEstimate - Calculate transaction fees
 - ✅ useFeeHistory - Fetch historical data
 - ✅ useWallet - Wallet connection logic
