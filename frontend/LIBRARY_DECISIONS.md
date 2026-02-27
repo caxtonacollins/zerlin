@@ -1,4 +1,3 @@
-- Works perfectly with clsx
 
 **Installation:**
 ```bash
