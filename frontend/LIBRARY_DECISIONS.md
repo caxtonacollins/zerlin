@@ -1,4 +1,3 @@
-
 ## Summary Table
 
 | Category | Library | Bundle Size | Rationale |
