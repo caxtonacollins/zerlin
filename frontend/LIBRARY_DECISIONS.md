@@ -1,4 +1,3 @@
-- Responsive by default
 - Excellent documentation with many examples
 - Active community (23,600+ GitHub stars)
 - Customizable tooltips and legends
