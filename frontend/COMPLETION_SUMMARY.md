@@ -1,4 +1,3 @@
-- Stacks.js
 - Recharts
 - Zustand
 - Framer Motion
