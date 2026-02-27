@@ -1,4 +1,3 @@
-   - Lighthouse score optimization
    - CDN integration
 
 5. **Analytics**
