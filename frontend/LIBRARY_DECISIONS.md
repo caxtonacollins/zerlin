@@ -1,4 +1,3 @@
----
 
 ## Number Formatting
 
