@@ -1,4 +1,3 @@
-5. **Analytics**
    - User behavior tracking
    - Error monitoring with Sentry
    - Performance monitoring
