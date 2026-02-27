@@ -1,4 +1,3 @@
-- Yup: Less TypeScript-native than Zod, weaker type inference
 
 **Installation:**
 ```bash
