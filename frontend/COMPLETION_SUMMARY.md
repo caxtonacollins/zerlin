@@ -1,4 +1,3 @@
-- ✅ Custom CSS variables for theming
 - ✅ Noise texture overlay effect
 - ✅ Glassmorphism card styles
 - ✅ Gradient text effects
