@@ -1,4 +1,3 @@
-
 **Installation:**
 ```bash
 npx shadcn@latest init
