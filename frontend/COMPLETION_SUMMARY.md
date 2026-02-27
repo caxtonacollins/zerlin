@@ -1,4 +1,3 @@
-- **Next.js 16 App Router** - Server components, layouts, routing
 - **Tailwind CSS 4** - Utility-first styling, custom theme
 - **Blockchain Integration** - Stacks.js, wallet connection
 - **State Management** - Zustand for global state
