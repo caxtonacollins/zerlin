@@ -1,4 +1,3 @@
-### Decision: **React Hook Form** + **Zod**
 
 **Rationale:**
 
