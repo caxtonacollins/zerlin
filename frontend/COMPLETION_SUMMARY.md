@@ -1,4 +1,3 @@
-   - Micro-interactions on hover
    - Staggered list animations
 
 3. **Advanced Features**
