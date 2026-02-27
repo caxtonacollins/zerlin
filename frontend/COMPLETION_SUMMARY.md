@@ -1,4 +1,3 @@
-### Performance
 - **Code Splitting** - Next.js automatic splitting
 - **Tree Shaking** - Only import what's used
 - **Lazy Loading** - Components loaded on demand
