@@ -1,4 +1,3 @@
-- Radix UI underneath provides battle-tested accessibility (ARIA, keyboard nav, focus management)
 
 **Alternatives Considered:**
 - Radix UI (raw): Too low-level, would require styling everything from scratch
