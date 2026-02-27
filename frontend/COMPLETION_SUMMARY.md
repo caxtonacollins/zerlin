@@ -1,4 +1,3 @@
-- Supported transaction types
 - Smart contract information
 - Community links
 
