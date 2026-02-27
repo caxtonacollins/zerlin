@@ -1,4 +1,3 @@
-
 ### Styling Approach
 - **Tailwind CSS** - Utility-first styling
 - **Custom Theme** - Bitcoin-native colors
