@@ -1,4 +1,3 @@
-- ✅ Glassmorphism card styles
 - ✅ Gradient text effects
 
 ### 🧩 Components (Complete)
