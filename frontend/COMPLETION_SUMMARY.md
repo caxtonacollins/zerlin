@@ -1,4 +1,3 @@
-
 - **Total Commits:** 52
 - **Files Created:** 45+
 - **Lines of Code:** 2,500+
