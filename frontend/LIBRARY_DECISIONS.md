@@ -1,4 +1,3 @@
-- Excellent TypeScript support
 - Smaller bundle than moment.js
 - Perfect for our needs:
   - Format timestamps (fee history)
