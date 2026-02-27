@@ -1,4 +1,3 @@
-## Next Steps
 
 1. Initialize Next.js project with TypeScript
 2. Install Tailwind CSS
