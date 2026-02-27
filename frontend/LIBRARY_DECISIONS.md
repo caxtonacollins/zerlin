@@ -1,4 +1,3 @@
-- Smaller bundle than moment.js
 - Perfect for our needs:
   - Format timestamps (fee history)
   - Relative time ("2 hours ago")
