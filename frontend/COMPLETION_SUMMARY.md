@@ -1,4 +1,3 @@
-# Zerlin Frontend - Completion Summary
 
 ## 🎉 Project Complete!
 
