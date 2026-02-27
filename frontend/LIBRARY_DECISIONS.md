@@ -1,4 +1,3 @@
-pnpm add zustand
 ```
 
 ---
