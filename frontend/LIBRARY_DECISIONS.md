@@ -1,4 +1,3 @@
-- Built specifically for React - components compose naturally
 - Declarative API matches React philosophy
 - Perfect for our fee visualization needs:
   - Line charts (historical fee trends)
