@@ -1,4 +1,3 @@
-   - E2E tests with Playwright
 
 2. **Animations**
    - Page transitions with Framer Motion
