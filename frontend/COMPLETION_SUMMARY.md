@@ -1,4 +1,3 @@
-- ✅ WalletConnect - Connect wallet button
 - ✅ BalanceCheck - Sufficient/insufficient balance indicator
 
 **Organisms (5 components)**
