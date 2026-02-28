@@ -209,7 +209,7 @@ describe('Contracts Controller (e2e)', () => {
         .expect(201)
         .then((res) => {
           const alertId = res.body.id;
-          
+
           // Update the alert
           const updateDto = {
             targetFee: 300,
@@ -257,7 +257,7 @@ describe('Contracts Controller (e2e)', () => {
         .expect(201)
         .then((res) => {
           const alertId = res.body.id;
-          
+
           // Delete the alert
           return request(app.getHttpServer())
             .delete(`/contracts/smart-alerts/${alertId}`)
