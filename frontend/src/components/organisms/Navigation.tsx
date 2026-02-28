@@ -1,6 +1,5 @@
-import React from 'react';
 import Link from 'next/link';
-import { WalletConnect } from '@/components/molecules';
+import { WalletConnect } from '../molecules';
 
 export function Navigation() {
   return (
@@ -42,7 +41,7 @@ export function Navigation() {
             </div>
           </div>
           
-          <WalletConnect onConnect={() => console.log('Connect wallet')} />
+          <WalletConnect />
         </div>
       </div>
     </nav>
