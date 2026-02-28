@@ -76,7 +76,7 @@ export function HistoricalChart({ data = [] }: HistoricalChartProps) {
                 borderRadius: '8px',
                 color: '#FAFAFA',
               }}
-              formatter={(value: number) => [`${value} STX`, 'Fee']}
+              formatter={(value) => [`${value || 0} STX`, 'Fee']}
             />
             <Line 
               type="monotone" 

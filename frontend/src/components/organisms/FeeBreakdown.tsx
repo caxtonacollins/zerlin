@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Badge } from '@/components/atoms';
-import { formatStx, formatUsd } from '@/lib/formatters';
+import { formatStx } from '@/lib/formatters';
 import type { FeeBreakdown as FeeBreakdownType } from '@/types/fee';
 
 interface FeeBreakdownProps {
@@ -20,7 +20,7 @@ export function FeeBreakdown({ breakdown, totalStx, totalUsd }: FeeBreakdownProp
       </div>
       
       <div className="mb-6">
-        <div className="text-5xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+        <div className="text-5xl font-bold bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent">
           {totalStx} STX
         </div>
         <div className="text-lg text-text-secondary mt-1">

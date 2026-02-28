@@ -47,27 +47,39 @@ export function TransferExample() {
     <div className="p-6 rounded-xl bg-bg-secondary border border-bg-tertiary space-y-4">
       <h3 className="text-xl font-bold text-text-primary">Send STX</h3>
       
-      <Input
-        label="Recipient Address"
-        value={recipient}
-        onChange={(e) => setRecipient(e.target.value)}
-        placeholder="SP2..."
-      />
+      <div>
+        <label className="block text-sm font-medium text-text-primary mb-2">
+          Recipient Address
+        </label>
+        <Input
+          value={recipient}
+          onChange={setRecipient}
+          placeholder="SP2..."
+        />
+      </div>
       
-      <Input
-        label="Amount (STX)"
-        type="number"
-        value={amount}
-        onChange={(e) => setAmount(e.target.value)}
-        placeholder="1.0"
-      />
+      <div>
+        <label className="block text-sm font-medium text-text-primary mb-2">
+          Amount (STX)
+        </label>
+        <Input
+          type="number"
+          value={amount}
+          onChange={setAmount}
+          placeholder="1.0"
+        />
+      </div>
       
-      <Input
-        label="Memo (optional)"
-        value={memo}
-        onChange={(e) => setMemo(e.target.value)}
-        placeholder="Payment for..."
-      />
+      <div>
+        <label className="block text-sm font-medium text-text-primary mb-2">
+          Memo (optional)
+        </label>
+        <Input
+          value={memo}
+          onChange={setMemo}
+          placeholder="Payment for..."
+        />
+      </div>
       
       <Button
         onClick={handleTransfer}
