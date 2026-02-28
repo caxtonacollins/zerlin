@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
-import { connect as stacksConnect, disconnect as stacksDisconnect, isConnected, request } from '@stacks/connect';
 import { useWalletStore } from '@/store/walletStore';
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 export function useWallet() {
   const [isConnecting, setIsConnecting] = useState(false);
@@ -9,10 +10,15 @@ export function useWallet() {
   
   // Check if already authenticated on mount
   useEffect(() => {
+    // Only run on client
+    if (typeof window === 'undefined') return;
+    
     const checkConnection = async () => {
+      const { isConnected, request } = await import('@stacks/connect');
+      
       if (isConnected() && !storeConnected) {
         try {
-          const accounts = await request('stx_getAccounts');
+          const accounts = await request('stx_getAccounts') as any;
           if (accounts?.addresses?.[0]) {
             const account = accounts.addresses[0];
             setWalletData({
@@ -30,9 +36,14 @@ export function useWallet() {
   }, [storeConnected, setWalletData]);
   
   const connect = useCallback(async () => {
+    // Guard against SSR
+    if (typeof window === 'undefined') return;
+    
     try {
       setIsConnecting(true);
       setError(null);
+      
+      const { connect: stacksConnect, isConnected, request } = await import('@stacks/connect');
       
       if (isConnected()) {
         console.log('Already authenticated');
@@ -42,16 +53,16 @@ export function useWallet() {
       const response = await stacksConnect({
         appDetails: {
           name: 'Zerlin',
-          icon: typeof window !== 'undefined' ? `${window.location.origin}/zerlin.png` : '/zerlin.png',
+          icon: `${window.location.origin}/zerlin.png`,
         },
-      });
+      } as any);
       
-      if (response?.addresses) {
-        const stxAddress = response.addresses.stx?.[0]?.address || '';
-        const btcAddress = response.addresses.btc?.[0]?.address || '';
+      if ((response as any)?.addresses) {
+        const stxAddress = (response as any).addresses.stx?.[0]?.address || '';
+        const btcAddress = (response as any).addresses.btc?.[0]?.address || '';
         
         // Get full account details
-        const accounts = await request('stx_getAccounts');
+        const accounts = await request('stx_getAccounts') as any;
         const account = accounts?.addresses?.[0];
         
         setWalletData({
@@ -68,7 +79,11 @@ export function useWallet() {
     }
   }, [setWalletData]);
   
-  const disconnect = useCallback(() => {
+  const disconnect = useCallback(async () => {
+    // Guard against SSR
+    if (typeof window === 'undefined') return;
+    
+    const { disconnect: stacksDisconnect } = await import('@stacks/connect');
     stacksDisconnect();
     clearWalletData();
   }, [clearWalletData]);

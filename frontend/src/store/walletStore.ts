@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { persist, createJSONStorage } from 'zustand/middleware';
 
 interface WalletState {
   isConnected: boolean;
@@ -38,6 +38,18 @@ export const useWalletStore = create<WalletState>()(
     }),
     {
       name: 'wallet-storage',
+      storage: createJSONStorage(() => {
+        // Only use localStorage on the client
+        if (typeof window !== 'undefined') {
+          return localStorage;
+        }
+        // Return a no-op storage for SSR
+        return {
+          getItem: () => null,
+          setItem: () => {},
+          removeItem: () => {},
+        };
+      }),
     }
   )
 );

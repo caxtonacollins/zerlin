@@ -32,7 +32,7 @@ export default function DashboardPage() {
 
             <div className="p-6 rounded-xl bg-bg-secondary border border-bg-tertiary">
               <div className="text-sm text-text-secondary mb-1">Avg. Fee Saved</div>
-              <div className="text-3xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+              <div className="text-3xl font-bold bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent">
                 23%
               </div>
             </div>
