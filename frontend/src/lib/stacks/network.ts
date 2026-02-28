@@ -1,5 +1,5 @@
-import { StacksMainnet, StacksTestnet } from '@stacks/network';
+import { STACKS_MAINNET, STACKS_TESTNET } from '@stacks/network';
 
 export function getStacksNetwork(network: 'mainnet' | 'testnet' = 'mainnet') {
-  return network === 'mainnet' ? new StacksMainnet() : new StacksTestnet();
+  return network === 'mainnet' ? STACKS_MAINNET : STACKS_TESTNET;
 }

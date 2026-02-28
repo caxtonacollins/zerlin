@@ -1,5 +1,7 @@
 import { request } from '@stacks/connect';
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 /**
  * Send STX tokens to a recipient
  * @param amount - Amount in microSTX (1 STX = 1,000,000 microSTX)
@@ -43,8 +45,7 @@ export async function callContract(
 ) {
   try {
     const response = await request('stx_callContract', {
-      contractAddress,
-      contractName,
+      contract: `${contractAddress}.${contractName}`,
       functionName,
       functionArgs,
       postConditions: postConditions || [],
@@ -68,8 +69,8 @@ export async function callContract(
  */
 export async function getAccountInfo() {
   try {
-    const accounts = await request('stx_getAccounts');
-    return accounts.addresses[0];
+    const accounts = await request('stx_getAccounts') as any;
+    return accounts.addresses?.[0] || null;
   } catch (error) {
     console.error('Failed to get account info:', error);
     return null;

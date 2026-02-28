@@ -10,7 +10,7 @@ class ApiClient {
   
   async estimateFee(params: {
     type: string;
-    payload?: Record<string, any>;
+    payload?: Record<string, unknown>;
   }): Promise<FeeEstimate> {
     const response = await fetch(`${this.baseUrl}/api/estimate`, {
       method: 'POST',

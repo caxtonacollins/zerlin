@@ -9,7 +9,7 @@ export function useEstimate() {
 
   const calculateFee = useCallback(async (
     type: TransactionType,
-    payload?: Record<string, any>
+    payload?: Record<string, unknown>
   ) => {
     try {
       setIsLoading(true);
