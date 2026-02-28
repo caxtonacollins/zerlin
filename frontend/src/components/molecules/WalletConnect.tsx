@@ -1,31 +1,36 @@
 'use client';
 
-import React, { useState } from 'react';
 import { Button } from '@/components/atoms';
+import { useWallet } from '@/hooks/useWallet';
+import { useWalletStore } from '@/store/walletStore';
 
-interface WalletConnectProps {
-  onConnect: () => void;
-}
+export function WalletConnect() {
+  const { connect, disconnect, isConnecting } = useWallet();
+  const { isConnected, stxAddress } = useWalletStore();
 
-export function WalletConnect({ onConnect }: WalletConnectProps) {
-  const [isConnecting, setIsConnecting] = useState(false);
-
-  const handleConnect = async () => {
-    setIsConnecting(true);
-    try {
-      await onConnect();
-    } finally {
-      setIsConnecting(false);
+  const handleClick = async () => {
+    if (isConnected) {
+      disconnect();
+    } else {
+      try {
+        await connect();
+      } catch (err) {
+        console.error('Failed to connect:', err);
+      }
     }
+  };
+
+  const formatAddress = (address: string) => {
+    return `${address.slice(0, 6)}...${address.slice(-4)}`;
   };
 
   return (
     <Button 
-      onClick={handleConnect} 
+      onClick={handleClick} 
       variant="secondary"
       loading={isConnecting}
     >
-      Connect Wallet
+      {isConnected && stxAddress ? formatAddress(stxAddress) : 'Connect Wallet'}
     </Button>
   );
 }
