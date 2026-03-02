@@ -40,8 +40,9 @@ async function bootstrap() {
   const port = process.env.PORT ?? 3000;
   await app.listen(port);
 
-  console.log(`Zerlin API running on: http://localhost:${port}`);
-  console.log(`Swagger docs available at: http://localhost:${port}/api`);
+  const logger = app.get('Logger');
+  logger.log(`Zerlin API running on: http://localhost:${port}`);
+  logger.log(`Swagger docs available at: http://localhost:${port}/api`);
 }
 
 void bootstrap();
