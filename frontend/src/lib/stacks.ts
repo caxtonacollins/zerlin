@@ -25,7 +25,7 @@ export async function sendStxTransfer(
       txid: response.txid,
     };
   } catch (error) {
-    console.error('Transfer failed:', error);
+    // Error handling delegated to caller
     return {
       success: false,
       error: error instanceof Error ? error.message : 'Transfer failed',
@@ -56,7 +56,7 @@ export async function callContract(
       txid: response.txid,
     };
   } catch (error) {
-    console.error('Contract call failed:', error);
+    // Error handling delegated to caller
     return {
       success: false,
       error: error instanceof Error ? error.message : 'Contract call failed',
@@ -72,7 +72,7 @@ export async function getAccountInfo() {
     const accounts = await request('stx_getAccounts') as any;
     return accounts.addresses?.[0] || null;
   } catch (error) {
-    console.error('Failed to get account info:', error);
+    // Error handling delegated to caller
     return null;
   }
 }
