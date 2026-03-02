@@ -9,8 +9,12 @@ export function FeeCalculator() {
   
   const handleCalculate = async () => {
     setIsCalculating(true);
-    // TODO: Implement fee calculation
-    setTimeout(() => setIsCalculating(false), 1000);
+    try {
+      // Fee calculation will be implemented with API integration
+      await new Promise(resolve => setTimeout(resolve, 1000));
+    } finally {
+      setIsCalculating(false);
+    }
   };
   
   return (
