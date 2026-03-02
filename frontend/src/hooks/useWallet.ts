@@ -46,7 +46,6 @@ export function useWallet() {
       const { connect: stacksConnect, isConnected, request } = await import('@stacks/connect');
       
       if (isConnected()) {
-        console.log('Already authenticated');
         return;
       }
       
