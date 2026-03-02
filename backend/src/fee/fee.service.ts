@@ -73,7 +73,7 @@ export class FeeService {
         estimatedFee: {
           stx: (feeInMicroStx / 1000000).toFixed(6),
           microStx: feeInMicroStx,
-          usd: '0.00', // TODO: Integrate price feed
+          usd: '0.00', // Price feed integration pending - requires external price oracle
           btc: 0,
         },
         breakdown,
