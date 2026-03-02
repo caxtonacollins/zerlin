@@ -23,7 +23,7 @@ export function WalletConnect() {
       try {
         await connect();
       } catch (err) {
-        console.error('Failed to connect:', err);
+        // Error already handled by useWallet hook
       }
     }
   };
