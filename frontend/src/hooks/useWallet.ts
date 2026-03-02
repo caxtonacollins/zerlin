@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import { useWalletStore } from '@/store/walletStore';
 
+// Using 'any' type for Stacks Connect API responses which have dynamic structure
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 export function useWallet() {

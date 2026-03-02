@@ -1,5 +1,6 @@
 import { request } from '@stacks/connect';
 
+// Using 'any' type for Stacks Connect API responses which have dynamic structure
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 /**
