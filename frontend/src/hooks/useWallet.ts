@@ -27,8 +27,8 @@ export function useWallet() {
               publicKey: account.publicKey || '',
             });
           }
-        } catch (err) {
-          console.error('Failed to restore wallet connection:', err);
+        } catch {
+          // Silently fail if wallet restoration is not available
         }
       }
     };
