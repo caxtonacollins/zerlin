@@ -72,7 +72,7 @@ export async function getAccountInfo() {
   try {
     const accounts = await request('stx_getAccounts') as any;
     return accounts.addresses?.[0] || null;
-  } catch (error) {
+  } catch {
     // Error handling delegated to caller
     return null;
   }
