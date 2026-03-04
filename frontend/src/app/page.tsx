@@ -15,7 +15,7 @@ export default function HomePage() {
           hueShift={260}
           noiseIntensity={0.05}
           scanlineIntensity={0}
-          speed={0.3}
+          speed={0.5}
           scanlineFrequency={0}
           warpAmount={0.1}
         />
