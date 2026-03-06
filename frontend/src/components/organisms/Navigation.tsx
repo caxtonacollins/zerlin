@@ -8,6 +8,11 @@ export function Navigation() {
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center space-x-8">
             <Link href="/" className="flex items-center space-x-2">
+              <img
+                src="/logo.png"
+                alt="Zerlin Logo"
+                className="h-24 w-16"
+              />
               <span className="text-2xl font-bold bg-linear-to-r from-primary to-secondary bg-clip-text text-transparent">
                 Zerlin
               </span>
