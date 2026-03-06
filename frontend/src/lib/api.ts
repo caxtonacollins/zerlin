@@ -21,7 +21,8 @@ class ApiClient {
     });
     
     if (!response.ok) {
-      throw new Error('Failed to estimate fee');
+      const error = await response.json().catch(() => ({ message: 'Failed to estimate fee' }));
+      throw new Error(error.message || 'Failed to estimate fee');
     }
     
     return response.json();
@@ -31,7 +32,8 @@ class ApiClient {
     const response = await fetch(`${this.baseUrl}/api/network`);
     
     if (!response.ok) {
-      throw new Error('Failed to fetch network status');
+      const error = await response.json().catch(() => ({ message: 'Failed to fetch network status' }));
+      throw new Error(error.message || 'Failed to fetch network status');
     }
     
     return response.json();
@@ -41,7 +43,8 @@ class ApiClient {
     const response = await fetch(`${this.baseUrl}/api/history?days=${days}`);
     
     if (!response.ok) {
-      throw new Error('Failed to fetch fee history');
+      const error = await response.json().catch(() => ({ message: 'Failed to fetch fee history' }));
+      throw new Error(error.message || 'Failed to fetch fee history');
     }
     
     return response.json();
