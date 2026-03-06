@@ -1,19 +1,20 @@
 import React, { useState } from 'react';
 import { TransactionTypeSelector, FeeDisplay } from '@/components/molecules';
 import { Button } from '@/components/atoms';
+import { useEstimate } from '@/hooks/useEstimate';
 import type { TransactionType } from '@/types/fee';
+import toast from 'react-hot-toast';
 
 export function FeeCalculator() {
   const [transactionType, setTransactionType] = useState<TransactionType>('transfer');
-  const [isCalculating, setIsCalculating] = useState(false);
+  const { estimate, isLoading, error, calculateFee } = useEstimate();
   
   const handleCalculate = async () => {
-    setIsCalculating(true);
     try {
-      // Fee calculation will be implemented with API integration
-      await new Promise(resolve => setTimeout(resolve, 1000));
-    } finally {
-      setIsCalculating(false);
+      await calculateFee(transactionType);
+      toast.success('Fee calculated successfully!');
+    } catch (err) {
+      toast.error(error || 'Failed to calculate fee');
     }
   };
   
@@ -36,15 +37,61 @@ export function FeeCalculator() {
         
         <Button 
           onClick={handleCalculate}
-          loading={isCalculating}
+          loading={isLoading}
           className="w-full"
         >
           Calculate Fee
         </Button>
         
-        {!isCalculating && (
-          <div className="mt-6">
-            <FeeDisplay stx="0.00395" usd="$0.0026" />
+        {error && (
+          <div className="p-4 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400">
+            {error}
+          </div>
+        )}
+        
+        {estimate && !isLoading && (
+          <div className="mt-6 space-y-4">
+            <FeeDisplay 
+              stx={estimate.estimatedFee.stx} 
+              usd={estimate.estimatedFee.usd} 
+            />
+            
+            <div className="p-4 rounded-lg bg-bg-tertiary space-y-2">
+              <h3 className="text-sm font-semibold text-text-primary mb-2">Fee Breakdown</h3>
+              <div className="flex justify-between text-sm">
+                <span className="text-text-secondary">Base Fee:</span>
+                <span className="text-text-primary">{estimate.breakdown.baseFee} microSTX</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-text-secondary">Execution Cost:</span>
+                <span className="text-text-primary">{estimate.breakdown.executionCost} microSTX</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-text-secondary">Data Size:</span>
+                <span className="text-text-primary">{estimate.breakdown.dataSize} bytes</span>
+              </div>
+            </div>
+            
+            <div className="p-4 rounded-lg bg-blue-500/10 border border-blue-500/20">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-lg">📊</span>
+                <span className="text-sm font-semibold text-blue-400">Network Status</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-text-secondary">Congestion:</span>
+                <span className={`font-medium ${
+                  estimate.networkStatus.congestion === 'low' ? 'text-green-400' :
+                  estimate.networkStatus.congestion === 'medium' ? 'text-yellow-400' :
+                  'text-red-400'
+                }`}>
+                  {estimate.networkStatus.congestion.toUpperCase()}
+                </span>
+              </div>
+              <div className="flex justify-between text-sm mt-1">
+                <span className="text-text-secondary">Recommended Buffer:</span>
+                <span className="text-text-primary">{estimate.networkStatus.recommendedBuffer} microSTX</span>
+              </div>
+            </div>
           </div>
         )}
       </div>
