@@ -7,6 +7,7 @@ import { NetworkStatus } from '../entities/network-status.entity';
 
 import { StacksModule } from '../stacks/stacks.module';
 import { RedisModule } from '../redis/redis.module';
+import { PriceModule } from '../price/price.module';
 import { FeeOracleModule } from '../contracts/fee-oracle/fee-oracle.module';
 
 @Module({
@@ -14,9 +15,12 @@ import { FeeOracleModule } from '../contracts/fee-oracle/fee-oracle.module';
     TypeOrmModule.forFeature([FeeEstimate, NetworkStatus]),
     StacksModule,
     RedisModule,
+    PriceModule,
     FeeOracleModule,
   ],
   controllers: [FeeController],
   providers: [FeeService],
+  exports: [FeeService],
 })
 export class FeeModule {}
+
