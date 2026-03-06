@@ -10,6 +10,8 @@ import { NetworkStatus } from './entities/network-status.entity';
 import { StacksModule } from './stacks/stacks.module';
 import { RedisModule } from './redis/redis.module';
 import { FeeModule } from './fee/fee.module';
+import { PriceModule } from './price/price.module';
+import { HealthModule } from './health/health.module';
 import { TasksModule } from './tasks/tasks.module';
 import { FeeOracleModule } from './contracts/fee-oracle/fee-oracle.module';
 import { SmartAlertsModule } from './contracts/smart-alerts/smart-alerts.module';
@@ -19,6 +21,8 @@ import { TxTemplatesModule } from './contracts/tx-templates/tx-templates.module'
   imports: [
     TasksModule,
     FeeModule,
+    PriceModule,
+    HealthModule,
     FeeOracleModule,
     SmartAlertsModule,
     TxTemplatesModule,
