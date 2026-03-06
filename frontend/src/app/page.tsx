@@ -5,25 +5,40 @@ import { NetworkStatus } from '@/components/molecules';
 import StarBorder from '@/components/StarBorder';
 import DarkVeil from '@/components/DarkVeil';
 import ElectricBorder from '@/components/ElectricBorder';
+import { Toaster } from 'react-hot-toast';
+import { useNetworkStatus } from '@/hooks/useNetworkStatus';
 
 export default function HomePage() {
+  const { status } = useNetworkStatus();
+
   return (
-    <div className="min-h-screen flex flex-col bg-bg-primary relative">
-      {/* Animated Background */}
-      <div className="fixed inset-0 z-0 opacity-20">
-        <DarkVeil
-          hueShift={260}
-          noiseIntensity={0.05}
-          scanlineIntensity={0}
-          speed={0.5}
-          scanlineFrequency={0}
-          warpAmount={0.1}
-        />
-      </div>
-      
-      {/* Content */}
-      <div className="relative z-10">
-        <Navigation />
+    <>
+      <Toaster 
+        position="top-right"
+        toastOptions={{
+          style: {
+            background: '#1a1a2e',
+            color: '#fff',
+            border: '1px solid #2d2d44',
+          },
+        }}
+      />
+      <div className="min-h-screen flex flex-col bg-bg-primary relative">
+        {/* Animated Background */}
+        <div className="fixed inset-0 z-0 opacity-20">
+          <DarkVeil
+            hueShift={260}
+            noiseIntensity={0.05}
+            scanlineIntensity={0}
+            speed={0.5}
+            scanlineFrequency={0}
+            warpAmount={0.1}
+          />
+        </div>
+        
+        {/* Content */}
+        <div className="relative z-10">
+          <Navigation />
       
       <main className="flex-1 w-full">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -65,7 +80,7 @@ export default function HomePage() {
 
           {/* Network Status */}
           <div className="flex justify-center mb-8">
-            <NetworkStatus congestion="low" />
+            <NetworkStatus congestion={status?.congestionLevel || 'medium'} />
           </div>
 
           {/* Fee Calculator */}
@@ -112,8 +127,9 @@ export default function HomePage() {
         </div>
       </main>
 
-        <Footer />
+          <Footer />
+        </div>
       </div>
-    </div>
+    </>
   );
 }
