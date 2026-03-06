@@ -5,6 +5,7 @@ import { FeeEstimate } from '../entities/fee-estimate.entity';
 import { NetworkStatus } from '../entities/network-status.entity';
 import { StacksService } from '../stacks/stacks.service';
 import { RedisService } from '../redis/redis.service';
+import { PriceService } from '../price/price.service';
 import { FeeOracleService } from '../contracts/fee-oracle/fee-oracle.service';
 import {
   EstimateFeeDto,
@@ -23,6 +24,7 @@ export class FeeService {
     private networkStatusRepo: Repository<NetworkStatus>,
     private stacksService: StacksService,
     private redisService: RedisService,
+    private priceService: PriceService,
     private feeOracleService: FeeOracleService,
   ) {}
 
@@ -68,13 +70,17 @@ export class FeeService {
         };
       }
 
+      // Get price conversions
+      const usd = await this.priceService.convertMicroStxToUsd(feeInMicroStx);
+      const btc = await this.priceService.convertMicroStxToBtc(feeInMicroStx);
+
       const result: FeeEstimateResponseDto = {
         transactionType: type,
         estimatedFee: {
           stx: (feeInMicroStx / 1000000).toFixed(6),
           microStx: feeInMicroStx,
-          usd: '0.00', // Price feed integration pending - requires external price oracle
-          btc: 0,
+          usd,
+          btc,
         },
         breakdown,
         networkStatus: {
