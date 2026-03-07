@@ -13,7 +13,7 @@ export function FeeCalculator() {
     try {
       await calculateFee(transactionType);
       toast.success('Fee calculated successfully!');
-    } catch (err) {
+    } catch {
       toast.error(error || 'Failed to calculate fee');
     }
   };
