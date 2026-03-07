@@ -261,20 +261,25 @@ export class TxTemplatesService {
       });
       return cvToJSON(result).value;
     } catch (error) {
-      this.logger.error(`Failed to get templates by category ${category}`, error);
+      this.logger.error(
+        `Failed to get templates by category ${category}`,
+        error,
+      );
       throw error;
     }
   }
 
-  async batchUpdateTemplates(updates: Array<{ templateId: string; sizeBytes: number; gasUnits: number }>): Promise<string> {
+  async batchUpdateTemplates(
+    updates: Array<{ templateId: string; sizeBytes: number; gasUnits: number }>,
+  ): Promise<string> {
     try {
       this.logger.log(`Batch updating ${updates.length} templates`);
-      const updateTuples = updates.map(update =>
+      const updateTuples = updates.map((update) =>
         tupleCV({
           'template-id': stringAsciiCV(update.templateId),
           'size-bytes': uintCV(update.sizeBytes),
           'gas-units': uintCV(update.gasUnits),
-        })
+        }),
       );
       const txid = await this.stacksService.broadcastContractCall(
         this.contractAddress,
@@ -303,7 +308,10 @@ export class TxTemplatesService {
       });
       return cvToJSON(result).value;
     } catch (error) {
-      this.logger.error(`Failed to compare templates ${t1Id} and ${t2Id}`, error);
+      this.logger.error(
+        `Failed to compare templates ${t1Id} and ${t2Id}`,
+        error,
+      );
       throw error;
     }
   }

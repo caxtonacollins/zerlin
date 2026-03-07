@@ -27,26 +27,35 @@ export class UpdateTransactionAverageDto {
 export class BatchUpdateAveragesDto {
   @ApiProperty({
     description: 'Array of transaction updates',
-    type: [UpdateTransactionAverageDto]
+    type: [UpdateTransactionAverageDto],
   })
   @IsArray()
   updates: UpdateTransactionAverageDto[];
 }
 
 export class TransferOwnershipDto {
-  @ApiProperty({ description: 'New owner address', example: 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM' })
+  @ApiProperty({
+    description: 'New owner address',
+    example: 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM',
+  })
   @IsString()
   newOwner: string;
 }
 
 export class AuthorizeOracleDto {
-  @ApiProperty({ description: 'Oracle address to authorize', example: 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM' })
+  @ApiProperty({
+    description: 'Oracle address to authorize',
+    example: 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM',
+  })
   @IsString()
   oracleAddress: string;
 }
 
 export class RevokeOracleDto {
-  @ApiProperty({ description: 'Oracle address to revoke', example: 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM' })
+  @ApiProperty({
+    description: 'Oracle address to revoke',
+    example: 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM',
+  })
   @IsString()
   oracleAddress: string;
 }
@@ -70,7 +79,10 @@ export class EstimateSwapFeeDto {
 }
 
 export class IsAuthorizedOracleDto {
-  @ApiProperty({ description: 'Oracle address to check', example: 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM' })
+  @ApiProperty({
+    description: 'Oracle address to check',
+    example: 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM',
+  })
   @IsString()
   oracleAddress: string;
 }

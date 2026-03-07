@@ -107,7 +107,10 @@ export class FeeOracleController {
   @Post('update-transaction-average')
   @ApiOperation({ summary: 'Update transaction average fee' })
   async updateTransactionAverage(@Body() dto: UpdateTransactionAverageDto) {
-    return this.feeOracleService.updateTransactionAverage(dto.txType, dto.observedFee);
+    return this.feeOracleService.updateTransactionAverage(
+      dto.txType,
+      dto.observedFee,
+    );
   }
 
   @Post('batch-update-averages')

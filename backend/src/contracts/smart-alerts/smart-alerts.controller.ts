@@ -102,7 +102,10 @@ export class SmartAlertsController {
   @Post('update-threshold')
   @ApiOperation({ summary: 'Update alert threshold' })
   async updateAlertThreshold(@Body() dto: UpdateAlertThresholdDto) {
-    return this.smartAlertsService.updateAlertThreshold(dto.alertId, dto.newTargetFee);
+    return this.smartAlertsService.updateAlertThreshold(
+      dto.alertId,
+      dto.newTargetFee,
+    );
   }
 
   @Post('update-type')
@@ -150,7 +153,10 @@ export class SmartAlertsController {
   @Get('trigger-history')
   @ApiOperation({ summary: 'Get trigger history for alert' })
   async getTriggerHistory(@Query() dto: GetTriggerHistoryDto) {
-    return this.smartAlertsService.getTriggerHistory(dto.alertId, dto.triggerIndex);
+    return this.smartAlertsService.getTriggerHistory(
+      dto.alertId,
+      dto.triggerIndex,
+    );
   }
 
   @Post('transfer-ownership')

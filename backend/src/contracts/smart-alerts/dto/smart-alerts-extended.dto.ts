@@ -9,7 +9,10 @@ import {
 import { CreateAlertDto } from './create-alert.dto';
 
 export class GetAlertDto {
-  @ApiProperty({ description: 'User address', example: 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM' })
+  @ApiProperty({
+    description: 'User address',
+    example: 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM',
+  })
   @IsString()
   userAddress: string;
 
@@ -19,7 +22,10 @@ export class GetAlertDto {
 }
 
 export class CanCreateAlertDto {
-  @ApiProperty({ description: 'User address', example: 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM' })
+  @ApiProperty({
+    description: 'User address',
+    example: 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM',
+  })
   @IsString()
   userAddress: string;
 }
@@ -45,19 +51,19 @@ export class UpdateAlertTypeDto {
   @IsNumber()
   alertId: number;
 
-  @ApiProperty({ 
-    description: 'New alert type', 
+  @ApiProperty({
+    description: 'New alert type',
     enum: ['ABOVE', 'BELOW'],
-    example: 'BELOW'
+    example: 'BELOW',
   })
   @IsEnum(['ABOVE', 'BELOW'])
   newType: 'ABOVE' | 'BELOW';
 }
 
 export class BatchAlertCheckDto {
-  @ApiProperty({ 
+  @ApiProperty({
     description: 'Array of alerts to check',
-    type: [GetAlertDto]
+    type: [GetAlertDto],
   })
   @IsArray()
   alerts: Array<{ userAddress: string; alertId: number }>;
@@ -68,9 +74,9 @@ export class BatchAlertCheckDto {
 }
 
 export class CreateAlertBatchDto {
-  @ApiProperty({ 
+  @ApiProperty({
     description: 'Array of alerts to create',
-    type: [CreateAlertDto]
+    type: [CreateAlertDto],
   })
   @IsArray()
   alerts: Array<{ targetFee: number; alertType: string; txType: string }>;
@@ -87,13 +93,19 @@ export class GetTriggerHistoryDto {
 }
 
 export class TransferOwnershipDto {
-  @ApiProperty({ description: 'New owner address', example: 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM' })
+  @ApiProperty({
+    description: 'New owner address',
+    example: 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM',
+  })
   @IsString()
   newOwner: string;
 }
 
 export class InitializeSmartAlertsDto {
-  @ApiProperty({ description: 'Fee oracle contract address', example: 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.fee-oracle' })
+  @ApiProperty({
+    description: 'Fee oracle contract address',
+    example: 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.fee-oracle',
+  })
   @IsString()
   oracleAddress: string;
 }

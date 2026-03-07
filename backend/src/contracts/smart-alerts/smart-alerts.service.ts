@@ -190,7 +190,10 @@ export class SmartAlertsService {
       });
       return cvToJSON(result).value;
     } catch (error) {
-      this.logger.error(`Failed to get alert ${alertId} for ${userAddress}`, error);
+      this.logger.error(
+        `Failed to get alert ${alertId} for ${userAddress}`,
+        error,
+      );
       throw error;
     }
   }
@@ -208,7 +211,10 @@ export class SmartAlertsService {
       });
       return cvToJSON(result).value === true;
     } catch (error) {
-      this.logger.error(`Failed to check if ${userAddress} can create alert`, error);
+      this.logger.error(
+        `Failed to check if ${userAddress} can create alert`,
+        error,
+      );
       throw error;
     }
   }
@@ -264,7 +270,10 @@ export class SmartAlertsService {
     }
   }
 
-  async updateAlertThreshold(alertId: number, newTargetFee: number): Promise<string> {
+  async updateAlertThreshold(
+    alertId: number,
+    newTargetFee: number,
+  ): Promise<string> {
     try {
       this.logger.log(`Updating alert ${alertId} threshold to ${newTargetFee}`);
       const txid = await this.stacksService.broadcastContractCall(
@@ -273,7 +282,9 @@ export class SmartAlertsService {
         'update-alert-threshold',
         [uintCV(alertId), uintCV(newTargetFee)],
       );
-      this.logger.log(`Alert threshold update transaction broadcasted: ${txid}`);
+      this.logger.log(
+        `Alert threshold update transaction broadcasted: ${txid}`,
+      );
       return txid;
     } catch (error) {
       this.logger.error(`Failed to update alert ${alertId} threshold`, error);
@@ -298,14 +309,17 @@ export class SmartAlertsService {
     }
   }
 
-  async batchCheckAlerts(alerts: Array<{ userAddress: string; alertId: number }>, fee: number) {
+  async batchCheckAlerts(
+    alerts: Array<{ userAddress: string; alertId: number }>,
+    fee: number,
+  ) {
     try {
       this.logger.log(`Batch checking ${alerts.length} alerts with fee ${fee}`);
-      const alertTuples = alerts.map(alert =>
+      const alertTuples = alerts.map((alert) =>
         tupleCV({
           user: standardPrincipalCV(alert.userAddress),
           'alert-id': uintCV(alert.alertId),
-        })
+        }),
       );
       const result = await this.stacksService.broadcastContractCall(
         this.contractAddress,
@@ -321,15 +335,17 @@ export class SmartAlertsService {
     }
   }
 
-  async createAlertsBatch(alerts: Array<{ targetFee: number; alertType: string; txType: string }>): Promise<string> {
+  async createAlertsBatch(
+    alerts: Array<{ targetFee: number; alertType: string; txType: string }>,
+  ): Promise<string> {
     try {
       this.logger.log(`Creating batch of ${alerts.length} alerts`);
-      const alertTuples = alerts.map(alert =>
+      const alertTuples = alerts.map((alert) =>
         tupleCV({
           'target-fee': uintCV(alert.targetFee),
           'alert-type': stringAsciiCV(alert.alertType),
           'tx-type': stringAsciiCV(alert.txType),
-        })
+        }),
       );
       const txid = await this.stacksService.broadcastContractCall(
         this.contractAddress,
@@ -428,7 +444,10 @@ export class SmartAlertsService {
       });
       return cvToJSON(result).value;
     } catch (error) {
-      this.logger.error(`Failed to get trigger history for alert ${alertId}`, error);
+      this.logger.error(
+        `Failed to get trigger history for alert ${alertId}`,
+        error,
+      );
       throw error;
     }
   }

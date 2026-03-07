@@ -227,7 +227,10 @@ export class FeeOracleService {
       });
       return cvToJSON(result).value === true;
     } catch (error) {
-      this.logger.error(`Failed to check authorization for ${oracleAddress}`, error);
+      this.logger.error(
+        `Failed to check authorization for ${oracleAddress}`,
+        error,
+      );
       throw error;
     }
   }
@@ -263,7 +266,10 @@ export class FeeOracleService {
       });
       return Number(cvToJSON(result).value);
     } catch (error) {
-      this.logger.error(`Failed to get transaction average for ${txType}`, error);
+      this.logger.error(
+        `Failed to get transaction average for ${txType}`,
+        error,
+      );
       throw error;
     }
   }
@@ -322,7 +328,10 @@ export class FeeOracleService {
     }
   }
 
-  async updateTransactionAverage(txType: string, observedFee: number): Promise<string> {
+  async updateTransactionAverage(
+    txType: string,
+    observedFee: number,
+  ): Promise<string> {
     try {
       this.logger.log(
         `Updating transaction average for ${txType} with fee ${observedFee}`,
@@ -392,14 +401,16 @@ export class FeeOracleService {
     }
   }
 
-  async batchUpdateAverages(updates: Array<{ txType: string; observedFee: number }>): Promise<string> {
+  async batchUpdateAverages(
+    updates: Array<{ txType: string; observedFee: number }>,
+  ): Promise<string> {
     try {
       this.logger.log(`Batch updating ${updates.length} transaction averages`);
-      const updateTuples = updates.map(update =>
+      const updateTuples = updates.map((update) =>
         tupleCV({
           'tx-type': stringAsciiCV(update.txType),
           'observed-fee': uintCV(update.observedFee),
-        })
+        }),
       );
       const txid = await this.stacksService.broadcastContractCall(
         this.contractAddress,
