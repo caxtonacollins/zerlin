@@ -23,4 +23,3 @@ import { FeeOracleModule } from '../contracts/fee-oracle/fee-oracle.module';
   exports: [FeeService],
 })
 export class FeeModule {}
-

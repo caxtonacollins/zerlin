@@ -26,7 +26,7 @@ export class PriceService {
       // Fetch from CoinGecko API
       const response = await fetch(
         'https://api.coingecko.com/api/v3/simple/price?ids=blockstack&vs_currencies=usd,btc',
-        { signal: AbortSignal.timeout(5000) }
+        { signal: AbortSignal.timeout(5000) },
       );
 
       if (!response.ok) {

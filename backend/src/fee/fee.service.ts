@@ -37,23 +37,65 @@ export class FeeService {
       let feeInMicroStx = 0;
       let breakdown = { baseFee: 0, executionCost: 0, dataSize: 0 };
 
+      // Fallback fee values (in microSTX) if contract calls fail
+      const FALLBACK_FEES = {
+        transfer: 180,
+        'contract-call': 2500,
+        'nft-mint': 5000,
+        default: 1000,
+      };
+
       // Estimate based on type
       if (type === 'transfer') {
-        feeInMicroStx = await this.feeOracleService.estimateTransferFee();
+        try {
+          feeInMicroStx = await this.feeOracleService.estimateTransferFee();
+          if (!feeInMicroStx || isNaN(feeInMicroStx)) {
+            throw new Error('Invalid fee returned from contract');
+          }
+        } catch (error) {
+          this.logger.warn(
+            'Contract call failed, using fallback fee for transfer',
+            error,
+          );
+          feeInMicroStx = FALLBACK_FEES.transfer;
+        }
         breakdown = {
           baseFee: feeInMicroStx,
           executionCost: 0,
           dataSize: 180,
         };
       } else if (type === 'contract-call') {
-        feeInMicroStx = await this.feeOracleService.estimateContractCallFee(1); // Default complexity
+        try {
+          feeInMicroStx =
+            await this.feeOracleService.estimateContractCallFee(1);
+          if (!feeInMicroStx || isNaN(feeInMicroStx)) {
+            throw new Error('Invalid fee returned from contract');
+          }
+        } catch (error) {
+          this.logger.warn(
+            'Contract call failed, using fallback fee for contract-call',
+            error,
+          );
+          feeInMicroStx = FALLBACK_FEES['contract-call'];
+        }
         breakdown = {
           baseFee: networkInfo.averageFeeRate,
           executionCost: feeInMicroStx - networkInfo.averageFeeRate,
           dataSize: 250,
         };
       } else if (type === 'nft-mint') {
-        feeInMicroStx = await this.feeOracleService.estimateNftMintFee();
+        try {
+          feeInMicroStx = await this.feeOracleService.estimateNftMintFee();
+          if (!feeInMicroStx || isNaN(feeInMicroStx)) {
+            throw new Error('Invalid fee returned from contract');
+          }
+        } catch (error) {
+          this.logger.warn(
+            'Contract call failed, using fallback fee for nft-mint',
+            error,
+          );
+          feeInMicroStx = FALLBACK_FEES['nft-mint'];
+        }
         breakdown = {
           baseFee: networkInfo.averageFeeRate,
           executionCost: feeInMicroStx - networkInfo.averageFeeRate,
@@ -61,11 +103,22 @@ export class FeeService {
         };
       } else {
         // For other types, use contract base rate
-        const baseRate = await this.feeOracleService.getFeeRate();
-        feeInMicroStx = baseRate * 300;
+        try {
+          const baseRate = await this.feeOracleService.getFeeRate();
+          if (!baseRate || isNaN(baseRate)) {
+            throw new Error('Invalid base rate returned from contract');
+          }
+          feeInMicroStx = baseRate * 300;
+        } catch (error) {
+          this.logger.warn(
+            'Contract call failed, using fallback fee for other types',
+            error,
+          );
+          feeInMicroStx = FALLBACK_FEES.default;
+        }
         breakdown = {
-          baseFee: baseRate,
-          executionCost: feeInMicroStx - baseRate,
+          baseFee: Math.floor(feeInMicroStx / 300),
+          executionCost: feeInMicroStx - Math.floor(feeInMicroStx / 300),
           dataSize: 300,
         };
       }
