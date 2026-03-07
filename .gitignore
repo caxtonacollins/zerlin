@@ -70,3 +70,5 @@ contract/settings/
 # Docker volumes
 postgres-data/
 redis-data/
+
+.vscode/
