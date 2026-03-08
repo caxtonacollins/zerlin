@@ -41,6 +41,12 @@ export function Navigation() {
                 History
               </Link>
               <Link 
+                href="/admin" 
+                className="text-text-secondary hover:text-text-primary transition-colors px-3 py-2 rounded-lg hover:bg-bg-secondary"
+              >
+                Admin
+              </Link>
+              <Link 
                 href="/docs" 
                 className="text-text-secondary hover:text-text-primary transition-colors px-3 py-2 rounded-lg hover:bg-bg-secondary"
               >
