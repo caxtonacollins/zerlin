@@ -16,6 +16,7 @@ import { TasksModule } from './tasks/tasks.module';
 import { FeeOracleModule } from './contracts/fee-oracle/fee-oracle.module';
 import { SmartAlertsModule } from './contracts/smart-alerts/smart-alerts.module';
 import { TxTemplatesModule } from './contracts/tx-templates/tx-templates.module';
+import { AdminModule } from './admin/admin.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { TxTemplatesModule } from './contracts/tx-templates/tx-templates.module'
     FeeOracleModule,
     SmartAlertsModule,
     TxTemplatesModule,
+    AdminModule,
     StacksModule,
     RedisModule,
     ConfigModule.forRoot({
